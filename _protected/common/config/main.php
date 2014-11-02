@@ -28,15 +28,15 @@ return [
         //     'bundles' => [
         //         // use bootstrap css from CDN
         //         'yii\bootstrap\BootstrapAsset' => [
-        //             'sourcePath' => null,   // do not publish the bundle
+        //             'sourcePath' => null,   // do not use file from our server
         //             'css' => [
-        //                 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css']
+        //                 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css']
         //         ],
         //         // use bootstrap js from CDN
         //         'yii\bootstrap\BootstrapPluginAsset' => [
-        //             'sourcePath' => null,   // do not publish the bundle
+        //             'sourcePath' => null,   // do not use file from our server
         //             'js' => [
-        //                 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js']
+        //                 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js']
         //         ],
         //         // use jquery from CDN
         //         'yii\web\JqueryAsset' => [
