@@ -1,5 +1,6 @@
 <?php
 /**
+ * -----------------------------------------------------------------------------
  * The manifest of files that are local to specific environment.
  * This file returns a list of environments that the application
  * may be installed under. The returned data must be in the following
@@ -16,24 +17,25 @@
  *             // list of directories that should be set executable
  *         ],
  *         'setCookieValidationKey' => [
- *             // list of config files that need to be inserted with automatically generated cookie validation keys
+ *             // list of config files that need to be inserted with 
+ *             automatically generated cookie validation keys
  *         ],
  *         'createSymlink' => [
- *             // list of symlinks to be created. Keys are symlinks, and values are the targets.
+ *             // list of symlinks to be created. 
+ *             Keys are symlinks, and values are the targets.
  *         ],
  *     ],
  * ];
  * ```
+ * -----------------------------------------------------------------------------
  */
 return [
     'Development' => [
         'path' => 'dev',
         'setWritable' => [
             '_protected/backend/runtime',
-            '_protected/backend/web/assets',
             '_protected/frontend/runtime',
             '_protected/frontend/runtime/mail',
-            '_protected/frontend/web/assets',
             '/assets',
             '/backend/assets'
         ],
@@ -49,9 +51,7 @@ return [
         'path' => 'prod',
         'setWritable' => [
             '_protected/backend/runtime',
-            '_protected/backend/web/assets',
             '_protected/frontend/runtime',
-            '_protected/frontend/web/assets',
             '/assets',
             '/backend/assets'
         ],
