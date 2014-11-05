@@ -2,6 +2,7 @@
 namespace common\models;
 
 use common\rbac\models\Role;
+use nenad\passwordStrength\StrengthValidator;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -57,7 +58,9 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'email'], 'required'],
             ['email', 'email'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-            ['newPassword', 'string', 'min' => 6],
+            // use StrengthValidator (presets are located in: nenad/passwordStrenght/presets.php)
+            [['newPassword'], StrengthValidator::className(), 'preset'=>'normal', 
+                                                              'userAttribute'=>'username'],
             
             ['username', 'unique', 'message' => 'This username has already been taken.'],
             ['email', 'unique', 'message' => 'This email address has already been taken.'],

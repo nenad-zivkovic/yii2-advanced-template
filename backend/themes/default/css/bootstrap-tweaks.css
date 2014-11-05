@@ -1,0 +1,27 @@
+/* Here we override some bootstrap styles to suit our needs for default theme */
+
+/*-- Main navigation tweaks --*/
+
+/* tweak background color of our main navigation */
+.navbar-inverse {
+    background-color: #2c2c2c;
+}
+
+/* change color of main navigation links */
+.navbar-inverse .navbar-nav > li > a,
+.navbar-inverse .navbar-brand {
+    color: #bbbbbb;
+    font-weight: bold;
+}
+
+/* change hover color of main navigation links */
+.navbar-inverse .navbar-nav > li > a:hover
+{
+    background-color: #363636;
+    color: #b8ffca;
+}
+
+/* change color of main navigation active state link */
+.navbar-inverse .navbar-nav > .active > a {
+    color: #00cc34;
+}

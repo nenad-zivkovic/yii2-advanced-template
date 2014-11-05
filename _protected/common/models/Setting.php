@@ -18,6 +18,7 @@ class Setting extends ActiveRecord
     //-- setting name and it's id value --//
     const REGISTRATION_NEEDS_ACTIVATION = 1;
     const LOGIN_WITH_EMAIL = 2;
+    const FORCE_STRONG_PASSWORD = 3;
 
     /**
      * =========================================================================

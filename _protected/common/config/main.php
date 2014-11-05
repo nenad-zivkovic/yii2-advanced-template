@@ -6,7 +6,7 @@ return [
         // you can set your theme here (template comes with 'default' and 'cool')
         'view' => [
             'theme' => [
-                'pathMap' => ['@app/views' => '@webroot/themes/cool'],
+                'pathMap' => ['@app/views' => '@webroot/themes/cool/views'],
                 'baseUrl' => '@web/themes/cool',
             ],
         ],
@@ -40,7 +40,7 @@ return [
         //         ],
         //         // use jquery from CDN
         //         'yii\web\JqueryAsset' => [
-        //             'sourcePath' => null,   // do not publish the bundle
+        //             'sourcePath' => null,   // do not use file from our server
         //             'js' => [
         //                 '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
         //             ]

@@ -16,13 +16,13 @@ class m141022_115922_create_session_table extends \yii\db\Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
             $dataType = 'LONGBLOB';
         }
-        elseif ($this->db->driverName === 'postgresql') 
+        elseif ($this->db->driverName === 'pgsql') 
         {
             $dataType = 'BYTEA';
         }
         else
         {
-            // mssql
+            // mssql, oracle, sqlite, cubrid
             $dataType = 'BLOB';
         }
 

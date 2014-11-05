@@ -22,6 +22,7 @@ class m141022_115856_create_setting_table extends Migration
 
         $this->insert('{{%setting}}', ['name' => 'Registration Needs Activation', 'value' => 0]);
         $this->insert('{{%setting}}', ['name' => 'Login With E-mail', 'value' => 0]);
+        $this->insert('{{%setting}}', ['name' => 'Force Strong Password', 'value' => 0]);
     }
 
     public function down()

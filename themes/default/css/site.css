@@ -1,3 +1,5 @@
+@import url("bootstrap-tweaks.css");
+
 html,
 body {
     height: 100%;
@@ -13,33 +15,6 @@ body {
 .wrap > .container {
     padding: 70px 15px 20px;
 }
-
-/* Navigation tweeks -----------------------------------------------------------------------------*/
-
-.navbar-inverse {
-    background-color: #2c2c2c;
-}
-
-/* change color of navbar links */
-.navbar-inverse .navbar-nav > li > a,
-.navbar-inverse .navbar-brand {
-    color: #bbbbbb;
-    font-weight: bold;
-}
-
-/* change hover color of navbar links */
-.navbar-inverse .navbar-nav > li > a:hover
-{
-    background-color: #363636;
-    color: #b8ffca;
-}
-
-/* change color of navbar active state link */
-.navbar-inverse .navbar-nav > .active > a {
-    color: #00cc34;
-}
-
-/* end navigation tweeks -------------------------------------------------------------------------*/
 
 .footer {
     height: 60px;
@@ -117,12 +92,14 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+/* add red asterisk to required form fields */
+
 div.required label:after {
     content: " *";
     color: #e13431;
 }
 
-/* Settings display tweaks -----------------------------------------------------------------------*/
+/*-- Settings display tweaks --*/
 
 .settings-view th {
     width: 143px;
@@ -132,13 +109,13 @@ div.required label:after {
     width: 122px;
 }
 
-/* User list display tweaks ----------------------------------------------------------------------*/
+/*-- User list display tweaks --*/
 
 .user-index td:last-child {
     width: 173px;
 }
 
-/* Css for nicer display of boolean yes/no values ------------------------------------------------*/
+/*-- Css for nicer display of boolean yes/no values --*/
 
 .boolean-true {
     font-weight: bold;
@@ -150,7 +127,7 @@ div.required label:after {
     color: #e13431;
 }
 
-/* Css for nicer display of user roles -----------------------------------------------------------*/
+/*-- Css for nicer display of user roles --*/
 
 .role-the-creator {
     font-weight: bold;
@@ -170,4 +147,16 @@ div.required label:after {
 .role-premium-member {
     font-weight: bold;
     color: #800080;
+}
+
+/* tweak password input group so it will display nicely */
+#form-signup .input-group,
+#update-account .input-group {
+    width: 478px;
+    padding-right: 20px;
+}
+
+/* hide strength meter so we can fade it in nicely with jQuery */
+.kv-meter-container {
+    display: none;
 }

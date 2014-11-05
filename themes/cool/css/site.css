@@ -153,3 +153,15 @@ div.required label:after {
     font-weight: bold;
     color: #800080;
 }
+
+/* tweak password input group so it will display nicely */
+#form-signup .input-group,
+#update-account .input-group {
+    width: 478px;
+    padding-right: 20px;
+}
+
+/* hide strength meter so we can fade it in nicely with jQuery */
+.kv-meter-container {
+    display: none;
+}
