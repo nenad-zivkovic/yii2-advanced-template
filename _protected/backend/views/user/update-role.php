@@ -13,11 +13,9 @@ $this->title = 'Update role for user: ' . $model->username;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['user/index']];
 $this->params['breadcrumbs'][] = 'Update role';
 ?>
-<hr>
-
 <div class="role-update">
-
     <h1><?= Html::encode($this->title) ?></h1>
+<hr>
 
     <div class="role-form">
 
