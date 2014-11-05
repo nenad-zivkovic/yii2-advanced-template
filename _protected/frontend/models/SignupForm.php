@@ -1,10 +1,10 @@
 <?php
-namespace app\models;
+namespace frontend\models;
 
 use nenad\passwordStrength\StrengthValidator;
-use app\rbac\helpers\RbacHelper;
-use app\models\Setting;
-use app\models\User;
+use common\rbac\helpers\RbacHelper;
+use common\models\Setting;
+use common\models\User;
 use yii\base\Model;
 use Yii;
 
@@ -43,13 +43,13 @@ class SignupForm extends Model
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-            ['username', 'unique', 'targetClass' => '\app\models\User', 
+            ['username', 'unique', 'targetClass' => '\common\models\User', 
                 'message' => 'This username has already been taken.'],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => '\app\models\User', 
+            ['email', 'unique', 'targetClass' => '\common\models\User', 
                 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
