@@ -58,7 +58,7 @@ class SignupCest
 
     /**
      * =========================================================================
-     * Tests user signup process.
+     * Tests user normal signup process.
      * =========================================================================
      *
      * @param \codeception_frontend\AcceptanceTester $I
@@ -116,7 +116,7 @@ class SignupCest
 
     /**
      * =========================================================================
-     * Tests user signup process.
+     * Tests user signup with activation process.
      * =========================================================================
      *
      * @param \codeception_frontend\AcceptanceTester $I

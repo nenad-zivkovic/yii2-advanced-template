@@ -58,9 +58,10 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'email'], 'required'],
             ['email', 'email'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-            // use StrengthValidator (presets are located in: nenad/passwordStrenght/presets.php)
-            [['newPassword'], StrengthValidator::className(), 'preset'=>'normal', 
-                                                              'userAttribute'=>'username'],
+            
+            // use StrengthValidator
+            // presets are located in: vendor/nenad/passwordStrength/presets.php)
+            [['newPassword'], StrengthValidator::className(), 'preset'=>'normal'],
             
             ['username', 'unique', 'message' => 'This username has already been taken.'],
             ['email', 'unique', 'message' => 'This email address has already been taken.'],

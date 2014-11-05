@@ -1,5 +1,4 @@
 <?php
-
 use backend\helpers\CssHelper;
 use common\models\User;
 use yii\helpers\Html;

@@ -27,18 +27,6 @@ class SignupForm extends Model
      */
     public function rules()
     {
-        // get setting value for 'Force Strong Password'
-        $fsp = Setting::get(Setting::FORCE_STRONG_PASSWORD);
-
-        // use StrengthValidator rule (presets are located in: widgets/passwordStrenght/presets.php)
-        $strong = [['password'], StrengthValidator::className(), 'preset'=>'normal', 
-                                                                 'userAttribute'=>'username'];
-        // use normal yii rule
-        $normal = ['password', 'string', 'min' => 6];
-
-        // if 'Force Strong Password' is set to 'YES' use $strong rule, else usee $normal rule
-        $passwordStrenghtRule = ($fsp) ? $strong : $normal;
-
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
@@ -53,8 +41,8 @@ class SignupForm extends Model
                 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
-            // dinamicaly decide which password rule to use
-            $passwordStrenghtRule,
+            // decide which password rule to use based on our system settings
+            $this->passwordStrengthRule(),
 
             // on default scenario, user status is set to active
             ['status', 'default', 'value' => User::STATUS_ACTIVE, 'on' => 'default'],
@@ -115,5 +103,29 @@ class SignupForm extends Model
             ->setTo($this->email)
             ->setSubject('Account activation for ' . Yii::$app->name)
             ->send();
+    }
+
+    /**
+     * =========================================================================
+     * Set password rule based on our setting value (Force Strong Password).
+     * =========================================================================
+     * 
+     * @return array  Password strength rule
+     * _________________________________________________________________________
+     */
+    private function passwordStrengthRule()
+    {
+        // get setting value for 'Force Strong Password'
+        $fsp = Setting::get(Setting::FORCE_STRONG_PASSWORD);
+
+        // use StrengthValidator rule 
+        // presets are located in: vendor/nenad/passwordStrength/presets.php
+        $strong = [['password'], StrengthValidator::className(), 'preset'=>'normal'];
+
+        // use normal yii rule
+        $normal = ['password', 'string', 'min' => 6];
+
+        // if 'Force Strong Password' is set to 'YES' use $strong rule, else use $normal rule
+        return ($fsp) ? $strong : $normal;
     }
 }

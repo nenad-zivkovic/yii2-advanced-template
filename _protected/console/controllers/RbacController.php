@@ -87,5 +87,10 @@ class RbacController extends Controller
         $auth->add($theCreator); 
         $auth->addChild($theCreator, $useSettings);
         $auth->addChild($theCreator, $admin);
+
+        if ($auth) 
+        {
+            echo "\nRbac rules installed successfully.\n";
+        }
     }
 }

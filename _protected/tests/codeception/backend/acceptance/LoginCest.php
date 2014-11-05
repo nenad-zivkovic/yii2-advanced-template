@@ -48,6 +48,7 @@ class LoginCest
     /**
      * =========================================================================
      * Test if active user can login with email/password combo.
+     * =========================================================================
      *
      * @param \codeception_backend\AcceptanceTester $I
      * 
@@ -91,6 +92,7 @@ class LoginCest
     /**
      * =========================================================================
      * Test if active user can login with username/password combo.
+     * =========================================================================
      *
      * @param \codeception_backend\AcceptanceTester $I
      * 
@@ -136,6 +138,7 @@ class LoginCest
      * We want to be sure that not active user can not login.
      * NOTE: we are testing username/password combo, there is no need to test 
      * email/password combo too.
+     * =========================================================================
      * 
      * @param \codeception_backend\AcceptanceTester $I
      * 

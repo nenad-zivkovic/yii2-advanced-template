@@ -9,7 +9,6 @@ use yii\codeception\BasePage;
  */
 class SignupPage extends BasePage
 {
-
     public $route = 'site/signup';
 
     /**

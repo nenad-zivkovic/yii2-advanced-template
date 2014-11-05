@@ -12,7 +12,7 @@ namespace backend\assets;
 use yii\web\AssetBundle;
 use Yii;
 
-// set out themes alias so we do not have to update baseUrl every time we change themes
+// set @themes alias so we do not have to update baseUrl every time we change themes
 Yii::setAlias('@themes', Yii::$app->view->theme->baseUrl);
 
 /**

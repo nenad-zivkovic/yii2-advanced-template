@@ -1,8 +1,10 @@
 <?php
 /**
+ * -----------------------------------------------------------------------------
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
+ * -----------------------------------------------------------------------------
  */
 
 use yii\base\InvalidConfigException;
@@ -10,10 +12,12 @@ use yii\db\Schema;
 use yii\rbac\DbManager;
 
 /**
+ * -----------------------------------------------------------------------------
  * Initializes RBAC tables
  *
  * @author Alexander Kochetov <creocoder@gmail.com>
  * @since 2.0
+ * -----------------------------------------------------------------------------
  */
 class m141022_115912_create_rbac_tables extends \yii\db\Migration
 {
@@ -27,7 +31,8 @@ class m141022_115912_create_rbac_tables extends \yii\db\Migration
 
         if (!$authManager instanceof DbManager) 
         {
-            throw new InvalidConfigException('You should configure "authManager" component to use database before executing this migration.');
+            throw new InvalidConfigException('You should configure "authManager" 
+                component to use database before executing this migration.');
         }
         return $authManager;
     }

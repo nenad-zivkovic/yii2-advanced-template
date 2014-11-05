@@ -1,5 +1,4 @@
 <?php
-
 use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;

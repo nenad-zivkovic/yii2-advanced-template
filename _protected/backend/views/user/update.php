@@ -1,5 +1,4 @@
 <?php
-
 use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -20,7 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'update-account']); ?>
                 <?= $form->field($model, 'username') ?>
                 <?= $form->field($model, 'email') ?>
-                <?= $form->field($model, 'newPassword')->widget(PasswordInput::classname(), [])
+                <?= $form->field($model, 'newPassword')
+                         ->widget(PasswordInput::classname(), [])
                          ->passwordInput(['placeholder' => 
                             'If you need to change password, type the new one here.']) ?>
                 
