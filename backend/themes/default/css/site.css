@@ -16,13 +16,6 @@ body {
     padding: 70px 15px 20px;
 }
 
-.footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-}
-
 .jumbotron {
     text-align: center;
     background-color: transparent;
@@ -33,10 +26,19 @@ body {
     padding: 14px 24px;
 }
 
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
 .not-set {
     color: #c55;
     font-style: italic;
 }
+
+/*-- Sorting --*/
 
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
@@ -74,6 +76,8 @@ a.desc:after {
     content: "\e156";
 }
 
+/*-- Other --*/
+
 .grid-view th {
     white-space: nowrap;
 }
@@ -93,7 +97,6 @@ a.desc:after {
 }
 
 /* add red asterisk to required form fields */
-
 div.required label:after {
     content: " *";
     color: #e13431;
@@ -148,6 +151,8 @@ div.required label:after {
     font-weight: bold;
     color: #800080;
 }
+
+/*-- Password strength --*/
 
 /* tweak password input group so it will display nicely */
 #form-signup .input-group,

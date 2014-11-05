@@ -92,3 +92,15 @@
 .table-striped thead {
     background-color : #c3c3c3;
 }
+
+/*-- Pagination tweaks --*/
+
+.pagination > li > a, 
+.pagination > li > span,
+.pagination > .disabled > span {
+    background-color: #eee;;
+}
+
+.pagination > li > a:hover {
+    background-color: #d7d7d7;
+}
