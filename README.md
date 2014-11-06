@@ -150,11 +150,11 @@ Password strength guide
 
 Since 1.1.1 version has been released, password strength extension has been included as a core part of improved templates. Usage is very simple:
 
-In our signup and accout update forms pasword strength meter is always displayed when users are entering their password. This will give them visual representation of their password strength.  
+In our signup and account update forms password strength meter is always displayed when users are entering their password. This will give them visual representation of their password strength.  
 But this is not all. As The Creator you have option in your settings "Force Strong Password" that you can use. If you turn it on, users will be forced to use strong passwords according to preset you chose. For example if you use normal preset, user will be forced to use at least 8 characters long password, with at least one upper-case and one lower-case letter, plus at least one digit.  
 
-> In our accout update form for admins and The Creator, force strong password is __always__ turned on. This is because admins and super admin should __always__ use strong passwords!  
+> In our account update form for admins and The Creator, force strong password is __always__ turned on. This is because admins and super admin should __always__ use strong passwords!  
 
-Chosing presets:
+Choosing presets:
 
 By default normal preset is used for both signup and account edit forms. if you want to customize which preset is used, see SignupForm model and User model. You will see rules declared for using strong passwords. Presets are located in ```vendor/nenad/yii2-password-strength/presets.php```. You can chose some other preset declared in presets.php, or create new ones.
