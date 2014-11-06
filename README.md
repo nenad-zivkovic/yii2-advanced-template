@@ -141,6 +141,7 @@ Features
 - The Creator role (super admin) can use system settings that comes with template (see: backend/setting).
 - Theming is supported out of box.
 - Administrators and The Creator can update their account.
+- Password strength validation and strength meter.
 - All functionalities of default advanced template are included in this template.
 - Code is heavily commented out.
 
