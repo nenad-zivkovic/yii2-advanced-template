@@ -3,13 +3,6 @@ return [
     'name' => 'My application',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
-        // you can set your theme here (template comes with 'default' and 'cool')
-        'view' => [
-            'theme' => [
-                'pathMap' => ['@app/views' => '@webroot/themes/cool/views'],
-                'baseUrl' => '@web/themes/cool',
-            ],
-        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

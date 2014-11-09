@@ -12,6 +12,14 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        // here you can set theme used for your frontend application 
+        // (template comes with 'default' and 'cool')
+        'view' => [
+            'theme' => [
+                'pathMap' => ['@app/views' => '@webroot/themes/cool/views'],
+                'baseUrl' => '@web/themes/cool',
+            ],
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
