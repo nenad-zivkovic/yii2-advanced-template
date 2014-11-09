@@ -23,8 +23,6 @@ return [
                 ],
             ],
         ],
-        // in case you want to configure your theme in common/mail.php, uncomment this code
-        //'view' => null
     ],
     'params' => $params,
 ];
