@@ -17,7 +17,7 @@ class LoginForm extends Model
     public $rememberMe = true;
 
     /**
-     * @var \app\models\User
+     * @var \common\models\User
      */
     private $_user = false;
 

@@ -119,7 +119,7 @@ class SignupForm extends Model
         $fsp = Setting::get(Setting::FORCE_STRONG_PASSWORD);
 
         // use StrengthValidator rule 
-        // presets are located in: vendor/nenad/passwordStrength/presets.php
+        // presets are located in: vendor/nenad/yii2-password-strength/presets.php
         $strong = [['password'], StrengthValidator::className(), 'preset'=>'normal'];
 
         // use normal yii rule

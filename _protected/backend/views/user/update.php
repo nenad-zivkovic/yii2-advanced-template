@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $model \common\models\User */
+/* @var $model common\models\User */
 
 $this->title = 'Update account';
 $this->params['breadcrumbs'][] = $this->title;
