@@ -90,7 +90,7 @@ class RbacController extends Controller
 
         if ($auth) 
         {
-            echo "\nRbac rules are installed successfully.\n";
+            echo "\nRbac authorization data were installed successfully.\n";
         }
     }
 }
