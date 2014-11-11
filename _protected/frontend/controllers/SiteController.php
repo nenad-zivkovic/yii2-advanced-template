@@ -7,7 +7,6 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\LoginForm;
-use common\models\User;
 use common\models\Setting;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
@@ -250,7 +249,9 @@ class SiteController extends Controller
      * Resets password.
      * =========================================================================
      *
-     * @param  string  $token  Password reset token.
+     * @param  string $token Password reset token.
+     *
+     * @throws BadRequestHttpException
      *
      * @return mixed           homepage|resetPassword view
      * _________________________________________________________________________
@@ -397,7 +398,9 @@ class SiteController extends Controller
      * Activates the user account so he can log in into system.
      * =========================================================================
      *
-     * @param  string  $token  Account activation token.
+     * @param  string $token Account activation token.
+     *
+     * @throws BadRequestHttpException
      *
      * @return string          login view.
      * _________________________________________________________________________

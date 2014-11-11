@@ -68,7 +68,7 @@ class ResetPasswordForm extends Model
      * Resets password.
      * =========================================================================
      *
-     * @return boolean  Whether the password was reseted.
+     * @return boolean  Whether the password was reset.
      * _________________________________________________________________________
      */
     public function resetPassword()

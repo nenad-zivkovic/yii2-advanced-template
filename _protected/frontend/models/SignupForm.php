@@ -74,16 +74,13 @@ class SignupForm extends Model
         $user->status = $this->status;
 
         // if scenario is "rna" we will generate account activation token
-        $this->scenario === 'rna' ? $user->generateAccountActivationToken() : '';
-  
-        if ($user->save() && RbacHelper::assignRole($user->getId())) 
+        if ($this->scenario === 'rna')
         {
-            return $user;
-        } 
-        else
-        {
-            return null;
+            $user->generateAccountActivationToken();
         }
+
+        // if user is saved and role is assigned return user object
+        return $user->save() && RbacHelper::assignRole($user->getId()) ? $user : null;
     }
 
     /**

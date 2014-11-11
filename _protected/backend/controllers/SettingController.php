@@ -1,7 +1,6 @@
 <?php
 namespace backend\controllers;
 
-use backend\controllers\BackendController;
 use common\models\Setting;
 use yii\data\Pagination;
 use yii\data\Sort;

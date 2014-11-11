@@ -1,7 +1,6 @@
 <?php
 namespace backend\controllers;
 
-use backend\controllers\BackendController;
 use common\models\User;
 use common\rbac\models\Role;
 use yii\data\Pagination;
@@ -141,7 +140,7 @@ class UserController extends BackendController
      */
     public function actionUpdateRole($id)
     {
-        // only The Creator can update everyones roles
+        // only The Creator can update everyone`s roles
         if (Yii::$app->user->can('theCreator')) 
         {
             $model = Role::findOne(['user_id' => $id]);
