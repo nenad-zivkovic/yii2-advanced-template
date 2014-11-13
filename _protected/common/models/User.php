@@ -60,7 +60,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['username', 'string', 'min' => 2, 'max' => 255],
             
             // use StrengthValidator
-            // presets are located in: vendor/nenad/yii2-password-strength/presets.php)
+            // presets are located in: vendor/nenad/yii2-password-strength/presets.php
             [['newPassword'], StrengthValidator::className(), 'preset'=>'normal'],
             
             ['username', 'unique', 'message' => 'This username has already been taken.'],
