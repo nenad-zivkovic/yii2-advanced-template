@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'newPassword')
                          ->widget(PasswordInput::classname(), [])
                          ->passwordInput(['placeholder' => 
-                            'If you need to change password, type the new one here.']) ?>
+                            'Type new password ( if you want to change it )']) ?>
                 
                 <div class="form-group">
                     <?= Html::submitButton('Update', ['class' => 'btn btn-primary', 
