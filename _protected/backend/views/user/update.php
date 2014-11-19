@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <hr>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-6">
             <?php $form = ActiveForm::begin(['id' => 'update-account']); ?>
                 <?= $form->field($model, 'username') ?>
                 <?= $form->field($model, 'email') ?>
