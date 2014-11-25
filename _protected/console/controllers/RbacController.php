@@ -1,25 +1,24 @@
 <?php
 namespace console\controllers;
 
-use common\rbac\rules\OwnerRule;
 use yii\console\Controller;
 use Yii;
 
 /**
  * Creates base roles and permissions for our application.
  * -----------------------------------------------------------------------------
- * Creates 4 roles: 
+ * Creates 5 roles: 
  * 
  * - theCreator : You, developer of this site (super admin)
  * - admin : Your direct clients, administrators of this site
+ * - support : support staff
  * - premium : premium member of this site
  * - member : user of this site who has registered his account and can log in
  *
- * Creates 5 permissions:
+ * Creates 2 permissions:
  * 
- * - useSettings : only The Creator have this permission
- * - viewUsers, deleteUsers, updateUsers, and changeRoles are 
- *   assigned to administrator of this site
+ * - usePremiumContent : allows premium members to use premium content
+ * - manageUsers : allows admins to manage users (CRUD plus role assignment)
  * -----------------------------------------------------------------------------
  */
 class RbacController extends Controller
@@ -30,30 +29,15 @@ class RbacController extends Controller
 
         //---------- PERMISSIONS ----------//
 
-        // add "useSettings" permission
-        $useSettings = $auth->createPermission('useSettings');
-        $useSettings->description = 'Use settings (full CRUD)';
-        $auth->add($useSettings);     
+        // add "usePremiumContent" permission
+        $usePremiumContent = $auth->createPermission('usePremiumContent');
+        $usePremiumContent->description = 'View Users';
+        $auth->add($usePremiumContent);
 
-        // add "viewUsers" permission
-        $viewUsers = $auth->createPermission('viewUsers');
-        $viewUsers->description = 'View Users';
-        $auth->add($viewUsers);
-
-        // add "deleteUsers" permission
-        $deleteUsers = $auth->createPermission('deleteUsers');
-        $deleteUsers->description = 'Delete users';
-        $auth->add($deleteUsers);
-
-        // add "updateUsers" permission
-        $updateUsers = $auth->createPermission('updateUsers');
-        $updateUsers->description = 'Update users';
-        $auth->add($updateUsers);
-
-        // add "changeRoles" permission
-        $changeRoles = $auth->createPermission('changeRoles');
-        $changeRoles->description = 'User can assign/change roles to other users';
-        $auth->add($changeRoles); 
+        // add "manageUsers" permission
+        $manageUsers = $auth->createPermission('manageUsers');
+        $manageUsers->description = 'View Users';
+        $auth->add($manageUsers);
     
         //---------- ROLES ----------//
 
@@ -65,27 +49,30 @@ class RbacController extends Controller
         // add "premium" role
         $premium = $auth->createRole('premium');
         $premium->description = 'Premium members. They have more permissions than normal members';
-        $auth->add($premium);      
+        $auth->add($premium);
+        $auth->addChild($premium, $usePremiumContent);
+
+        // add "support" role
+        // support can do everything that member and premium can, plus you can add him more powers
+        $support = $auth->createRole('support');
+        $support->description = 'Support staff';
+        $auth->add($support); 
+        $auth->addChild($support, $premium);
+        $auth->addChild($support, $member);    
 
         // add "admin" role and give this role: 
-        // viewUsers, updateUsers, deleteUsers and changeRoles permissions,
-        // plus he can do everything that premium and member roles can do.
+        // manageUsers permission, plus he can do everything that support role can do.
         $admin = $auth->createRole('admin');
         $admin->description = 'Administrator of this application';
         $auth->add($admin);
-        $auth->addChild($admin, $viewUsers);
-        $auth->addChild($admin, $updateUsers);
-        $auth->addChild($admin, $deleteUsers);     
-        $auth->addChild($admin, $changeRoles);
-        $auth->addChild($admin, $premium);
-        $auth->addChild($admin, $member);
+        $auth->addChild($admin, $manageUsers);
+        $auth->addChild($admin, $support);
 
         // add "theCreator" role ( this is you :) )
-        // You can do everything that admin can do plus you can use settings :)
+        // You can do everything that admin can do plus more (if You decide so)
         $theCreator = $auth->createRole('theCreator');
         $theCreator->description = 'You!';
         $auth->add($theCreator); 
-        $auth->addChild($theCreator, $useSettings);
         $auth->addChild($theCreator, $admin);
 
         if ($auth) 
