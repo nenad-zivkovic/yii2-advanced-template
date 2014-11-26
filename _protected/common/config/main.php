@@ -7,7 +7,7 @@ return [
             'bundles' => [
                 // we will use bootstrap css from our theme
                 'yii\bootstrap\BootstrapAsset' => [
-                    'sourcePath' => null, // do not use yii default one
+                    'css' => [], // do not use yii default one
                 ],
                 // // use bootstrap js from CDN
                 // 'yii\bootstrap\BootstrapPluginAsset' => [
