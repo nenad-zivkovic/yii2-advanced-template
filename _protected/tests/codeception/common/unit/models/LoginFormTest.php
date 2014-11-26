@@ -26,8 +26,6 @@ class LoginFormTest extends DbTestCase
                 ],
             ],
         ]);
-
-        $this->lwe = Setting::findOne(['id' => Setting::LOGIN_WITH_EMAIL]);
     }
 
     /**
@@ -37,18 +35,6 @@ class LoginFormTest extends DbTestCase
     {
         Yii::$app->user->logout();
         parent::tearDown();
-    }
-
-    /**
-     * Test wrong login when user is entering wrong username|email based on your
-     * Login With Email settings.
-     */
-    public function testWrongLogin()
-    {
-        // get setting value for 'Login With Email'
-        $lwe = Yii::$app->params['lwe'];
-
-        $lwe ? $this->testLoginWrongEmail() : $this->testLoginWrongUsername() ;
     }
 
     /**
@@ -89,17 +75,8 @@ class LoginFormTest extends DbTestCase
      */
     public function testLoginWrongPassword()
     {
-        if (Yii::$app->params['lwe']) 
-        {
-            $model = new LoginForm(['scenario' => 'lwe']);
-            $model->email = 'member@example.com';
-        } 
-        else 
-        {
-            $model = new LoginForm();
-            $model->username = 'member';
-        }
-        
+        $model = new LoginForm(['scenario' => 'lwe']);
+        $model->email = 'member@example.com';
         $model->password = 'password';
         
         $this->specify('user should not be able to login with wrong password', 
@@ -115,17 +92,8 @@ class LoginFormTest extends DbTestCase
      */
     public function testLoginNotActivatedUser()
     {
-        if (Yii::$app->params['lwe']) 
-        {
-            $model = new LoginForm(['scenario' => 'lwe']);
-            $model->email = 'tester@example.com';
-        } 
-        else 
-        {
-            $model = new LoginForm();
-            $model->username = 'tester';
-        }
-
+        $model = new LoginForm(['scenario' => 'lwe']);
+        $model->email = 'tester@example.com';
         $model->password = 'test123';
 
         $this->specify('not activated user should not be able to login', function () use ($model) {
@@ -139,17 +107,8 @@ class LoginFormTest extends DbTestCase
      */
     public function testLoginActivatedUser()
     {
-        if (Yii::$app->params['lwe']) 
-        {
-            $model = new LoginForm(['scenario' => 'lwe']);
-            $model->email = 'member@example.com';
-        } 
-        else 
-        {
-            $model = new LoginForm();
-            $model->username = 'member';
-        }
-
+        $model = new LoginForm(['scenario' => 'lwe']);
+        $model->email = 'member@example.com';
         $model->password = 'member123';
         
         $this->specify('user should be able to login with correct credentials', 

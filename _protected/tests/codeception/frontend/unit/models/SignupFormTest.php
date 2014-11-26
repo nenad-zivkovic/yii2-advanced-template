@@ -30,18 +30,18 @@ class SignupFormTest extends DbTestCase
         $model = new SignupForm([
             'username' => 'some_username',
             'email' => 'some_email@example.com',
-            'password' => 'some_password',
+            'password' => 'asDF@#12asdf',
             'status' => 1
         ]);
         $model->scenario = 'rna';
 
         $user = $model->signup();
 
-        $this->assertInstanceOf('app\models\User', $user, 'user should be valid');
+        $this->assertInstanceOf('common\models\User', $user, 'user should be valid');
 
         expect('username should be correct', $user->username)->equals('some_username');
         expect('email should be correct', $user->email)->equals('some_email@example.com');
-        expect('password should be correct', $user->validatePassword('some_password'))->true();
+        expect('password should be correct', $user->validatePassword('asDF@#12asdf'))->true();
 
         expect('user has valid account activation token', 
             $user->account_activation_token)->notNull();
@@ -58,17 +58,17 @@ class SignupFormTest extends DbTestCase
         $model = new SignupForm([
             'username' => 'some_username',
             'email' => 'some_email@example.com',
-            'password' => 'some_password',
+            'password' => 'asDF@#12asdf',
             'status' => 10
         ]);
 
         $user = $model->signup();
 
-        $this->assertInstanceOf('app\models\User', $user, 'user should be valid');
+        $this->assertInstanceOf('common\models\User', $user, 'user should be valid');
 
         expect('username should be correct', $user->username)->equals('some_username');
         expect('email should be correct', $user->email)->equals('some_email@example.com');
-        expect('password should be correct', $user->validatePassword('some_password'))->true();
+        expect('password should be correct', $user->validatePassword('asDF@#12asdf'))->true();
 
         expect('account activation token is not set', 
             $user->account_activation_token)->null();
@@ -82,7 +82,7 @@ class SignupFormTest extends DbTestCase
         $model = new SignupForm([
             'username' => 'member',
             'email' => 'member@example.com',
-            'password' => 'member123',
+            'password' => 'asDF@#12asdf',
             'status' => 1
         ]);
 

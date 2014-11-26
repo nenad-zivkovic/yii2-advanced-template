@@ -140,7 +140,8 @@ class LoginCest
         // get setting value for 'Login With Email'
         $lwe = \Yii::$app->params['lwe'];
 
-        $field = ($lwe) ? 'tester@example.com' : 'tester' ;
+        $field = ($lwe) ? 'tester@example.com' : 'tester';
+        $error = ($lwe) ? 'email' : 'username';
 
         $I->wantTo("ensure that not active user can't login");
         $loginPage = LoginPage::openBy($I);
@@ -149,7 +150,7 @@ class LoginCest
         $I->amGoingTo('try to log in not activated user');
         $loginPage->login($field, 'test123');
         $I->expectTo('see error message');
-        $I->see('Incorrect username or password.', '.help-block');
+        $I->see('Incorrect '.$error.' or password.', '.help-block');
         $I->seeLink('Login');
     }
 }

@@ -2,8 +2,10 @@
 namespace frontend\models;
 
 use common\models\User;
+use nenad\passwordStrength\StrengthValidator;
 use yii\base\InvalidParamException;
 use yii\base\Model;
+use Yii;
 
 /**
  * Password reset form.
@@ -54,8 +56,32 @@ class ResetPasswordForm extends Model
     {
         return [
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            // use passwordStrengthRule() method to determine password strength
+            $this->passwordStrengthRule(),
         ];
+    }
+
+    /**
+     * Set password rule based on our setting value (Force Strong Password).
+     *
+     * @return array Password strength rule
+     */
+    private function passwordStrengthRule()
+    {
+        // get setting value for 'Force Strong Password'
+        $fsp = Yii::$app->params['fsp'];
+
+        // password strength rule is determined by StrengthValidator 
+        // presets are located in: vendor/nenad/yii2-password-strength/presets.php
+        // NOTE: you should use RESET rule because it doesn't require username and email validation
+        $strong = [['password'], StrengthValidator::className(), 
+                    'preset'=>'reset', 'userAttribute'=>'password'];
+
+        // use normal yii rule
+        $normal = ['password', 'string', 'min' => 6];
+
+        // if 'Force Strong Password' is set to 'true' use $strong rule, else use $normal rule
+        return ($fsp) ? $strong : $normal;
     }
 
     /**

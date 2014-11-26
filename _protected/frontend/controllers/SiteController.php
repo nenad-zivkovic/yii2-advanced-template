@@ -161,7 +161,7 @@ class SiteController extends Controller
             return $this->goBack();
         }
         // user couldn't be logged in, because he has not activated his account
-        elseif($model->status === User::STATUS_NOT_ACTIVE)
+        elseif($model->notActivated())
         {
             // if his account is not activated, he will have to activate it first
             Yii::$app->session->setFlash('error', 

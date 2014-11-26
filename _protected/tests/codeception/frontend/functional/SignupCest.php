@@ -84,7 +84,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'demo',
             'email' => 'demo',
-            'password' => 'demo123',
+            'password' => 'asDF@#12asdf',
         ]);
 
         $I->expectTo('see that email address is wrong');
@@ -97,7 +97,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'demo',
             'email' => 'demo@example.com',
-            'password' => 'demo123',
+            'password' => 'asDF@#12asdf',
         ]);
 
         $I->expectTo('see that user is logged in');
@@ -121,7 +121,7 @@ class SignupCest
         $signupPage->submit([
             'username' => 'demo',
             'email' => 'demo@example.com',
-            'password' => 'demo123',
+            'password' => 'asDF@#12asdf',
         ]);
 
         $I->expectTo('see that user is not logged in');

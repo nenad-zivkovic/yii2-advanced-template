@@ -15,7 +15,6 @@ class LoginForm extends Model
     public $email;
     public $password;
     public $rememberMe = true;
-    public $status; // holds the information about user status
 
     /**
      * @var \common\models\User
@@ -70,25 +69,14 @@ class LoginForm extends Model
      */
     public function login()
     {
-        if ($this->validate())
+        if ($this->validate()) 
         {
-            // get user status if he exists, otherwise assign not active as default
-            $this->status = ($user = $this->getUser()) ? $user->status : User::STATUS_NOT_ACTIVE;
-
-            // if we have active and valid user log him in
-            if ($this->status === User::STATUS_ACTIVE) 
-            {
-                return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
-            } 
-            else 
-            {
-                return false; // user is not active
-            }
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         } 
         else 
         {
             return false;
-        }
+        }  
     }
 
     /**
@@ -113,4 +101,29 @@ class LoginForm extends Model
 
         return $this->_user;
     }
+
+    /**
+     * Checks to see if the given user has NOT activated his account yet.
+     * We first check if user exists in our system,
+     * and then did he activated his account.
+     *
+     * @return bool True if not activated.
+     */
+    public function notActivated()
+    {
+        // if scenario is 'lwe' we will use email as our username, otherwise we use username
+        $username = ($this->scenario === 'lwe') ? $this->email : $this->username;
+
+        if ($user = User::userExists($username, $this->password, $this->scenario))
+        {
+            if ($user->status === User::STATUS_NOT_ACTIVE)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }  
 }

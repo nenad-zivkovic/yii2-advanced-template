@@ -90,9 +90,13 @@ class UserController extends BackendController
      *
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($id)
+ public function actionUpdate($id)
     {
+        // get role
         $role = Role::findOne(['user_id' => $id]);
+
+        // get user details
+        $user = $this->findModel($id);
 
         // only The Creator can update everyone`s roles
         // admin will not be able to update role of theCreator
@@ -104,8 +108,7 @@ class UserController extends BackendController
             }
         }
 
-        $user = $this->findModel($id);
-
+        // load user data with role and validate them
         if ($user->load(Yii::$app->request->post()) && 
             $role->load(Yii::$app->request->post()) && Model::validateMultiple([$user, $role])) 
         {
@@ -114,6 +117,12 @@ class UserController extends BackendController
             {
                 $user->setPassword($user->password);
             }
+
+            // if admin is activating user manually we want to remove account activation token
+            if ($user->status == User::STATUS_ACTIVE && $user->account_activation_token != null) 
+            {
+                $user->removeAccountActivationToken();
+            }            
 
             $user->save(false);
             $role->save(false); 

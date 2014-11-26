@@ -135,7 +135,7 @@ class User extends UserIdentity
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username]);
+        return static::findOne(['username' => $username, 'status' => User::STATUS_ACTIVE]);
     }  
     
     /**
@@ -146,7 +146,7 @@ class User extends UserIdentity
      */
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email]);
+        return static::findOne(['email' => $email, 'status' => User::STATUS_ACTIVE]);
     } 
 
     /**
@@ -180,6 +180,39 @@ class User extends UserIdentity
             'account_activation_token' => $token,
             'status' => User::STATUS_NOT_ACTIVE,
         ]);
+    }
+
+    /**
+     * Checks to see if the given user exists in our database.
+     * If LoginForm scenario is set to lwe (login with email), we need to check
+     * user's email and password combo, otherwise we check username/password.
+     * NOTE: used in LoginForm model.
+     *
+     * @param  string $username
+     * @param  string $password
+     * @param  string $scenario
+     * @return bool|static
+     */
+    public static function userExists($username, $password, $scenario)
+    {
+        // if scenario is 'lwe', we need to check email, otherwise we check username
+        $field = ($scenario === 'lwe') ? 'email' : 'username';
+        
+        if ($user = static::findOne([$field => $username]))
+        {
+            if ($user->validatePassword($password))
+            {
+                return $user;
+            }
+            else
+            {
+                return false; // invalid password
+            }            
+        }
+        else
+        {
+            return false; // invalid username|email
+        }
     }
   
 //------------------------------------------------------------------------------------------------//
