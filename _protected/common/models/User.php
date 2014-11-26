@@ -3,75 +3,89 @@ namespace common\models;
 
 use common\rbac\models\Role;
 use nenad\passwordStrength\StrengthValidator;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
 use Yii;
 
 /**
- * ------------------------------------------------------------------------------
- * User model.
+ * This is the user model class extending UserIdentity.
+ * Here you can implement your custom user solutions.
  *
  * @property integer $id
- * @property string  $username
- * @property string  $password_hash
- * @property string  $password_reset_token
- * @property string  $email
- * @property string  $account_activation_token
- * @property string  $auth_key
+ * @property string $username
+ * @property string $email
+ * @property string $password_hash
  * @property integer $status
+ * @property string $auth_key
+ * @property string $password_reset_token
+ * @property string $account_activation_token
  * @property integer $created_at
  * @property integer $updated_at
  *
  * @property Role $role
- * -----------------------------------------------------------------------------
+ *
+ * @package common\models
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends UserIdentity
 {
     const STATUS_DELETED = 0;
     const STATUS_NOT_ACTIVE = 1;
     const STATUS_ACTIVE = 10;
 
-    public $newPassword; // used when updating account
+    public $password;
 
     /**
-     * =========================================================================
-     * Declares the name of the database table associated with this AR class. 
-     * =========================================================================
+     * @var \common\rbac\models\Role
      */
-    public static function tableName()
-    {
-        return '{{%user}}';
-    }
+    public $item_name;
 
-  /**
-     * =========================================================================
+    /**
      * Returns the validation rules for attributes.
-     * NOTE: We are using these rules when updating admin|The Creator account.
-     * =========================================================================
+     *
+     * @return array
      */
     public function rules()
     {
         return [
             [['username', 'email'], 'filter', 'filter' => 'trim'],
-            [['username', 'email'], 'required'],
+            [['username', 'email', 'status'], 'required'],
             ['email', 'email'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-            
-            // use StrengthValidator
-            // presets are located in: vendor/nenad/yii2-password-strength/presets.php
-            [['newPassword'], StrengthValidator::className(), 'preset'=>'normal'],
-            
+
+            // password field is required on 'create' scenario
+            ['password', 'required', 'on' => 'create'],
+            // use passwordStrengthRule() method to determine password strength
+            $this->passwordStrengthRule(),
+                      
             ['username', 'unique', 'message' => 'This username has already been taken.'],
             ['email', 'unique', 'message' => 'This email address has already been taken.'],
         ];
     }
 
     /**
-     * =========================================================================
-     * Returns a list of behaviors that this component should behave as. 
-     * =========================================================================
+     * Set password rule based on our setting value (Force Strong Password).
+     *
+     * @return array Password strength rule.
+     */
+    private function passwordStrengthRule()
+    {
+        // get setting value for 'Force Strong Password'
+        $fsp = Yii::$app->params['fsp'];
+
+        // password strength rule is determined by StrengthValidator 
+        // presets are located in: vendor/nenad/yii2-password-strength/presets.php
+        $strong = [['password'], StrengthValidator::className(), 'preset'=>'normal'];
+
+        // normal yii rule
+        $normal = ['password', 'string', 'min' => 6];
+
+        // if 'Force Strong Password' is set to 'true' use $strong rule, else use $normal rule
+        return ($fsp) ? $strong : $normal;
+    }
+
+    /**
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * @return array
      */
     public function behaviors()
     {
@@ -81,100 +95,65 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * =========================================================================
-     * Relation with Role class. 
-     * =========================================================================
+     * Relation with Role model.
+     *
+     * @return \yii\db\ActiveQuery
      */
     public function getRole()
     {
         // User has_one Role via Role.user_id -> id
         return $this->hasOne(Role::className(), ['user_id' => 'id']);
+    }    
+
+    /**
+     * Returns the attribute labels.
+     *
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'email' => Yii::t('app', 'Email'),
+            'status' => Yii::t('app', 'Status'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'item_name' => Yii::t('app', 'Role'),
+        ];
     }
 
 //------------------------------------------------------------------------------------------------//
-// IDENTITY FINDERS
+// USER FINDERS
 //------------------------------------------------------------------------------------------------//
 
     /**
-     * =========================================================================
-     * Finds an identity by the given ID.
-     * =========================================================================
-     *
-     * @param  integer  $id  The user id.
-     *
-     * @return static|null
-     * _________________________________________________________________________
-     */
-    public static function findIdentity($id)
-    {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
-    }
-
-    /**
-     * =========================================================================
-     * Finds an identity by the given token. TODO!
-     * =========================================================================
-     *
-     * @param  mixed $token The token to be looked for.
-     *
-     * @param  mixed $type The type of the token. The value of this
-     *                        parameter depends on the implementation.
-     *                        For example, yii\filters\auth\HttpBearerAuth
-     *                        will set this parameter to be
-     *                        Yii\filters\auth\HttpBearerAuth.
-     *
-     * @throws NotSupportedException
-     *
-     * @return object|null    The identity object that matches the given token.
-     *                        Null should be returned if such an identity
-     *                        cannot be found or the identity is not in an
-     *                        active state (disabled, deleted, etc.)
-     * _________________________________________________________________________
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
-  
-    /**
-     * =========================================================================
      * Finds user by username.
-     * =========================================================================
      *
-     * @param  string  $username
-     *
-     * @return static|null 
-     * _________________________________________________________________________
+     * @param  string $username
+     * @return static|null
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
-    }
-
+        return static::findOne(['username' => $username]);
+    }  
+    
     /**
-     * =========================================================================
      * Finds user by email.
-     * =========================================================================
      *
-     * @param  string  $email
-     *
-     * @return static|null 
-     * _________________________________________________________________________
+     * @param  string $email
+     * @return static|null
      */
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
-    }    
-    
+        return static::findOne(['email' => $email]);
+    } 
+
     /**
-     * =========================================================================
      * Finds user by password reset token.
-     * =========================================================================
      *
-     * @param  string  $token  Password reset token.
-     *
-     * @return static|null 
-     * _________________________________________________________________________
+     * @param  string $token Password reset token.
+     * @return null|static
      */
     public static function findByPasswordResetToken($token)
     {
@@ -185,19 +164,99 @@ class User extends ActiveRecord implements IdentityInterface
 
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'status' => User::STATUS_ACTIVE,
         ]);
     }
 
     /**
-     * =========================================================================
-     * Finds out if password reset token is valid
-     * =========================================================================
+     * Finds user by account activation token.
      *
-     * @param  string  $token  Password reset token.
+     * @param  string $token Account activation token.
+     * @return static|null
+     */
+    public static function findByAccountActivationToken($token)
+    {
+        return static::findOne([
+            'account_activation_token' => $token,
+            'status' => User::STATUS_NOT_ACTIVE,
+        ]);
+    }
+  
+//------------------------------------------------------------------------------------------------//
+// HELPERS
+//------------------------------------------------------------------------------------------------//
+
+    /**
+     * Returns the user status in nice format.
      *
-     * @return boolean
-     * _________________________________________________________________________
+     * @param  null|integer $status Status integer value if sent to method.
+     * @return string               Nicely formatted status.
+     */
+    public function getStatusName($status = null)
+    {
+        $status = (empty($status)) ? $this->status : $status ;
+
+        if ($status === self::STATUS_DELETED)
+        {
+            return "Deleted";
+        }
+        elseif ($status === self::STATUS_NOT_ACTIVE)
+        {
+            return "Inactive";
+        }
+        else
+        {
+            return "Active";
+        }
+    }
+
+    /**
+     * Returns the array of possible user status values.
+     *
+     * @return array
+     */
+    public function statusList()
+    {
+        $statusArray = [
+            self::STATUS_ACTIVE     => 'Active',
+            self::STATUS_NOT_ACTIVE => 'Inactive',
+            self::STATUS_DELETED    => 'Deleted'
+        ];
+
+        return $statusArray;
+    }
+
+    /**
+     * Returns the role name ( item_name )
+     *
+     * @return string
+     */
+    public function getRoleName()
+    {
+        return $this->role->item_name;
+    }
+
+    /**
+     * Generates new password reset token.
+     */
+    public function generatePasswordResetToken()
+    {
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+    
+    /**
+     * Removes password reset token.
+     */
+    public function removePasswordResetToken()
+    {
+        $this->password_reset_token = null;
+    }
+
+    /**
+     * Finds out if password reset token is valid.
+     * 
+     * @param  string $token Password reset token.
+     * @return bool
      */
     public static function isPasswordResetTokenValid($token)
     {
@@ -213,204 +272,10 @@ class User extends ActiveRecord implements IdentityInterface
         $timestamp = (int) end($parts);
         
         return $timestamp + $expire >= time();
-    }   
-
-    /**
-     * =========================================================================
-     * Finds user by account activation token.
-     * =========================================================================
-     *
-     * @param  string  $token  Account activation token.
-     *
-     * @return static|null
-     * _________________________________________________________________________
-     */
-    public static function findByAccountActivationToken($token)
-    {
-        return static::findOne([
-            'account_activation_token' => $token,
-            'status' => self::STATUS_NOT_ACTIVE,
-        ]);
-    }    
-
-    /**
-     * =========================================================================
-     * Checks to see if the given user exists in our database.
-     * If LoginForm scenario is set to lwe (login with email), we need to check 
-     * user's email and password combo, otherwise we check username/password.
-     * =========================================================================
-     *
-     * @param  string  $username  Username|email provided via login form.
-     * 
-     * @param  string  $password  Password provided via login form.
-     *
-     * @param  string  $scenario  LoginForm model scenario.
-     *
-     * @return object|boolean     User|false
-     * _________________________________________________________________________
-     */
-    public static function userExists($username, $password, $scenario)
-    {
-        // if scenario is 'lwe', we need to check email, otherwise we check username
-        $field = ($scenario === 'lwe') ? 'email' : 'username';
-        
-        if ($user = static::findOne([$field => $username]))
-        {
-            if ($user->validatePassword($password))
-            {
-                return $user;
-            }
-            else
-            {
-                return false; // invalid password
-            }            
-        }
-        else
-        {
-            return false; // invalid username|email
-        }
-    }
-
-//------------------------------------------------------------------------------------------------//
-// GETTERS
-//------------------------------------------------------------------------------------------------//
-
-    /**
-     * =========================================================================
-     * Returns an ID that can uniquely identify a user identity
-     * =========================================================================
-     *
-     * @return string|integer  An ID that uniquely identifies a user identity.
-     * _________________________________________________________________________
-     */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
     }
 
     /**
-     * =========================================================================
-     * Returns a key that can be used to check the validity of a given 
-     * identity ID. The key should be unique for each individual user, and 
-     * should be persistent so that it can be used to check the validity of 
-     * the user identity. The space of such keys should be big enough to defeat 
-     * potential identity attacks.
-     * =========================================================================
-     *
-     * @return string  A key that is used to check the validity of a given 
-     *                 identity ID.
-     * _________________________________________________________________________
-     */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
-
-    /**
-     * =========================================================================
-     * Returns the user status in nice format.
-     * =========================================================================
-     *
-     * @return string
-     * _________________________________________________________________________
-     */
-    public function getStatusName()
-    {
-        if ($this->status === self::STATUS_DELETED)
-        {
-            return "Deleted";
-        } 
-        elseif ($this->status === self::STATUS_NOT_ACTIVE)
-        {
-            return "Not active";
-        }
-        else
-        {
-            return "Active";
-        }        
-    }
-
-//------------------------------------------------------------------------------------------------//
-// HELPERS
-//------------------------------------------------------------------------------------------------//
-
-    /**
-     * =========================================================================
-     * Validates the given auth key.
-     * =========================================================================
-     *
-     * @param  string   $authKey  The given auth key.
-     *
-     * @return boolean            Whether the given auth key is valid.
-     * _________________________________________________________________________
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-   
-    /**
-     * =========================================================================
-     * Validates password.
-     * =========================================================================
-     *
-     * @param  string  $password  Password to validate.
-     *
-     * @return boolean            If password provided is valid for current user.
-     * _________________________________________________________________________
-     */
-    public function validatePassword($password)
-    {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
-    }
-
-    /**
-     * =========================================================================
-     * Generates password hash from password and sets it to the model.
-     * =========================================================================
-     *
-     * @param  string  $password
-     * _________________________________________________________________________
-     */
-    public function setPassword($password)
-    {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
-    }
-
-    /**
-     * =========================================================================
-     * Generates "remember me" authentication key. 
-     * =========================================================================
-     */
-    public function generateAuthKey()
-    {
-        $this->auth_key = Yii::$app->security->generateRandomString();
-    }
-
-    /**
-     * =========================================================================
-     * Generates new password reset token. 
-     * =========================================================================
-     */
-    public function generatePasswordResetToken()
-    {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-    /**
-     * =========================================================================
-     * Removes password reset token. 
-     * =========================================================================
-     */
-    public function removePasswordResetToken()
-    {
-        $this->password_reset_token = null;
-    }
-
-    /**
-     * =========================================================================
-     * Generates new account activation token. 
-     * =========================================================================
+     * Generates new account activation token.
      */
     public function generateAccountActivationToken()
     {
@@ -418,9 +283,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * =========================================================================
-     * Removes account activation token. 
-     * =========================================================================
+     * Removes account activation token.
      */
     public function removeAccountActivationToken()
     {

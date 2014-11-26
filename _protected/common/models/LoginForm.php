@@ -5,9 +5,9 @@ use yii\base\Model;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
  * LoginForm is the model behind the login form.
- * -----------------------------------------------------------------------------
+ *
+ * @package common\models
  */
 class LoginForm extends Model
 {
@@ -15,6 +15,7 @@ class LoginForm extends Model
     public $email;
     public $password;
     public $rememberMe = true;
+    public $status; // holds the information about user status
 
     /**
      * @var \common\models\User
@@ -22,9 +23,9 @@ class LoginForm extends Model
     private $_user = false;
 
     /**
-     * =========================================================================
      * Returns the validation rules for attributes.
-     * =========================================================================
+     *
+     * @return array
      */
     public function rules()
     {
@@ -39,22 +40,18 @@ class LoginForm extends Model
         ];
     }
 
- /**
-     * =========================================================================
+    /**
      * Validates the password.
      * This method serves as the inline validation for password.
-     * =========================================================================
      *
-     * @param string  $attribute  The attribute currently being validated.
-     *
-     * @param array   $params     The additional name-value pairs.
-     * _________________________________________________________________________
+     * @param string $attribute The attribute currently being validated.
+     * @param array  $params    The additional name-value pairs.
      */
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) 
         {
-            $user = $this->user;
+            $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) 
             {
@@ -67,18 +64,26 @@ class LoginForm extends Model
     }
 
     /**
-     * =========================================================================
      * Logs in a user using the provided username|email and password.
-     * =========================================================================
      *
-     * @return boolean  Whether the user is logged in successfully.
-     * _________________________________________________________________________
+     * @return bool Whether the user is logged in successfully.
      */
     public function login()
     {
-        if ($this->validate()) 
+        if ($this->validate())
         {
-            return Yii::$app->user->login($this->user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            // get user status if he exists, otherwise assign not active as default
+            $this->status = ($user = $this->getUser()) ? $user->status : User::STATUS_NOT_ACTIVE;
+
+            // if we have active and valid user log him in
+            if ($this->status === User::STATUS_ACTIVE) 
+            {
+                return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            } 
+            else 
+            {
+                return false; // user is not active
+            }
         } 
         else 
         {
@@ -87,14 +92,9 @@ class LoginForm extends Model
     }
 
     /**
-     * =========================================================================
-     * Finds user by username or email in 'lwe' scenario. 
-     * Since this is a getter method, we are using it inside our class 
-     * like a property: $this->user.
-     * =========================================================================
-     * 
-     * @return User|null
-     * _________________________________________________________________________
+     * Finds user by username or email in 'lwe' scenario.
+     *
+     * @return User|null|static
      */
     public function getUser()
     {
@@ -112,33 +112,5 @@ class LoginForm extends Model
         }
 
         return $this->_user;
-    }
-    
-    /**
-     * =========================================================================
-     * Checks to see if the given user has NOT activated his account yet.
-     * We first check if user exists in our system, 
-     * and then did he activated his account.
-     * =========================================================================
-     *
-     * @return boolean  True if not activated.
-     * _________________________________________________________________________
-     */
-    public function notActivated()
-    {
-        // if scenario is 'lwe' we will use email as our username, otherwise we use username
-        $username = ($this->scenario === 'lwe') ? $this->email : $this->username;
-
-        if ($user = User::userExists($username, $this->password, $this->scenario))
-        {
-            if ($user->status === User::STATUS_NOT_ACTIVE)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

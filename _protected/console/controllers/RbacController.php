@@ -7,8 +7,8 @@ use Yii;
 /**
  * Creates base roles and permissions for our application.
  * -----------------------------------------------------------------------------
- * Creates 5 roles: 
- * 
+ * Creates 5 roles:
+ *
  * - theCreator : You, developer of this site (super admin)
  * - admin : Your direct clients, administrators of this site
  * - support : support staff
@@ -16,13 +16,17 @@ use Yii;
  * - member : user of this site who has registered his account and can log in
  *
  * Creates 2 permissions:
- * 
+ *
  * - usePremiumContent : allows premium members to use premium content
  * - manageUsers : allows admins to manage users (CRUD plus role assignment)
- * -----------------------------------------------------------------------------
+ *
+ * @package console\controllers
  */
 class RbacController extends Controller
 {
+    /**
+     * Initializes the RBAC authorization data.
+     */
     public function actionInit()
     {
         $auth = Yii::$app->authManager;

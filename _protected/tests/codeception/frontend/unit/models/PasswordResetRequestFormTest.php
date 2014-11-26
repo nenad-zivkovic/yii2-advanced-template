@@ -3,9 +3,9 @@ namespace tests\codeception\frontend\models;
 
 use frontend\models\PasswordResetRequestForm;
 use common\models\User;
+use Codeception\Specify;
 use tests\codeception\frontend\unit\DbTestCase;
 use tests\codeception\common\fixtures\UserFixture;
-use Codeception\Specify;
 use Yii;
 
 class PasswordResetRequestFormTest extends DbTestCase
@@ -13,9 +13,7 @@ class PasswordResetRequestFormTest extends DbTestCase
     use Specify;
 
     /**
-     * =========================================================================
-     * Create the objects against which you will test.  
-     * =========================================================================
+     * Create the objects against which you will test.
      */
     protected function setUp()
     {
@@ -27,9 +25,7 @@ class PasswordResetRequestFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Clean up the objects against which you tested. 
-     * =========================================================================
+     * Clean up the objects against which you tested.
      */
     protected function tearDown()
     {
@@ -39,9 +35,7 @@ class PasswordResetRequestFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Make sure that sending email to wrong user will fail. 
-     * =========================================================================
+     * Make sure that sending email to wrong user will fail.
      */
     public function testSendEmailWrongUser()
     {
@@ -65,9 +59,7 @@ class PasswordResetRequestFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Make sure that sending email to correct user is working. 
-     * =========================================================================
+     * Make sure that sending email to correct user is working.
      */
     public function testSendEmailCorrectUser()
     {
@@ -90,10 +82,10 @@ class PasswordResetRequestFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Get message file that our test will create to put contact data in 
-     * (we are simulating email sending in our test by writing data to file). 
-     * =========================================================================
+     * Get message file that our test will create to put contact data in
+     * (we are simulating email sending in our test by writing data to file).
+     *
+     * @return string
      */
     private function getMessageFile()
     {
@@ -101,9 +93,9 @@ class PasswordResetRequestFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Declares the fixtures that are needed by the current test case. 
-     * =========================================================================
+     * Declares the fixtures that are needed by the current test case.
+     *
+     * @return array
      */
     public function fixtures()
     {

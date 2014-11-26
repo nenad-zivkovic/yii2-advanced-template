@@ -6,52 +6,39 @@ use tests\codeception\frontend\_pages\ContactPage;
 use Yii;
 
 class StaticPagesCest
-{   
+{
     /**
-     * =========================================================================
      * This method is called before each test method.
-     * =========================================================================
      *
      * @param \Codeception\Event\TestEvent $event
-     * _________________________________________________________________________
      */
     public function _before($event)
     {
     }
 
     /**
-     * =========================================================================
      * This method is called after each test method, even if test failed.
-     * =========================================================================
      *
      * @param \Codeception\Event\TestEvent $event
-     * _________________________________________________________________________
      */
     public function _after($event)
     {
     }
 
     /**
-     * =========================================================================
      * This method is called when test fails.
-     * =========================================================================
      *
      * @param \Codeception\Event\FailEvent $event
-     * _________________________________________________________________________
      */
     public function _fail($event)
     {
     }
-    
+
     /**
-     * =========================================================================
      * Test home page.
-     * =========================================================================
      *
-     * @param \codeception_frontend\AcceptanceTester $I
-     * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param \Codeception\AcceptanceTester $I
+     * @param \Codeception\Scenario         $scenario
      */
     public function testHomePage($I, $scenario)
     {
@@ -64,14 +51,10 @@ class StaticPagesCest
     }
 
     /**
-     * =========================================================================
      * Test about page.
-     * =========================================================================
      *
-     * @param \codeception_frontend\AcceptanceTester $I
-     * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param \Codeception\AcceptanceTester $I
+     * @param \Codeception\Scenario         $scenario
      */
     public function testAboutPage($I, $scenario)
     {
@@ -81,16 +64,12 @@ class StaticPagesCest
     }
 
     /**
-     * =========================================================================
      * Test contact page.
-     * =========================================================================
      *
-     * @param \codeception_frontend\AcceptanceTester $I
-     * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param \Codeception\AcceptanceTester $I
+     * @param \Codeception\Scenario         $scenario
      */
-    public function testContactPage($I, $scenario)
+    public function testContact($I, $scenario)
     {
         $I->wantTo('ensure that contact works');
         $contactPage = ContactPage::openBy($I);
@@ -134,6 +113,11 @@ class StaticPagesCest
             'body' => 'test content',
             'verifyCode' => 'testme',
         ]);
+
+        if (method_exists($I, 'wait')) 
+        {
+            $I->wait(3); // only for selenium
+        }
         
         $I->see('Thank you for contacting us. We will respond to you as soon as possible.');
     }

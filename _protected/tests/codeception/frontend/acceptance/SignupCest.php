@@ -3,24 +3,18 @@ namespace tests\codeception\frontend\acceptance;
 
 use common\models\User;
 use common\rbac\models\Role;
-use common\models\Setting;
 use tests\codeception\frontend\_pages\SignupPage;
 
 class SignupCest
 {
-    private $rna; // registration needs activation
-
     /**
-     * =========================================================================
      * This method is called before each test method.
-     * =========================================================================
      *
      * @param \Codeception\Event\TestEvent $event
-     * _________________________________________________________________________
      */
     public function _before($event)
     {
-        // delete this signed up user
+        // delete demo user
         User::deleteAll([
             'email' => 'demo@example.com',
             'username' => 'demo',
@@ -28,53 +22,49 @@ class SignupCest
         
         // delete roles
         Role::deleteAll();   
-
-        $this->rna = Setting::findOne(['id' => Setting::REGISTRATION_NEEDS_ACTIVATION]);
     }
 
     /**
-     * =========================================================================
      * This method is called after each test method, even if test failed.
-     * =========================================================================
      *
      * @param \Codeception\Event\TestEvent $event
-     * _________________________________________________________________________
      */
     public function _after($event)
     { 
     }
 
     /**
-     * =========================================================================
      * This method is called when test fails.
-     * =========================================================================
      *
      * @param \Codeception\Event\FailEvent $event
-     * _________________________________________________________________________
      */
     public function _fail($event)
     {
     }
 
     /**
-     * =========================================================================
-     * Tests user normal signup process.
-     * =========================================================================
+     * Test user signup process.
+     * Based on your system settings for 'Registration Needs Activation' it will
+     * run either testSignupWithActivation() or testSignupWithoutActivation() method.
      *
-     * @param \codeception_frontend\AcceptanceTester $I
-     * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param \Codeception\AcceptanceTester $I
+     * @param \Codeception\Scenario         $scenario
      */
-    public function testSignupWithoutActivation($I, $scenario)
+    public function testSignup($I, $scenario)
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->rna->value === 1) 
-        {
-            $this->rna->value = 0; // registration needs activation is false
-            $this->rna->save();
-        }
+        // get setting value for 'Registration Needs Activation'
+        $rna = \Yii::$app->params['rna'];
 
+        $rna ? $this->testSignupWithActivation($I) : $this->testSignupWithoutActivation($I);
+    }
+
+    /**
+     * Tests user normal signup process.
+     *
+     * @param $I
+     */
+    private function testSignupWithoutActivation($I)
+    {
         $I->wantTo('ensure that normal signup works');
         $signupPage = SignupPage::openBy($I);
         $I->see('Signup', 'h1');
@@ -115,24 +105,12 @@ class SignupCest
     }
 
     /**
-     * =========================================================================
      * Tests user signup with activation process.
-     * =========================================================================
      *
-     * @param \codeception_frontend\AcceptanceTester $I
-     * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param $I
      */
-    public function testSignupWithActivation($I, $scenario)
+    private function testSignupWithActivation($I)
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->rna->value === 0) 
-        {
-            $this->rna->value = 1; // registration needs activation is true
-            $this->rna->save();
-        }
-
         $I->wantTo('ensure that signup with activation works');
         $signupPage = SignupPage::openBy($I);
         $I->see('Signup', 'h1');

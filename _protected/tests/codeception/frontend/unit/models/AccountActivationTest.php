@@ -8,12 +8,9 @@ use tests\codeception\common\fixtures\UserFixture;
 class AccountActivationTest extends DbTestCase
 {
     /**
-     * =========================================================================
      * If token is wrong account activation should not be possible.
-     * =========================================================================
-     * 
+     *
      * @expectedException \yii\base\InvalidParamException
-     * _________________________________________________________________________
      */
     public function testActivationWrong()
     {
@@ -21,12 +18,9 @@ class AccountActivationTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
      * If token is empty account activation should not be possible.
-     * =========================================================================
-     * 
+     *
      * @expectedException \yii\base\InvalidParamException
-     * _________________________________________________________________________
      */
     public function testActivationEmpty()
     {
@@ -34,9 +28,7 @@ class AccountActivationTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
      * Make sure that user can activate his account if token is correct.
-     * =========================================================================
      */
     public function testActivationCorrect()
     {
@@ -46,9 +38,9 @@ class AccountActivationTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Declares the fixtures that are needed by the current test case. 
-     * =========================================================================
+     * Declares the fixtures that are needed by the current test case.
+     *
+     * @return array
      */
     public function fixtures()
     {
@@ -59,5 +51,4 @@ class AccountActivationTest extends DbTestCase
             ],
         ];
     }
-
 }

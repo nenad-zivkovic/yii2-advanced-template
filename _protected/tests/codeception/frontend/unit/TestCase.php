@@ -2,7 +2,9 @@
 namespace tests\codeception\frontend\unit;
 
 /**
- * @inheritdoc
+ * Class TestCase
+ * 
+ * @package tests\codeception\frontend\unit
  */
 class TestCase extends \yii\codeception\TestCase
 {

@@ -9,17 +9,17 @@ use yii\filters\VerbFilter;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
  * Site controller.
  * It is responsible for displaying static pages, and logging users in and out.
- * -----------------------------------------------------------------------------
+ *
+ * @package backend\controllers
  */
 class SiteController extends Controller
 {
     /**
-     * =========================================================================
-     * Returns a list of behaviors that this component should behave as. 
-     * =========================================================================
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * @return array
      */
     public function behaviors()
     {
@@ -48,9 +48,9 @@ class SiteController extends Controller
     }
 
     /**
-     * ======================================================================
      * Declares external actions for the controller.
-     * ======================================================================
+     *
+     * @return array
      */
     public function actions()
     {
@@ -62,12 +62,10 @@ class SiteController extends Controller
     }
 
     /**
-     * =========================================================================
-     * Displays the index page.
-     * =========================================================================
+     * Displays the index (home) page.
+     * Use it in case your home page contains static content.
      *
-     * @return mixed
-     * _________________________________________________________________________
+     * @return string
      */
     public function actionIndex()
     {
@@ -75,12 +73,10 @@ class SiteController extends Controller
     }
 
     /**
-     * =========================================================================
-     * Logs in the user if his account is activated.
-     * =========================================================================
+     * Logs in the user if his account is activated,
+     * if not, displays standard error message.
      *
-     * @return mixed
-     * _________________________________________________________________________
+     * @return string|\yii\web\Response
      */
     public function actionLogin()
     {
@@ -89,8 +85,8 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        // get setting value for "Login With Email"
-        $lwe = Setting::get(Setting::LOGIN_WITH_EMAIL);
+        // get setting value for 'Login With Email'
+        $lwe = Yii::$app->params['lwe'];
 
         // if "login with email" is true we instantiate LoginForm in "lwe" scenario
         $lwe ? $model = new LoginForm(['scenario' => 'lwe']) : $model = new LoginForm() ;
@@ -110,12 +106,9 @@ class SiteController extends Controller
     }
 
     /**
-     * =========================================================================
      * Logs out the user.
-     * =========================================================================
      *
-     * @return mixed  homepage view.
-     * _________________________________________________________________________
+     * @return \yii\web\Response
      */
     public function actionLogout()
     {

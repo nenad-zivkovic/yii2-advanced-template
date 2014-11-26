@@ -1,69 +1,60 @@
 <?php
 namespace tests\codeception\frontend\functional;
 
-use common\models\Setting;
 use tests\codeception\common\_pages\LoginPage;
 
 class LoginCest
-{   
-    private $lwe; // login with email
-
+{
     /**
-     * =========================================================================
      * This method is called before each test method.
-     * =========================================================================
      *
      * @param \Codeception\Event\TestEvent $event
-     * _________________________________________________________________________
      */
     public function _before($event)
     {
-        $this->lwe = Setting::findOne(['id' => Setting::LOGIN_WITH_EMAIL]);
     }
 
     /**
-     * =========================================================================
      * This method is called after each test method, even if test failed.
-     * =========================================================================
      *
      * @param \Codeception\Event\TestEvent $event
-     * _________________________________________________________________________
      */
     public function _after($event)
     {
     }
 
     /**
-     * =========================================================================
      * This method is called when test fails.
-     * =========================================================================
      *
      * @param \Codeception\Event\FailEvent $event
-     * _________________________________________________________________________
      */
     public function _fail($event)
     {
     }
 
     /**
-     * =========================================================================
-     * Test if active user can login with email/password combo.
-     * =========================================================================
-     *
-     * @param \codeception_frontend\FunctionalTester $I
+     * Test login process.
+     * Based on your system settings for 'Login With Email' it will 
+     * run either testLoginWithEmail() or testLoginWithUsername method.
      * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param \Codeception\FunctionalTester $I
+     * @param \Codeception\Scenario         $scenario
      */
-    public function testLoginWithEmail($I, $scenario)
+    public function testLogin($I, $scenario)
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 0) 
-        {
-            $this->lwe->value = 1; // login with email is true
-            $this->lwe->save();
-        }
+        // get setting value for 'Login With Email'
+        $lwe = \Yii::$app->params['lwe'];
 
+        $lwe ? $this->testLoginWithEmail($I) : $this->testLoginWithUsername($I);
+    }
+
+    /**
+     * Test if active user can login with email/password combo.
+     *
+     * @param $I
+     */
+    private function testLoginWithEmail($I)
+    {
         $I->wantTo('ensure that active user can login with email');
         $loginPage = LoginPage::openBy($I);
 
@@ -90,24 +81,12 @@ class LoginCest
     }
 
     /**
-     * =========================================================================
      * Test if active user can login with username/password combo.
-     * =========================================================================
      *
-     * @param \codeception_frontend\FunctionalTester $I
-     * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param $I
      */
-    public function testLoginWithUsername($I, $scenario)
+    private function testLoginWithUsername($I)
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 1) 
-        {
-            $this->lwe->value = 0; // login with email is false
-            $this->lwe->save();
-        }
-
         $I->wantTo('ensure that active user can login with username');
         $loginPage = LoginPage::openBy($I);
 
@@ -132,37 +111,29 @@ class LoginCest
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
     }
-
+  
     /**
-     * =========================================================================
      * We want to be sure that not active user can not login.
      * If he try to login, he should get error flash message.
-     * NOTE: we are testing username/password combo, there is no need to test 
-     * email/password combo too.
-     * =========================================================================
      * 
-     * @param \codeception_frontend\FunctionalTester $I
-     * 
-     * @param \Codeception\Scenario $scenario
-     * _________________________________________________________________________
+     * @param \Codeception\FunctionalTester $I
+     * @param \Codeception\Scenario         $scenario
      */
     public function testLoginNotActiveUser($I, $scenario)
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 1) 
-        {
-            $this->lwe->value = 0; // login with email is false
-            $this->lwe->save();
-        }
+        // get setting value for 'Login With Email'
+        $lwe = \Yii::$app->params['lwe'];
+
+        $field = ($lwe) ? 'tester@example.com' : 'tester' ;
 
         $I->wantTo("ensure that not active user can't login");
         $loginPage = LoginPage::openBy($I);
 
         //-- try to login user that has not activated his account yet --//
         $I->amGoingTo('try to log in not activated user');
-        $loginPage->login('tester', 'test123');
+        $loginPage->login($field, 'test123');
         $I->expectTo('see error flash message');
-        $I->see('You have to activate your account first. Please check your email.', '.alert-danger');
+        $I->see('You have to activate your account first.', '.alert-danger');
         $I->seeLink('Login');
     }
 }

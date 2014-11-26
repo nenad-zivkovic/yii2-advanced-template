@@ -6,9 +6,9 @@ use yii\base\InvalidParamException;
 use yii\base\Model;
 
 /**
- * -----------------------------------------------------------------------------
  * Password reset form.
- * -----------------------------------------------------------------------------
+ *
+ * @package frontend\models
  */
 class ResetPasswordForm extends Model
 {
@@ -20,18 +20,13 @@ class ResetPasswordForm extends Model
     private $_user;
 
     /**
-     * =========================================================================
      * Creates a form model given a token.
-     * =========================================================================
      *
-     * @param  string  $token                   Password reset token.
-     *
-     * @param  array   $config                  Name-value pairs that will be 
-     *                                          used to initialize the object
-     *                                          properties.
+     * @param string $token  Password reset token.
+     * @param array  $config Name-value pairs that will be used to initialize
+     *                       the object properties.
      *
      * @throws \yii\base\InvalidParamException  If token is empty or not valid.
-     * _________________________________________________________________________
      */
     public function __construct($token, $config = [])
     {
@@ -51,9 +46,9 @@ class ResetPasswordForm extends Model
     }
 
     /**
-     * =========================================================================
      * Returns the validation rules for attributes.
-     * =========================================================================
+     *
+     * @return array
      */
     public function rules()
     {
@@ -62,19 +57,16 @@ class ResetPasswordForm extends Model
             ['password', 'string', 'min' => 6],
         ];
     }
-   
+
     /**
-     * =========================================================================
      * Resets password.
-     * =========================================================================
      *
-     * @return boolean  Whether the password was reset.
-     * _________________________________________________________________________
+     * @return bool Whether the password was reset.
      */
     public function resetPassword()
     {
         $user = $this->_user;
-        $user->password = $this->password;
+        $user->setPassword($this->password);
         $user->removePasswordResetToken();
 
         return $user->save();

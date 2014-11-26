@@ -2,116 +2,141 @@
 namespace backend\controllers;
 
 use common\models\User;
+use common\models\UserSearch;
 use common\rbac\models\Role;
-use yii\data\Pagination;
-use yii\data\Sort;
+use yii\base\Model;
 use yii\web\NotFoundHttpException;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
- * UserController displays users and provides: 
- * user update (own account), delete and role update actions.
- * -----------------------------------------------------------------------------
+ * UserController implements the CRUD actions for User model.
+ *
+ * @package backend\controllers
  */
-class UserController extends BackendController
+class UserController extends AppController
 {
     /**
-     * How many users we want to display per page.
-     * 
-     * @var integer
-     */
-    private $_pageSize = 12;
-
-    /**
-     * =========================================================================
-     * Lists all User models and provides sorting and pagination.
-     * Admin will not be able to see The Creator.
-     * =========================================================================
+     * Lists all User models.
      *
-     * @return mixed
-     * _________________________________________________________________________
+     * @return string
      */
     public function actionIndex()
-    {    
-        $model = User::find();
-
-        $pagination = new Pagination(['totalCount' => $model->count(),
-                                      'pageSize' => $this->_pageSize]);
-
-        $sort = new Sort(['attributes' => ['id', 'username', 'email', 'status', 
-                                           'item_name' => ['label' => 'Role']]]);
-
-        // we make sure that admin can not see users with theCreator role
-        if (!Yii::$app->user->can('theCreator')) 
-        {
-            $model = User::find()->where(['!=', 'item_name', 'theCreator']);
-        }
-
-        $users = $model->select('id, username, email, status')
-                       ->joinWith('role')
-                       ->orderBy($sort->orders)
-                       ->limit($pagination->limit)
-                       ->offset($pagination->offset)
-                       ->all();
+    {
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'users' => $users,
-            'pagination' => $pagination,
-            'sort' => $sort,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * =========================================================================
-     * Allows admin/The Creator to update his account. If update is successful, 
-     * the browser will be redirected to the 'index' page.
-     * =========================================================================
+     * Displays a single User model.
      *
-     * @param  integer  $id  User id.
+     * @param  integer $id The user id.
+     * @return string
      *
-     * @return mixed
-     * _________________________________________________________________________
+     * @throws NotFoundHttpException
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new User model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @return string|\yii\web\Response
+     */
+    public function actionCreate()
+    {
+        $user = new User(['scenario' => 'create']);
+        $role = new Role();
+
+        if ($user->load(Yii::$app->request->post()) && 
+            $role->load(Yii::$app->request->post()) &&
+            Model::validateMultiple([$user, $role]))
+        {
+            $user->setPassword($user->password);
+            $user->generateAuthKey();
+            
+            if ($user->save()) 
+            {
+                $role->user_id = $user->getId();
+                $role->save(); 
+            }  
+
+            return $this->redirect(['view', 'id' => $user->id]);      
+        } 
+        else 
+        {
+            return $this->render('create', [
+                'user' => $user,
+                'role' => $role,
+            ]);
+        }
+    }
+
+    /**
+     * Updates an existing User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param  integer $id The user id.
+     * @return string|\yii\web\Response
+     *
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $role = Role::findOne(['user_id' => $id]);
 
-        // we allow admin/The Creator to update only his own account
-        if ($model->id !== Yii::$app->user->id) 
+        // only The Creator can update everyone`s roles
+        // admin will not be able to update role of theCreator
+        if (!Yii::$app->user->can('theCreator')) 
         {
-            return $this->goHome();
+            if ($role->item_name === 'theCreator') 
+            {
+                return $this->goHome();
+            }
         }
 
-        if ($model->load(Yii::$app->request->post())) 
+        $user = $this->findModel($id);
+
+        if ($user->load(Yii::$app->request->post()) && 
+            $role->load(Yii::$app->request->post()) && Model::validateMultiple([$user, $role])) 
         {
             // only if user entered new password we want to hash and save it
-            if ($model->newPassword) 
+            if ($user->password) 
             {
-                $model->password = $model->newPassword;
+                $user->setPassword($user->password);
             }
-            
-            if ($model->save()) 
-            {
-                return $this->redirect('index');
-            }
-        } 
 
-        return $this->render('update', [
-            'model' => $model,
-        ]); 
-    }    
+            $user->save(false);
+            $role->save(false); 
+            
+            return $this->redirect(['view', 'id' => $user->id]);
+        }
+        else 
+        {
+            return $this->render('update', [
+                'user' => $user,
+                'role' => $role,
+            ]);
+        }
+    }
 
     /**
-     * =========================================================================
-     * Deletes an existing User model and his role. If deletion is successful, 
-     * the browser will be redirected to the 'index' page.
-     * =========================================================================
+     * Deletes an existing User model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param  integer $id
+     * @param  integer $id The user id.
+     * @return \yii\web\Response
      *
-     * @return mixed
-     * _________________________________________________________________________
+     * @throws NotFoundHttpException
      */
     public function actionDelete($id)
     {
@@ -122,69 +147,18 @@ class UserController extends BackendController
         {
             $role->delete();
         }
-        
+
         return $this->redirect(['index']);
     }
 
     /**
-     * =========================================================================
-     * Updates user role.
-     * =========================================================================
-     *
-     * @param  integer  $id  User id.
-     *
-     * @return mixed
-     *
-     * @throws NotFoundHttpException if the model cannot be found.
-     * _________________________________________________________________________
-     */
-    public function actionUpdateRole($id)
-    {
-        // only The Creator can update everyone`s roles
-        if (Yii::$app->user->can('theCreator')) 
-        {
-            $model = Role::findOne(['user_id' => $id]);
-        }
-        // admin can not update The Creators role
-        else
-        {
-            $model = Role::find()->where(['user_id' => $id])
-                                 ->andWhere(['!=', 'item_name', 'theCreator'])
-                                 ->one();
-        }
-
-        // do update if everything is OK
-        if ($model !== null) 
-        {
-            if ($model->load(Yii::$app->request->post()) && $model->save())
-            {
-                return $this->redirect(['user/index']);
-            } 
-            else 
-            {
-                return $this->render('update-role', [
-                    'model' => $model,
-                ]);
-            }
-        } 
-        else 
-        {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }    
-
-    /**
-     * =========================================================================
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * =========================================================================
      *
-     * @param  integer $id
+     * @param  integer $id The user id.
+     * @return User The loaded model.
      *
-     * @return User the loaded model.
-     *
-     * @throws NotFoundHttpException if the model cannot be found.
-     * _________________________________________________________________________
+     * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {

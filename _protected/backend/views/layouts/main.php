@@ -38,15 +38,7 @@ AppAsset::register($this);
             // display Account and Users to admin+ roles
             if (Yii::$app->user->can('admin'))
             {
-                $menuItems[] = ['label' => 'Account', 'url' => ['/user/update', 
-                                'id'=>Yii::$app->user->id]];
                 $menuItems[] = ['label' => 'Users', 'url' => ['/user/index']];
-            }
-
-            // display Settings only to you
-            if (Yii::$app->user->can('theCreator')) 
-            {
-                $menuItems[] = ['label' => 'Settings', 'url' => ['/setting/index']];
             }
             
             // display Login page to guests of the site

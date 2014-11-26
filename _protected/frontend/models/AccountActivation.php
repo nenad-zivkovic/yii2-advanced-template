@@ -1,17 +1,16 @@
 <?php
 namespace frontend\models;
 
-use common\models\User;
 use yii\base\InvalidParamException;
-use yii\base\Object;
+use yii\base\Model;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
  * Class representing account activation.
- * -----------------------------------------------------------------------------
+ *
+ * @package frontend\models
  */
-class AccountActivation extends Object
+class AccountActivation extends Model
 {
     /**
      * @var \common\models\User
@@ -19,18 +18,13 @@ class AccountActivation extends Object
     private $_user;
 
     /**
-     * =========================================================================
      * Creates the user object given a token.
-     * =========================================================================
      *
-     * @param  string  $token                   Account activation token.
-     *
-     * @param  array   $config                  Name-value pairs that will be 
-     *                                          used to initialize the object
-     *                                          properties.
-     *
+     * @param  string $token  Account activation token.
+     * @param  array  $config Name-value pairs that will be used to initialize
+     *                        the object properties.
+     *                        
      * @throws \yii\base\InvalidParamException  If token is empty or not valid.
-     * _________________________________________________________________________
      */
     public function __construct($token, $config = [])
     {
@@ -48,19 +42,16 @@ class AccountActivation extends Object
 
         parent::__construct($config);
     }
-   
+
     /**
-     * =========================================================================
      * Activates account.
-     * =========================================================================
      *
-     * @return boolean  Whether the account was activated.
-     * _________________________________________________________________________
+     * @return bool Whether the account was activated.
      */
     public function activateAccount()
     {
         $user = $this->_user;
-
+        
         $user->status = User::STATUS_ACTIVE;
         $user->removeAccountActivationToken();
 
@@ -68,16 +59,14 @@ class AccountActivation extends Object
     }
 
     /**
-     * =========================================================================
-     * Returns the username of the user who has activated account. 
-     * =========================================================================
+     * Returns the username of the user who has activated account.
      *
-     * @return string  Username.
-     * _________________________________________________________________________
+     * @return string
      */
     public function getUsername()
     {
         $user = $this->_user;
+
         return $user->username;
     }
 }

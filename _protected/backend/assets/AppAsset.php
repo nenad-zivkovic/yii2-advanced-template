@@ -16,11 +16,11 @@ use Yii;
 Yii::setAlias('@themes', Yii::$app->view->theme->baseUrl);
 
 /**
- * -----------------------------------------------------------------------------
  * @author Qiang Xue <qiang.xue@gmail.com>
  *
  * @since 2.0
- * -----------------------------------------------------------------------------
+ *
+ * Customized by Nenad Živković
  */
 class AppAsset extends AssetBundle
 {

@@ -1,68 +1,84 @@
 <?php
 use backend\helpers\CssHelper;
-use common\models\User;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\LinkPager;
 
 /* @var $this yii\web\View */
+/* @var $searchModel common\models\UserSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
+$this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
 
-    <table class="table table-striped table-bordered">
+    <?= Html::encode($this->title) ?>
 
-        <thead>
-        <tr>
-            <th> <?= $sort->link('id') ?> </th>
-            <th> <?= $sort->link('username') ?> </th>
-            <th> <?= $sort->link('email') ?> </th>
-            <th> <?= $sort->link('status') ?> </th>
-            <th> <?= $sort->link('item_name') ?> </th>
-            <th> &nbsp; </th>
-        </tr>
-        </thead>
+    <span class="pull-right">
+            <?= Html::a(Yii::t('app', 'Create {modelClass}', ['modelClass' => 'User',]), 
+                                      ['create'], ['class' => 'btn btn-success']) ?>
+    </span>        
 
-        <tbody>
-        <?php foreach ($users as $user): ?>
+    </h1>
 
-        <?php $status = $user->statusName ?>
-        <?php $roleName = $user->role->item_name ?>
-        <?php $role = ($roleName === 'theCreator') ? 'The Creator' : $roleName ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'summary' => false,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'username',
+            'email:email',
+            // status
+            [
+                'attribute'=>'status',
+                'filter' => $searchModel->statusList(),
+                'value' => function ($data) {
+                    return $data->statusName;
+                },
+                'contentOptions'=>function($model, $key, $index, $column) {
+                    return ['class'=>CssHelper::statusCss($model->statusName)];
+                }
+            ],
+            // role
+            [
+                'attribute'=>'item_name',
+                'filter' => $searchModel->rolesList(),
+                'value' => function ($data) {
+                    return $data->roleName;
+                },
+                'contentOptions'=>function($model, $key, $index, $column) {
 
-        <tr>   
-            <td> <?= $user->id ?> </td>
-            <td> <?= Html::encode($user->username) ?> </td>
-            <td> <a href="mailto:<?= $user->email ?>" > <?= $user->email ?> </a></td>
-            <td class="<?= CssHelper::statusCss($status) ?>" > <?= $status ?> </td>
-            <td class="<?= CssHelper::roleCss($role) ?>"> <?= Html::encode($role) ?> </td>
-            <td>
-                <?= Html::a('Update role', 
-                    ['update-role', 'id' => $user->id], 
-                    ['class' => 'btn btn-primary btn-xs']) 
-                ?>
-
-                <?= Html::a('Delete user', 
-                    ['delete', 'id' => $user->id], 
-                    ['class' => 'btn btn-danger btn-xs',
-                     'data' => ['confirm' => 'Are you sure you want to delete this item?',
-                                'method' => 'post']])
-                ?>
-            </td>
-        </tr>
-        
-        <?php endforeach ?>
-        </tbody>
-
-    </table>
-
-    <?= LinkPager::widget([
-            'pagination' => $pagination,
-        ]);
-    ?>
+                    return ['class'=>CssHelper::roleCss($model->roleName)];
+                }
+            ],
+            // buttons
+            ['class' => 'yii\grid\ActionColumn',
+            'header' => "Menu",
+            'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('', $url, ['title'=>'View user', 
+                            'class'=>'glyphicon glyphicon-eye-open']);
+                    },
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('', $url, ['title'=>'Manage user', 
+                            'class'=>'glyphicon glyphicon-user']);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('', $url, 
+                        ['title'=>'Delete user', 
+                            'class'=>'glyphicon glyphicon-trash',
+                            'data' => [
+                                'confirm' => 'Are you sure you want to delete this user?',
+                                'method' => 'post']
+                        ]);
+                    }
+                ]
+            ], // ActionColumn
+        ], // columns
+    ]); ?>
 
 </div>

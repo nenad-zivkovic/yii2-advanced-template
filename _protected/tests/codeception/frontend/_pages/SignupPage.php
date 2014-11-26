@@ -4,20 +4,18 @@ namespace tests\codeception\frontend\_pages;
 use yii\codeception\BasePage;
 
 /**
- * Represents signup page
- * @property \codeception_frontend\AcceptanceTester|\codeception_frontend\FunctionalTester $actor
+ * Represents Signup Page
+ * 
+ * @package tests\codeception\frontend\_pages
  */
 class SignupPage extends BasePage
 {
     public $route = 'site/signup';
 
     /**
-     * =========================================================================
      * Method representing user submitting signup form.
-     * =========================================================================
      *
      * @param array $signupData
-     * _________________________________________________________________________
      */
     public function submit(array $signupData)
     {

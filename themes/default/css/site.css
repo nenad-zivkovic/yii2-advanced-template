@@ -1,8 +1,12 @@
-@import url("bootstrap-tweaks.css");
+@import url("bootstrap.min.css");
 
 html,
 body {
     height: 100%;
+}
+
+#form h1, h2, h3, h4, h5, h6 {
+    margin-left: 15px;
 }
 
 .wrap {
@@ -10,20 +14,54 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+
+    background-color: #f6f6f6;
 }
 
 .wrap > .container {
     padding: 70px 15px 20px;
 }
 
-.jumbotron {
-    text-align: center;
-    background-color: transparent;
+/*-- Main navigation tweaks --*/
+
+.navbar-default {
+    background-color: #2c2c2c;
+    font-weight: bold;
 }
 
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+.navbar-default .navbar-nav > li > a {
+    color: #999;
+}
+
+.navbar-default .navbar-nav > li > a:hover
+{
+    background-color: #363636;
+    color: #E7E7E7;
+}
+
+/*-- Breadcrumb tweaks --*/
+
+.breadcrumb {
+    background-color: #e7e7e7;
+}
+
+/*-- Striped table tweaks --*/
+
+/* change background color of odd table rows */
+.table-striped > tbody > tr:nth-child(2n+1) > td, 
+.table-striped > tbody > tr:nth-child(2n+1) > th {
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #fbfbfb;
+}
+
+.table-bordered > thead > tr > th {
+    background-color: #e7e7e7;
+}
+
+/*-- Jumbotron tweaks --*/
+
+.jumbotron {
+    text-align: center;
 }
 
 .footer {
@@ -102,20 +140,10 @@ div.required label:after {
     color: #e13431;
 }
 
-/*-- Settings display tweaks --*/
-
-.settings-view th {
-    width: 143px;
-}
-
-.settings-index th:last-child {
-    width: 122px;
-}
-
 /*-- User list display tweaks --*/
 
 .user-index td:last-child {
-    width: 173px;
+    width: 68px;
 }
 
 /*-- Css for nicer display of boolean yes/no values --*/
@@ -132,7 +160,7 @@ div.required label:after {
 
 /*-- Css for nicer display of user roles --*/
 
-.role-the-creator {
+.role-theCreator {
     font-weight: bold;
     color: black;
 }
@@ -142,12 +170,17 @@ div.required label:after {
     color: #c4a500;
 }
 
+.role-support {
+    font-weight: bold;
+    color: #009d00;
+}
+
 .role-member {
     font-weight: bold;
     color: #4c4cff;
 }
 
-.role-premium-member {
+.role-premium {
     font-weight: bold;
     color: #800080;
 }

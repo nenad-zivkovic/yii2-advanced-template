@@ -3,6 +3,27 @@ return [
     'name' => 'My application',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                // we will use bootstrap css from our theme
+                'yii\bootstrap\BootstrapAsset' => [
+                    'sourcePath' => null, // do not use yii default one
+                ],
+                // // use bootstrap js from CDN
+                // 'yii\bootstrap\BootstrapPluginAsset' => [
+                //     'sourcePath' => null,   // do not use file from our server
+                //     'js' => [
+                //         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js']
+                // ],
+                // // use jquery from CDN
+                // 'yii\web\JqueryAsset' => [
+                //     'sourcePath' => null,   // do not use file from our server
+                //     'js' => [
+                //         '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
+                //     ]
+                // ],
+            ],
+        ]
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -17,29 +38,5 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
-        // if you decide to use bootstrap and jquery from CDN, uncomment assetManager settings
-        // 'assetManager' => [
-        //     'bundles' => [
-        //         // use bootstrap css from CDN
-        //         'yii\bootstrap\BootstrapAsset' => [
-        //             'sourcePath' => null,   // do not use file from our server
-        //             'css' => [
-        //                 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css']
-        //         ],
-        //         // use bootstrap js from CDN
-        //         'yii\bootstrap\BootstrapPluginAsset' => [
-        //             'sourcePath' => null,   // do not use file from our server
-        //             'js' => [
-        //                 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js']
-        //         ],
-        //         // use jquery from CDN
-        //         'yii\web\JqueryAsset' => [
-        //             'sourcePath' => null,   // do not use file from our server
-        //             'js' => [
-        //                 '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
-        //             ]
-        //         ],
-        //     ],
-        // ],
     ], // components
 ];

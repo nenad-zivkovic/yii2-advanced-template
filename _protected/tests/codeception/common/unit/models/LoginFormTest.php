@@ -1,23 +1,18 @@
 <?php
 namespace tests\codeception\common\unit\models;
 
-use common\models\Setting;
 use common\models\LoginForm;
+use Codeception\Specify;
 use tests\codeception\common\unit\DbTestCase;
 use tests\codeception\common\fixtures\UserFixture;
-use Codeception\Specify;
 use Yii;
 
 class LoginFormTest extends DbTestCase
 {
     use Specify;
 
-    private $lwe; // login with email
-
     /**
-     * =========================================================================
      * Create the objects against which you will test.  
-     * =========================================================================
      */
     public function setUp()
     {
@@ -27,7 +22,7 @@ class LoginFormTest extends DbTestCase
             'components' => [
                 'user' => [
                     'class' => 'yii\web\User',
-                    'identityClass' => 'common\models\User',
+                    'identityClass' => 'common\models\UserIdentity',
                 ],
             ],
         ]);
@@ -36,9 +31,7 @@ class LoginFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
      * Clean up the objects against which you tested. 
-     * =========================================================================
      */
     protected function tearDown()
     {
@@ -47,19 +40,22 @@ class LoginFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * If username is wrong user should not be able to log in. 
-     * =========================================================================
+     * Test wrong login when user is entering wrong username|email based on your
+     * Login With Email settings.
      */
-    public function testLoginWrongUsername()
+    public function testWrongLogin()
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 1) 
-        {
-            $this->lwe->value = 0; // login with email is false
-            $this->lwe->save();
-        }
+        // get setting value for 'Login With Email'
+        $lwe = Yii::$app->params['lwe'];
 
+        $lwe ? $this->testLoginWrongEmail() : $this->testLoginWrongUsername() ;
+    }
+
+    /**
+     * If username is wrong user should not be able to log in.
+     */
+    private function testLoginWrongUsername()
+    {
         $model = new LoginForm([
             'username' => 'wrong',
             'password' => 'member123',
@@ -73,19 +69,10 @@ class LoginFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * If email is wrong user should not be able to log in.  
-     * =========================================================================
+     * If email is wrong user should not be able to log in.
      */
-    public function testLoginWrongEmail()
+    private function testLoginWrongEmail()
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 0) 
-        {
-            $this->lwe->value = 1; // login with email is true
-            $this->lwe->save();
-        }
-
         $model = new LoginForm(['scenario' => 'lwe']);
         $model->email = 'member@wrong.com';
         $model->password = 'member123';
@@ -94,27 +81,25 @@ class LoginFormTest extends DbTestCase
             function () use ($model) {
             expect('model should not login user', $model->login())->false();
             expect('user should not be logged in', Yii::$app->user->isGuest)->true();
-        });
+        }); 
     }
 
     /**
-     * =========================================================================
-     * If password is wrong user should not be able to log in. 
-     * NOTE: it is enough to test only email/password combo, we do not need to 
-     * test username/password too. 
-     * =========================================================================
+     * If password is wrong user should not be able to log in.
      */
     public function testLoginWrongPassword()
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 0) 
+        if (Yii::$app->params['lwe']) 
         {
-            $this->lwe->value = 1; // login with email is true
-            $this->lwe->save();
+            $model = new LoginForm(['scenario' => 'lwe']);
+            $model->email = 'member@example.com';
+        } 
+        else 
+        {
+            $model = new LoginForm();
+            $model->username = 'member';
         }
-
-        $model = new LoginForm(['scenario' => 'lwe']);
-        $model->email = 'member@example.com';
+        
         $model->password = 'password';
         
         $this->specify('user should not be able to login with wrong password', 
@@ -126,23 +111,21 @@ class LoginFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
      * If user has not activated his account he should not be able to log in.
-     * NOTE: it is enough to test only email/password combo, we do not need to 
-     * test username/password too. 
-     * =========================================================================
      */
     public function testLoginNotActivatedUser()
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 0) 
+        if (Yii::$app->params['lwe']) 
         {
-            $this->lwe->value = 1; // login with email is true
-            $this->lwe->save();
+            $model = new LoginForm(['scenario' => 'lwe']);
+            $model->email = 'tester@example.com';
+        } 
+        else 
+        {
+            $model = new LoginForm();
+            $model->username = 'tester';
         }
 
-        $model = new LoginForm(['scenario' => 'lwe']);
-        $model->email = 'tester@example.com';
         $model->password = 'test123';
 
         $this->specify('not activated user should not be able to login', function () use ($model) {
@@ -152,23 +135,21 @@ class LoginFormTest extends DbTestCase
     } 
 
     /**
-     * =========================================================================
      * Active user should be able to log in if he enter correct credentials.
-     * NOTE: it is enough to test only email/password combo, we do not need to 
-     * test username/password too. 
-     * =========================================================================
      */
     public function testLoginActivatedUser()
     {
-        // make sure we have adequate setting value before we start testing
-        if ($this->lwe->value === 0) 
+        if (Yii::$app->params['lwe']) 
         {
-            $this->lwe->value = 1; // login with email is true
-            $this->lwe->save();
+            $model = new LoginForm(['scenario' => 'lwe']);
+            $model->email = 'member@example.com';
+        } 
+        else 
+        {
+            $model = new LoginForm();
+            $model->username = 'member';
         }
 
-        $model = new LoginForm(['scenario' => 'lwe']);
-        $model->email = 'member@example.com';
         $model->password = 'member123';
         
         $this->specify('user should be able to login with correct credentials', 
@@ -180,18 +161,17 @@ class LoginFormTest extends DbTestCase
     } 
 
     /**
-     * =========================================================================
-     * Declares the fixtures that are needed by the current test case. 
-     * =========================================================================
+     * Declares the fixtures that are needed by the current test case.
+     *
+     * @return array
      */
     public function fixtures()
     {
         return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => '@tests/codeception/common/unit/fixtures/data/models/user.php'
+                'dataFile' => '@tests/codeception/unit/fixtures/data/models/user.php'
             ],
         ];
     }
-
 }

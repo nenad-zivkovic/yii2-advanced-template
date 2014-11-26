@@ -1,37 +1,28 @@
 <?php
-use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $form yii\widgets\ActiveForm */
-/* @var $model common\models\User */
+/* @var $user common\models\User */
+/* @var $role common\rbac\models\Role; */
 
-$this->title = 'Update account';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::t('app', 'Update {modelClass}: ', ['modelClass' => 'User']) . ' ' . $user->username;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $user->username, 'url' => ['view', 'id' => $user->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
-<div class="user-update-account">
-    <h1><?= Html::encode($this->title) ?></h1>
-<hr>
+<div id="form">
 
-    <div class="row">
-        <div class="col-lg-6">
-            <?php $form = ActiveForm::begin(['id' => 'update-account']); ?>
-                <?= $form->field($model, 'username') ?>
-                <?= $form->field($model, 'email') ?>
-                <?= $form->field($model, 'newPassword')
-                         ->widget(PasswordInput::classname(), [])
-                         ->passwordInput(['placeholder' => 
-                            'Type new password ( if you want to change it )']) ?>
-                
-                <div class="form-group">
-                    <?= Html::submitButton('Update', ['class' => 'btn btn-primary', 
-                                                      'name' => 'update-button']) ?>
-                </div>
-            <?php ActiveForm::end(); ?>
-        </div>
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <div class="user-update col-lg-6">
+    <div class="well bs-component">
+
+        <?= $this->render('_form', [
+            'user' => $user,
+            'role' => $role,
+        ]) ?>
+
     </div>
-    <div style="color:#999;margin:1em 0">
-        *If you are not changing password, leave that field empty.
     </div>
+
 </div>

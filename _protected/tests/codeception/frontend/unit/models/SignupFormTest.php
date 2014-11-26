@@ -3,9 +3,9 @@ namespace tests\codeception\frontend\unit\models;
 
 use frontend\models\SignupForm;
 use common\rbac\models\Role;
+use Codeception\Specify;
 use tests\codeception\frontend\unit\DbTestCase;
 use tests\codeception\common\fixtures\UserFixture;
-use Codeception\Specify;
 use Yii;
 
 class SignupFormTest extends DbTestCase
@@ -13,9 +13,7 @@ class SignupFormTest extends DbTestCase
     use Specify;
 
     /**
-     * =========================================================================
-     * Clean up the objects against which you tested. 
-     * =========================================================================
+     * Clean up the objects against which you tested.
      */
     protected function tearDown()
     {
@@ -24,10 +22,8 @@ class SignupFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Make sure that signup is working if registration with activation is 
-     * requested by administrator. 
-     * =========================================================================
+     * Make sure that signup is working if registration with activation is
+     * requested by administrator.
      */
     public function testSignupWithActivation()
     {
@@ -41,7 +37,7 @@ class SignupFormTest extends DbTestCase
 
         $user = $model->signup();
 
-        $this->assertInstanceOf('common\models\User', $user, 'user should be valid');
+        $this->assertInstanceOf('app\models\User', $user, 'user should be valid');
 
         expect('username should be correct', $user->username)->equals('some_username');
         expect('email should be correct', $user->email)->equals('some_email@example.com');
@@ -55,9 +51,7 @@ class SignupFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Make sure that signup without activation is working. 
-     * =========================================================================
+     * Make sure that signup without activation is working.
      */
     public function testNormalSignup()
     {
@@ -70,7 +64,7 @@ class SignupFormTest extends DbTestCase
 
         $user = $model->signup();
 
-        $this->assertInstanceOf('common\models\User', $user, 'user should be valid');
+        $this->assertInstanceOf('app\models\User', $user, 'user should be valid');
 
         expect('username should be correct', $user->username)->equals('some_username');
         expect('email should be correct', $user->email)->equals('some_email@example.com');
@@ -81,9 +75,7 @@ class SignupFormTest extends DbTestCase
     }   
 
     /**
-     * =========================================================================
-     * Make sure that user can not take username|email that already exists. 
-     * =========================================================================
+     * Make sure that user can not take username|email that already exists.
      */
     public function testNotCorrectSignup()
     {
@@ -94,14 +86,13 @@ class SignupFormTest extends DbTestCase
             'status' => 1
         ]);
 
-        expect('username and email are in use, user should not be created', 
-            $model->signup())->null();
+        expect('username and email are in use, user should not be created', $model->signup())->null();
     }
 
     /**
-     * =========================================================================
-     * Declares the fixtures that are needed by the current test case. 
-     * =========================================================================
+     * Declares the fixtures that are needed by the current test case.
+     *
+     * @return array
      */
     public function fixtures()
     {

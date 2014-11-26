@@ -8,12 +8,9 @@ use tests\codeception\common\fixtures\UserFixture;
 class ResetPasswordFormTest extends DbTestCase
 {
     /**
-     * =========================================================================
-     * Reseting password if token is wrong should not be possible.
-     * =========================================================================
-     * 
+     * Resetting password if token is wrong should not be possible.
+     *
      * @expectedException \yii\base\InvalidParamException
-     * _________________________________________________________________________
      */
     public function testResetWrongToken()
     {
@@ -21,12 +18,9 @@ class ResetPasswordFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Reseting password if token is empty should not be possible.
-     * =========================================================================
-     * 
+     * Resetting password if token is empty should not be possible.
+     *
      * @expectedException \yii\base\InvalidParamException
-     * _________________________________________________________________________
      */
     public function testResetEmptyToken()
     {
@@ -34,9 +28,7 @@ class ResetPasswordFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
      * Make sure that we can reset password if token is correct.
-     * =========================================================================
      */
     public function testResetCorrectToken()
     {
@@ -46,9 +38,9 @@ class ResetPasswordFormTest extends DbTestCase
     }
 
     /**
-     * =========================================================================
-     * Declares the fixtures that are needed by the current test case. 
-     * =========================================================================
+     * Declares the fixtures that are needed by the current test case.
+     *
+     * @return array
      */
     public function fixtures()
     {
@@ -59,5 +51,4 @@ class ResetPasswordFormTest extends DbTestCase
             ],
         ];
     }
-
 }

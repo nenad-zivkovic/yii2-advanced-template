@@ -1,9 +1,10 @@
 <?php
-
 namespace tests\codeception\frontend\unit;
 
 /**
- * @inheritdoc
+ * Class DbTestCase
+ * 
+ * @package tests\codeception\frontend\unit
  */
 class DbTestCase extends \yii\codeception\DbTestCase
 {

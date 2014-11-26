@@ -2,8 +2,8 @@
 namespace tests\codeception\frontend\unit\models;
 
 use frontend\models\ContactForm;
-use tests\codeception\frontend\unit\TestCase;
 use Codeception\Specify;
+use tests\codeception\frontend\unit\TestCase;
 use Yii;
 
 class ContactFormTest extends TestCase
@@ -11,9 +11,7 @@ class ContactFormTest extends TestCase
     use Specify;
 
     /**
-     * =========================================================================
-     * Create the objects against which you will test.  
-     * =========================================================================
+     * Create the objects against which you will test.
      */
     protected function setUp()
     {
@@ -24,9 +22,7 @@ class ContactFormTest extends TestCase
     }
 
     /**
-     * =========================================================================
-     * Clean up the objects against which you tested. 
-     * =========================================================================
+     * Clean up the objects against which you tested.
      */
     protected function tearDown()
     {
@@ -35,9 +31,7 @@ class ContactFormTest extends TestCase
     }
 
     /**
-     * =========================================================================
-     * Make sure that contact works. 
-     * =========================================================================
+     * Test contact.
      */
     public function testContact()
     {
@@ -50,7 +44,7 @@ class ContactFormTest extends TestCase
             'body' => 'body of current message',
         ];
 
-        $model->sendEmail('admin@example.com');
+        $model->contact('admin@example.com');
 
         $this->specify('email should be send', function () {
             expect('email file should exist', file_exists($this->getMessageFile()))->true();
@@ -67,10 +61,10 @@ class ContactFormTest extends TestCase
     }
 
     /**
-     * =========================================================================
-     * Get message file that our test will create to put contact data in 
-     * (we are simulating email sending in our test by writing data to file). 
-     * =========================================================================
+     * Get message file that our test will create to put contact data in
+     * (we are simulating email sending in our test by writing data to file).
+     *
+     * @return string
      */
     private function getMessageFile()
     {

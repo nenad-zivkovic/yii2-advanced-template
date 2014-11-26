@@ -1,17 +1,16 @@
 <?php
 namespace frontend\models;
 
-use nenad\passwordStrength\StrengthValidator;
-use common\rbac\helpers\RbacHelper;
-use common\models\Setting;
 use common\models\User;
+use common\rbac\helpers\RbacHelper;
+use nenad\passwordStrength\StrengthValidator;
 use yii\base\Model;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
- * Signup form.
- * -----------------------------------------------------------------------------
+ * Model representing  Signup Form.
+ *
+ * @package frontend\models
  */
 class SignupForm extends Model
 {
@@ -21,9 +20,9 @@ class SignupForm extends Model
     public $status;
 
     /**
-     * =========================================================================
      * Returns the validation rules for attributes.
-     * =========================================================================
+     *
+     * @return array
      */
     public function rules()
     {
@@ -41,7 +40,7 @@ class SignupForm extends Model
                 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
-            // decide which password rule to use based on our system settings
+            // use passwordStrengthRule() method to determine password strength
             $this->passwordStrengthRule(),
 
             // on default scenario, user status is set to active
@@ -54,14 +53,32 @@ class SignupForm extends Model
     }
 
     /**
-     * =========================================================================
-     * Signs up the user. 
-     * If scenario is set to "rna" (registration needs activation), this means 
-     * that user need to activate his account using email confirmation method.
-     * =========================================================================
+     * Set password rule based on our setting value (Force Strong Password).
      *
-     * @return User|null              The saved model or null if saving fails.
-     * _________________________________________________________________________
+     * @return array Password strength rule
+     */
+    private function passwordStrengthRule()
+    {
+        // get setting value for 'Force Strong Password'
+        $fsp = Yii::$app->params['fsp'];
+
+        // password strength rule is determined by StrengthValidator 
+        // presets are located in: vendor/nenad/yii2-password-strength/presets.php
+        $strong = [['password'], StrengthValidator::className(), 'preset'=>'normal'];
+
+        // use normal yii rule
+        $normal = ['password', 'string', 'min' => 6];
+
+        // if 'Force Strong Password' is set to 'true' use $strong rule, else use $normal rule
+        return ($fsp) ? $strong : $normal;
+    }    
+
+    /**
+     * Signs up the user.
+     * If scenario is set to "rna" (registration needs activation), this means
+     * that user need to activate his account using email confirmation method.
+     *
+     * @return User|null The saved model or null if saving fails.
      */
     public function signup()
     {
@@ -84,14 +101,10 @@ class SignupForm extends Model
     }
 
     /**
-     * =========================================================================
      * Sends email to registered user with account activation link.
-     * =========================================================================
      *
-     * @param  object   $user  Registered user.
-     * 
-     * @return boolean         Whether the message has been sent successfully.
-     * _________________________________________________________________________
+     * @param  object $user Registered user.
+     * @return bool         Whether the message has been sent successfully.
      */
     public function sendAccountActivationEmail($user)
     {
@@ -100,29 +113,5 @@ class SignupForm extends Model
             ->setTo($this->email)
             ->setSubject('Account activation for ' . Yii::$app->name)
             ->send();
-    }
-
-    /**
-     * =========================================================================
-     * Set password rule based on our setting value (Force Strong Password).
-     * =========================================================================
-     * 
-     * @return array  Password strength rule
-     * _________________________________________________________________________
-     */
-    private function passwordStrengthRule()
-    {
-        // get setting value for 'Force Strong Password'
-        $fsp = Setting::get(Setting::FORCE_STRONG_PASSWORD);
-
-        // use StrengthValidator rule 
-        // presets are located in: vendor/nenad/yii2-password-strength/presets.php
-        $strong = [['password'], StrengthValidator::className(), 'preset'=>'normal'];
-
-        // use normal yii rule
-        $normal = ['password', 'string', 'min' => 6];
-
-        // if 'Force Strong Password' is set to 'YES' use $strong rule, else use $normal rule
-        return ($fsp) ? $strong : $normal;
     }
 }
