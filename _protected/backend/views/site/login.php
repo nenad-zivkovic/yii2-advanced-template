@@ -9,13 +9,15 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
+<div class="site-login col-lg-5">
+<div class="well bs-component">
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to login:</p>
 
-    <div class="row">
-        <div class="col-lg-5">
+   <div class="row">
+        <div class="col-lg-12">
            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
             <?php //-- use email or username field depending on model scenario --// ?>
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div style="color:#999;margin:1em 0">
                 If you forgot your password you can 
-                <?= Html::a('reset it', ['site/request-password-reset']) ?>.
+                <?= Html::a('reset it', ['../site/request-password-reset']) ?>.
             </div>
 
             <div class="form-group">
@@ -41,4 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+
+</div>   
 </div>

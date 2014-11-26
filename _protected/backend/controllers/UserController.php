@@ -13,7 +13,7 @@ use Yii;
  *
  * @package backend\controllers
  */
-class UserController extends AppController
+class UserController extends BackendController
 {
     /**
      * Lists all User models.

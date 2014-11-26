@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
         <?php else: ?>
             <?= $form->field($user, 'password')->widget(PasswordInput::classname(), [])
                      ->passwordInput([
-                     'placeholder' => 'Type new password ( if you want to change it )']) 
+                     'placeholder' => 'New pwd ( if you want to change it )']) 
             ?>       
         <?php endif ?>
     </div>
