@@ -10,8 +10,6 @@ use Yii;
 
 /**
  * UserController implements the CRUD actions for User model.
- *
- * @package backend\controllers
  */
 class UserController extends BackendController
 {
@@ -90,7 +88,7 @@ class UserController extends BackendController
      *
      * @throws NotFoundHttpException
      */
- public function actionUpdate($id)
+    public function actionUpdate($id)
     {
         // get role
         $role = Role::findOne(['user_id' => $id]);

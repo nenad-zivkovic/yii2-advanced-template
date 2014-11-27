@@ -3,8 +3,6 @@ namespace backend\helpers;
 
 /**
  * Css helper class.
- *
- * @package backend\helpers
  */
 class CssHelper
 {

@@ -12,7 +12,7 @@ use Yii;
  * @property string $user_id
  * @property integer $created_at
  *
- * @property User $username
+ * @property $username User
  */
 class Role extends ActiveRecord
 {

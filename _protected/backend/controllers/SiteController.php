@@ -11,8 +11,6 @@ use Yii;
 /**
  * Site controller.
  * It is responsible for displaying static pages, and logging users in and out.
- *
- * @package backend\controllers
  */
 class SiteController extends Controller
 {

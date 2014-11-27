@@ -10,8 +10,6 @@ use Yii;
  * BackendController extends Controller and implements the behaviors() method
  * where you can specify the access control ( AC filter + RBAC) for 
  * your controllers and their actions.
- *
- * @package backend\controllers
  */
 class BackendController extends Controller
 {
@@ -29,7 +27,7 @@ class BackendController extends Controller
                 'rules' => [
                     [
                         'controllers' => ['user'],
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'update-role'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
