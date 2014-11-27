@@ -1,4 +1,5 @@
 <?php
+use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-12">
             <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'password')->widget(PasswordInput::classname(), []) ?>
                 <div class="form-group">
                     <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
                 </div>

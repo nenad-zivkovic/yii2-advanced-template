@@ -152,8 +152,9 @@ div.required label:after {
     display: none;
 }
 
-/* little display tweak */
+/* small strength meter display tweaks for this theme */
 #form-signup table,
-#form-user table {
+#form-user table,
+#reset-password table {
     background-color: transparent;
 }
