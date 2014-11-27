@@ -5,7 +5,7 @@
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
-        "tutorial": "http://freetuts.org/tutorial/7?title=Using+Yii2+Improved+Application+Templates",
+        "tutorial": "http://freetuts.org",
         "source": "https://github.com/nenad-zivkovic/yii2-advanced-template"
     },
     "minimum-stability": "stable",

@@ -7,6 +7,25 @@ There are several upgrades made to this template.
 1. This template has additional features listed at the end of this guide.
 2. Application structure has been changed to be 'shared hosting friendly'.
 
+Features
+-------------------
+
+- Signup with/without account activation
+    - You can chose whether or not new users need to activate their account using email account activation system before they can log in. (see: common/config/params.php).
+- Login using email/password or username/password combo.
+    - You can chose how users will login into system. They can log in either by using their username|password combo or email|password. (see: common/config/params.php).
+- Rbac tables are installed with other migrations when you run ```yii migrate``` command.
+    - RbacController's init() action will insert 5 roles and 2 permissions in our rbac tables created by migration.
+    - Roles can be easily assigned to users by administrators of the site (see: backend/user).
+    - Nice example of how to use rbac in your code is given in this application. See: BackendController.
+- Session data is stored in database out of box.
+- System setting are stored in config/params.php file ( changes from v2 ).
+- Theming is supported out of box.
+- Administrators and The Creator can manage users ( changes from v2 ).
+- Password strength validation and strength meter.
+- All functionalities of default advanced template are included in this template.
+- Code is heavily commented out.
+
 Installation
 -------------------
 >I am assuming that you know how to: install and use Composer, and install additional packages/drivers that may be needed for you to run everything on your system. In case you are new to all of this, you can check my guides for installing default yii2 application templates, provided by yii2 developers, on Windows 8 and Ubuntu based Linux operating systems, posted on www.freetuts.org.
@@ -38,12 +57,12 @@ and adjust your connection credentials.
 6. Back to the console. It is time to run yii migrations that will create necessary tables in our database.
 While you are inside ```_protected``` folder execute ```./yii migrate command```:
 
-   ``` ./yii migrate ``` or if you are on Windows: ``` yii migrate ```
+   ``` ./yii migrate ``` or if you are on Windows ``` yii migrate ```
 
 7. Execute _rbac_ controller _init_ action that will populate our rbac tables with default roles and
 permissions:
 
-   ``` ./yii rbac/init ``` or if you are on Windows: ``` yii rbac/init ```
+   ``` ./yii rbac/init ``` or if you are on Windows ``` yii rbac/init ```
 
 You are done, you can start your application in your browser.
 
@@ -67,9 +86,9 @@ Here is how you can set up everything easily:
 
 3. Open up your console and ```cd``` to the ```_protected``` folder of your application.
 
-4. Run the migrations again: ``` ./yii migrate ``` ( on Windows it is ```yii migrate```)
+4. Run the migrations again: ``` ./yii migrate ``` or if you are on Windows ```yii migrate```
 
-5. Run rbac/init again: ``` ./yii rbac/init ``` ( on Windows it is ```yii rbac/init```)
+5. Run rbac/init again: ``` ./yii rbac/init ``` or if you are on Windows ```yii rbac/init```
 
 6. Now you can tell your application to use your ```advanced``` database again instead of ```advanced_tests```.
 Adjust your ```main-local.php``` config file again.
@@ -126,35 +145,27 @@ backend                  contains the entry script and Web resources for backend
 themes                   contains frontend themes
 
 ```
-Features
+
+Version 2.0 changes
 -------------------
 
-- Signup with/without account activation
-    - The Creator (super admin) can chose whether or not new users need to activate their account using email account activation system before they can log in. (see: backend/setting).
-- Login using email/password or username/password combo.
-    - The Creator (super admin) can chose how users will login into system. They can log in either by using their username|password combo or email|password. (see: backend/setting).
-- Rbac tables are installed with other migrations when you run ```yii migrate``` command.
-    - RbacController's init() action will insert 4 roles and 5 permissions in our rbac tables created by migration.
-    - Roles can be easily assigned to users by administrators of the site (see: backend/user).
-    - Nice example of how to use rbac in your code is given in this application. See: BackendController.
-- Session data is stored in database out of box.
-- The Creator role (super admin) can use system settings that comes with template (see: backend/setting).
-- Theming is supported out of box.
-- Administrators and The Creator can update their account.
-- Password strength validation and strength meter.
-- All functionalities of default advanced template are included in this template.
-- Code is heavily commented out.
+1) settings are stored in config/params.php configuration file to reduce database load  
+2) account update is merged with user management and user management is more powerful now  
+3) 4 beautiful bootstrap responsive themes are included out of the box  
+4) comment style is changed according to yii2 official style  
+5) tests has been rewritten according to the changes that has been made  
+6) a lot of other polishing has been done 
 
 Password strength guide
 -----------------------
 
 Since 1.1.1 version has been released, password strength extension has been included as a core part of improved templates. Usage is very simple:
 
-In our signup and account update forms password strength meter is always displayed when users are entering their password. This will give them visual representation of their password strength.  
-But this is not all. As The Creator you have option in your settings "Force Strong Password" that you can use. If you turn it on, users will be forced to use strong passwords according to preset you chose. For example if you use normal preset, user will be forced to use at least 8 characters long password, with at least one upper-case and one lower-case letter, plus at least one digit.  
+In our signup, user create/update and password reset forms password strength meter is always displayed when users are entering their password. This will give them visual representation of their password strength.  
+But this is not all. As The Creator you have option in your settings "Force Strong Password" that you can use. If you turn it on, users will be forced to use strong passwords according to preset you chose. For example if you use normal preset, users will be forced to use at least 8 characters long password, with at least one upper-case and one lower-case letter, plus at least one digit.  
 
-> In our account update form for admins and The Creator, force strong password is __always__ turned on. This is because admins and super admin should __always__ use strong passwords!  
+> Since version 2 settings are stored in config/params.php file!  
 
 Choosing presets:
 
-By default normal preset is used for both signup and account edit forms. if you want to customize which preset is used, see SignupForm model and User model. You will see rules declared for using strong passwords. Presets are located in ```vendor/nenad/yii2-password-strength/presets.php```. You can chose some other preset declared in presets.php, or create new ones.
+By default normal preset is used for signup and user create/update forms. For password reset we are using 'reset' preset if you want to customize which presets is used, see SignupForm model, User model and ResetPasswordForm model. You will see rules declared for using strong passwords. Presets are located in ```vendor/nenad/yii2-password-strength/presets.php```. You can chose some other preset declared in presets.php, or create new ones.
