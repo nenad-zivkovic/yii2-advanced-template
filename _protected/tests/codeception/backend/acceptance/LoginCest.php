@@ -13,14 +13,6 @@ class LoginCest
      */
     public function _before($event)
     {
-        // delete roles
-        Role::deleteAll(); 
-
-        $auth = \Yii::$app->authManager;
-        $role = $auth->getRole('theCreator');
-        $auth->assign($role, 1);
-        $role = $auth->getRole('admin');
-        $auth->assign($role, 2);
     }
 
     /**

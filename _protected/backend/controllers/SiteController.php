@@ -67,15 +67,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // if user do not have admin+ role we will log him out
-        // we do not want unauthorized users to use backend application
-        if (!Yii::$app->user->can('admin')) 
-        {
-            Yii::$app->user->logout();
-            
-            return $this->goHome();
-        }
-
         return $this->render('index');
     }
 
