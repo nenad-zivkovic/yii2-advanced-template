@@ -1,6 +1,7 @@
 <?php
 namespace tests\codeception\backend\acceptance;
 
+use common\rbac\models\Role;
 use tests\codeception\common\_pages\LoginPage;
 
 class LoginCest
@@ -12,6 +13,14 @@ class LoginCest
      */
     public function _before($event)
     {
+        // delete roles
+        Role::deleteAll(); 
+
+        $auth = \Yii::$app->authManager;
+        $role = $auth->getRole('theCreator');
+        $auth->assign($role, 1);
+        $role = $auth->getRole('admin');
+        $auth->assign($role, 2);
     }
 
     /**
@@ -20,7 +29,7 @@ class LoginCest
      * @param \Codeception\Event\TestEvent $event
      */
     public function _after($event)
-    {
+    { 
     }
 
     /**
@@ -77,13 +86,13 @@ class LoginCest
 
         //-- login user with correct credentials --//
         $I->amGoingTo('try to log in correct user');
-        $loginPage->login('member@example.com', 'member123');
+        $loginPage->login('admin@example.com', 'admin123');
         if (method_exists($I, 'wait')) 
         {
             $I->wait(3); // only for selenium
         }
         $I->expectTo('see that user is logged in');
-        $I->seeLink('Logout (member)');
+        $I->seeLink('Logout (admin)');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
     }
@@ -117,13 +126,13 @@ class LoginCest
 
         //-- login user with correct credentials --//
         $I->amGoingTo('try to log in correct user');
-        $loginPage->login('member', 'member123');
+        $loginPage->login('admin', 'admin123');
         if (method_exists($I, 'wait')) 
         {
             $I->wait(3); // only for selenium
         }
         $I->expectTo('see that user is logged in');
-        $I->seeLink('Logout (member)');
+        $I->seeLink('Logout (admin)');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
     }
