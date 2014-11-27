@@ -5,8 +5,6 @@ use yii\codeception\BasePage;
 
 /**
  * Represents About Page
- * 
- * @package tests\codeception\frontend\_pages
  */
 class AboutPage extends BasePage
 {

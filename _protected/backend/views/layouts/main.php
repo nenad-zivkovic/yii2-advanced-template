@@ -32,12 +32,10 @@ AppAsset::register($this);
                 ],
             ]);
            
-            // everyone can see Home page
-            $menuItems[] = ['label' => 'Home', 'url' => ['/site/index']];
-
             // display Account and Users to admin+ roles
             if (Yii::$app->user->can('admin'))
             {
+                $menuItems[] = ['label' => 'Home', 'url' => ['/site/index']];
                 $menuItems[] = ['label' => 'Users', 'url' => ['/user/index']];
             }
             

@@ -6,8 +6,6 @@ use Yii;
 
 /**
  * LoginForm is the model behind the login form.
- *
- * @package common\models
  */
 class LoginForm extends Model
 {

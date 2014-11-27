@@ -5,7 +5,6 @@ use yii\db\ActiveRecord;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
  * This is the model class for table "auth_item".
  *
  * @property string  $name
@@ -15,14 +14,13 @@ use Yii;
  * @property string  $data
  * @property integer $created_at
  * @property integer $updated_at
- * -----------------------------------------------------------------------------
  */
 class AuthItem extends ActiveRecord
 {
     /**
-     * =========================================================================
-     * Declares the name of the database table associated with this AR class. 
-     * =========================================================================
+     * Declares the name of the database table associated with this AR class.
+     *
+     * @return string
      */
     public static function tableName()
     {
@@ -30,17 +28,14 @@ class AuthItem extends ActiveRecord
     }
 
     /**
-     * =========================================================================
-     * Returns roles.
-     * NOTE: used for updating user role (user/update-role).
-     * =========================================================================
+     * Return roles.
+     * NOTE: used for updating user role (user/update).
      *
-     * @return static
-     * _________________________________________________________________________
+     * @return array|\yii\db\ActiveRecord[]
      */
     public static function getRoles()
     {
-        // we make sure that only The Creator can see theCreator role in drop down list
+        // we make sure that only You can see theCreator role in drop down list
         if (Yii::$app->user->can('theCreator')) 
         {
             return static::find()->select('name')->where(['type' => 1])->all();  

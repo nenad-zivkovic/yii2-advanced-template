@@ -20,8 +20,6 @@ use Yii;
  * Site controller.
  * It is responsible for displaying static pages, logging users in and out,
  * sign up and account activation, password reset.
- *
- * @package frontend\controllers
  */
 class SiteController extends Controller
 {

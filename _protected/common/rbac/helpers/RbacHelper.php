@@ -6,9 +6,7 @@ use common\rbac\models\Role;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
  * Rbac helper class.
- * ----------------------------------------------------------------------------- 
  */
 class RbacHelper
 {   
@@ -19,9 +17,9 @@ class RbacHelper
      * theCreator role (this should be you), if not, he will get the member role.
      * =========================================================================
      *
-     * @param  integer  $id  The id of the registered user.
+     * @param  integer $id The id of the registered user.
      *
-     * @return string        Role name.
+     * @return string      Role name.
      * _________________________________________________________________________
      */
     public static function assignRole($id)

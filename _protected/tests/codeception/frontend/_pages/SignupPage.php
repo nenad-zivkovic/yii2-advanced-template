@@ -5,8 +5,6 @@ use yii\codeception\BasePage;
 
 /**
  * Represents Signup Page
- * 
- * @package tests\codeception\frontend\_pages
  */
 class SignupPage extends BasePage
 {

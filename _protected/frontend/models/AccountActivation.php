@@ -8,8 +8,6 @@ use Yii;
 
 /**
  * Class representing account activation.
- *
- * @package frontend\models
  */
 class AccountActivation extends Model
 {
@@ -22,8 +20,7 @@ class AccountActivation extends Model
      * Creates the user object given a token.
      *
      * @param  string $token  Account activation token.
-     * @param  array  $config Name-value pairs that will be used to initialize
-     *                        the object properties.
+     * @param  array  $config Name-value pairs that will be used to initialize the object properties.
      *                        
      * @throws \yii\base\InvalidParamException  If token is empty or not valid.
      */

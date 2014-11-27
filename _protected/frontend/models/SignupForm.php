@@ -9,8 +9,6 @@ use Yii;
 
 /**
  * Model representing  Signup Form.
- *
- * @package frontend\models
  */
 class SignupForm extends Model
 {

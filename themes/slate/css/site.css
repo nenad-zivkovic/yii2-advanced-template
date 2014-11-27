@@ -152,6 +152,7 @@ div.required label:after {
     display: none;
 }
 
+/* little display tweak */
 #form-signup table,
 #form-user table {
     background-color: transparent;

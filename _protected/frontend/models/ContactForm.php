@@ -6,8 +6,6 @@ use Yii;
 
 /**
  * ContactForm is the model behind the contact form.
- *
- * @package frontend\models
  */
 class ContactForm extends Model
 {
@@ -48,7 +46,6 @@ class ContactForm extends Model
      * collected by this model.
      *
      * @param  string $email The target email address.
-     *
      * @return bool          Whether the email was sent.
      */
     public function contact($email)

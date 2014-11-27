@@ -8,8 +8,6 @@ use Yii;
 
 /**
  * UserSearch represents the model behind the search form for common\models\User.
- *
- * @package common\models
  */
 class UserSearch extends User
 {

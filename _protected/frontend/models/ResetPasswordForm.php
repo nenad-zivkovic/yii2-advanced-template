@@ -9,8 +9,6 @@ use Yii;
 
 /**
  * Password reset form.
- *
- * @package frontend\models
  */
 class ResetPasswordForm extends Model
 {
@@ -25,8 +23,7 @@ class ResetPasswordForm extends Model
      * Creates a form model given a token.
      *
      * @param string $token  Password reset token.
-     * @param array  $config Name-value pairs that will be used to initialize
-     *                       the object properties.
+     * @param array  $config Name-value pairs that will be used to initialize the object properties.
      *
      * @throws \yii\base\InvalidParamException  If token is empty or not valid.
      */

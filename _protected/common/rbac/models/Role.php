@@ -6,7 +6,6 @@ use yii\db\ActiveRecord;
 use Yii;
 
 /**
- * -----------------------------------------------------------------------------
  * This is the model class for table "auth_assignment".
  *
  * @property string $item_name
@@ -14,14 +13,13 @@ use Yii;
  * @property integer $created_at
  *
  * @property User $username
- * -----------------------------------------------------------------------------
  */
 class Role extends ActiveRecord
 {
     /**
-     * =========================================================================
-     * Declares the name of the database table associated with this AR class. 
-     * =========================================================================
+     * Declares the name of the database table associated with this AR class.
+     *
+     * @return string
      */
     public static function tableName()
     {
@@ -29,9 +27,9 @@ class Role extends ActiveRecord
     }
 
     /**
-     * =========================================================================
      * Returns the validation rules for attributes.
-     * =========================================================================
+     *
+     * @return array
      */
     public function rules()
     {
@@ -42,29 +40,13 @@ class Role extends ActiveRecord
     }
 
     /**
-     * =========================================================================
-     * Relation with User class. 
-     * =========================================================================
+     * Relation with User model.
+     *
+     * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
         // Role has_many User via User.id -> user_id
         return $this->hasMany(User::className(), ['id' => 'user_id']);
-    }    
-
-    /**
-     * =========================================================================
-     * Returns the username of the Role owner. 
-     * NOTE: used in user/update-role view.
-     * =========================================================================
-     *
-     * @return string  Username.
-     * _________________________________________________________________________
-     */
-    public function getUsername()
-    {     
-        $user = $this->getUser()->one();
-
-        return $user->username;    
     }
 }
