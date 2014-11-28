@@ -30,9 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+    <?php if ($model->scenario === 'rna'): ?>
     <div style="color:#666;margin:1em 0">
         <i>*We will send you email with account activation link.</i>
     </div>
+    <?php endif ?>
     
 </div>
 </div>
