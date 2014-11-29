@@ -5,7 +5,8 @@ body {
     height: 100%;
 }
 
-#form h1, h2, h3, h4, h5, h6 {
+#form h1, #form h2, #form h3, 
+#form h4, #form h5, #form h6 {
     margin-left: 15px;
 }
 
