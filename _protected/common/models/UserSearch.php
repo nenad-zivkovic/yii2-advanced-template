@@ -95,6 +95,7 @@ class UserSearch extends User
 
     /**
      * Returns the array of possible user roles.
+     * NOTE: used in user/index view.
      *
      * @return mixed
      */

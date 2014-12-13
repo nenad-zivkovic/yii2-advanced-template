@@ -150,11 +150,12 @@ Version 2.0 changes
 -------------------
 
 1) settings are stored in config/params.php configuration file to reduce database load  
-2) account update is merged with user management and user management is more powerful now  
-3) 4 beautiful bootstrap responsive themes are included out of the box  
-4) comment style is changed according to yii2 official style  
-5) tests has been rewritten according to the changes that has been made  
-6) a lot of other polishing has been done 
+2) account update is merged with user management and user management is more powerful now 
+3) User model has been separated on UserIdentity and User (for easier understanding and use) 
+4) 4 beautiful bootstrap responsive themes are included out of the box  
+5) comment style is changed according to yii2 official style  
+6) tests has been rewritten according to the changes that has been made  
+7) a lot of other polishing has been done 
 
 Password strength guide
 -----------------------

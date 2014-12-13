@@ -175,7 +175,7 @@ class User extends UserIdentity
      * user's email and password combo, otherwise we check username/password.
      * NOTE: used in LoginForm model.
      *
-     * @param  string $username
+     * @param  string $username Can be either username or email based on scenario.
      * @param  string $password
      * @param  string $scenario
      * @return bool|static

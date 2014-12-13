@@ -1,6 +1,7 @@
 <?php
 namespace console\controllers;
 
+use yii\helpers\Console;
 use yii\console\Controller;
 use Yii;
 
@@ -9,16 +10,16 @@ use Yii;
  * -----------------------------------------------------------------------------
  * Creates 5 roles:
  *
- * - theCreator : You, developer of this site (super admin)
- * - admin : Your direct clients, administrators of this site
- * - support : support staff
- * - premium : premium member of this site
- * - member : user of this site who has registered his account and can log in
+ * - theCreator : you, developer of this site (super admin)
+ * - admin      : your direct clients, administrators of this site
+ * - support    : support staff
+ * - premium    : premium member of this site
+ * - member     : user of this site who has registered his account and can log in
  *
  * Creates 2 permissions:
  *
- * - usePremiumContent : allows premium members to use premium content
- * - manageUsers : allows admins to manage users (CRUD plus role assignment)
+ * - usePremiumContent  : allows premium members to use premium content
+ * - manageUsers        : allows admins to manage users (CRUD plus role assignment)
  *
  * @package console\controllers
  */
@@ -81,7 +82,7 @@ class RbacController extends Controller
 
         if ($auth) 
         {
-            echo "\nRbac authorization data were installed successfully.\n";
+            $this->stdout("\nRbac authorization data are installed successfully.\n", Console::FG_GREEN);
         }
     }
 }
