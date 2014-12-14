@@ -6374,10 +6374,10 @@ button.close {
   border-top-color: #fff;
 }
 .btn-default {
-  background-image: -webkit-linear-gradient(#ffffff, #ffffff 60%, #f5f5f5);
-  background-image: -o-linear-gradient(#ffffff, #ffffff 60%, #f5f5f5);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), color-stop(60%, #ffffff), to(#f5f5f5));
-  background-image: linear-gradient(#ffffff, #ffffff 60%, #f5f5f5);
+  background-image: -webkit-linear-gradient(#ffffff, #f5f5f5 60%, #ebebeb);
+  background-image: -o-linear-gradient(#ffffff, #f5f5f5 60%, #ebebeb);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), color-stop(60%, #ffffff), to(#f5f5f5));
+  background-image: linear-gradient(#ffffff, #f5f5f5 60%, #ebebeb);
   background-repeat: no-repeat;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff484e55', endColorstr='#ff313539', GradientType=0);
   -webkit-filter: none;
@@ -6386,10 +6386,10 @@ button.close {
 
 
 .btn-default:hover {
-  background-image: -webkit-linear-gradient(#ffffff, #d5d5d5 40%, #f5f5f5);
-  background-image: -o-linear-gradient(#ffffff, #d5d5d5 40%, #f5f5f5);
+  background-image: -webkit-linear-gradient(#ffffff, #d5d5d5 40%, #ebebeb);
+  background-image: -o-linear-gradient(#ffffff, #d5d5d5 40%, #ebebeb);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), color-stop(40%, #ffffff), to(#f5f5f5));
-  background-image: linear-gradient(#ffffff, #d5d5d5 40%, #f5f5f5);
+  background-image: linear-gradient(#ffffff, #d5d5d5 40%, #ebebeb);
   background-repeat: no-repeat;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff020202', endColorstr='#ff191b1d', GradientType=0);
   -webkit-filter: none;
