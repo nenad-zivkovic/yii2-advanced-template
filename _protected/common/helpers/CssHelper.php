@@ -1,5 +1,7 @@
 <?php
-namespace backend\helpers;
+namespace common\helpers;
+
+use Yii;
 
 /**
  * Css helper class.

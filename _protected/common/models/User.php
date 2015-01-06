@@ -110,6 +110,16 @@ class User extends UserIdentity
         return $this->hasOne(Role::className(), ['user_id' => 'id']);
     }
 
+    /**
+     * Relation with Article model.
+     * 
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArticles()
+    {
+        return $this->hasMany(Article::className(), ['user_id' => 'id']);
+    }    
+
 //------------------------------------------------------------------------------------------------//
 // USER FINDERS
 //------------------------------------------------------------------------------------------------//
@@ -235,7 +245,7 @@ class User extends UserIdentity
      *
      * @return array
      */
-    public function statusList()
+    public function getStatusList()
     {
         $statusArray = [
             self::STATUS_ACTIVE     => 'Active',

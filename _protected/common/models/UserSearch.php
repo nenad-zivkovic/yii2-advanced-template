@@ -99,7 +99,7 @@ class UserSearch extends User
      *
      * @return mixed
      */
-    public static function rolesList()
+    public static function getRolesList()
     {
         $roles = [];
 

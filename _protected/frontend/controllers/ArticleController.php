@@ -10,7 +10,7 @@ use Yii;
 /**
  * ArticleController implements the CRUD actions for Article model.
  */
-class ArticleController extends AppController
+class ArticleController extends FrontendController
 {
     /**
      * Lists all Article models.
