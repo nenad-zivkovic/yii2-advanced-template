@@ -18,9 +18,11 @@ Features
     - RbacController's init() action will insert 5 roles and 2 permissions in our rbac tables created by migration.
     - Roles can be easily assigned to users by administrators of the site (see: backend/user).
     - Nice example of how to use rbac in your code is given in this application. See: BackendController.
+- Users with editor+ roles can create articles.
 - Session data is stored in database out of box.
 - System setting are stored in config/params.php file ( changes from v2 ).
-- Theming is supported out of box.
+- Theming is supported out of the box.
+- Translation is supported out of the box.
 - Administrators and The Creator can manage users ( changes from v2 ).
 - Password strength validation and strength meter.
 - All functionalities of default advanced template are included in this template.

@@ -100,6 +100,10 @@ div.required label:after {
     color: #e13431;
 }
 
+.login {
+    margin-top: 0px;
+}
+
 /*-- GridView options display tweaks --*/
 
 .user-index td:last-child,
