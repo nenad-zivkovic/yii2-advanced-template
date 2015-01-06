@@ -4,7 +4,7 @@ yii2-advanced-template
 Yii2-advanced-template is based on yii2-app-advanced created by yii2 core developers.
 There are several upgrades made to this template.
 
-1. This template has additional features listed at the end of this guide.
+1. This template has additional features listed in the next section of this guide.
 2. Application structure has been changed to be 'shared hosting friendly'.
 
 Features
@@ -145,6 +145,14 @@ backend                  contains the entry script and Web resources for backend
 themes                   contains frontend themes
 
 ```
+
+Version 2.1.0 changes
+-------------------
+1) option to CRUD articles ( posts ) has been added  
+2) translation support has been included and Serbian translation has been added  
+3) themes has been improved  
+4) new roles, permissions and rules are added  
+5) other code refactoring has been done  
 
 Version 2.0 changes
 -------------------
