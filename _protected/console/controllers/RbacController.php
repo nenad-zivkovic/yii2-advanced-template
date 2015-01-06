@@ -43,7 +43,7 @@ class RbacController extends Controller
         //---------- RULES ----------//
 
         // add the rule
-        $rule = new \app\rbac\rules\AuthorRule;
+        $rule = new \common\rbac\rules\AuthorRule;
         $auth->add($rule);
 
         //---------- PERMISSIONS ----------//
