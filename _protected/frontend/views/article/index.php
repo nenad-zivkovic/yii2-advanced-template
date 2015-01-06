@@ -7,6 +7,7 @@ use yii\widgets\ListView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', Yii::$app->name) .' '. Yii::t('app', 'news');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
 ?>
 <div class="article-index">
 
