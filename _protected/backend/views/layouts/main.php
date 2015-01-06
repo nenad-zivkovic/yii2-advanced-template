@@ -1,5 +1,6 @@
 <?php
 use backend\assets\AppAsset;
+use frontend\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -25,30 +26,31 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => Yii::t('app', Yii::$app->name),
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-default navbar-fixed-top',
                 ],
             ]);
-           
+
             // display Account and Users to admin+ roles
             if (Yii::$app->user->can('admin'))
             {
-                $menuItems[] = ['label' => 'Home', 'url' => ['/site/index']];
-                $menuItems[] = ['label' => 'Users', 'url' => ['/user/index']];
+                $menuItems[] = ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']];
+                $menuItems[] = ['label' => Yii::t('app', 'Articles'), 'url' => ['/article/admin']];
+                $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']];
             }
             
             // display Login page to guests of the site
             if (Yii::$app->user->isGuest) 
             {
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+                $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
             }
             // display Logout to all logged in users
             else 
             {
                 $menuItems[] = [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'label' => Yii::t('app', 'Logout'). ' (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ];
@@ -72,7 +74,7 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= Yii::t('app', Yii::$app->name) ?> <?= date('Y') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>

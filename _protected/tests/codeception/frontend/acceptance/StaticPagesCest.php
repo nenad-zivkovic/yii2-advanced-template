@@ -84,8 +84,8 @@ class StaticPagesCest
         $I->see('Name cannot be blank', '.help-block');
         $I->see('Email cannot be blank', '.help-block');
         $I->see('Subject cannot be blank', '.help-block');
-        $I->see('Body cannot be blank', '.help-block');
-        $I->see('The verification code is incorrect', '.help-block');
+        $I->see('Text cannot be blank', '.help-block');
+        $I->see('Verification Code cannot be blank.', '.help-block');
 
         //-- submit form with not correct email --//
         $I->amGoingTo('submit contact form with not correct email');
@@ -101,8 +101,8 @@ class StaticPagesCest
         $I->dontSee('Name cannot be blank', '.help-block');
         $I->see('Email is not a valid email address.', '.help-block');
         $I->dontSee('Subject cannot be blank', '.help-block');
-        $I->dontSee('Body cannot be blank', '.help-block');
-        $I->dontSee('The verification code is incorrect', '.help-block');
+        $I->dontSee('Text cannot be blank', '.help-block');
+        $I->dontSee('The verification code is incorrect.', '.help-block');
 
         //-- submit form with correct data --//
         $I->amGoingTo('submit contact form with correct data');

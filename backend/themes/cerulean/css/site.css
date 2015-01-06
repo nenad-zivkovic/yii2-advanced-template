@@ -5,11 +5,6 @@ body {
     height: 100%;
 }
 
-#form h1, #form h2, #form h3, 
-#form h4, #form h5, #form h6 {
-    margin-left: 15px;
-}
-
 .wrap {
     min-height: 100%;
     height: auto;
@@ -105,10 +100,15 @@ div.required label:after {
     color: #e13431;
 }
 
-/*-- User list display tweaks --*/
+/*-- GridView options display tweaks --*/
 
-.user-index td:last-child {
+.user-index td:last-child,
+.articles-admin td:last-child {
     width: 68px;
+}
+
+.article-view th {
+    min-width: 90px;
 }
 
 /*-- Css for nicer display of boolean yes/no values --*/
@@ -135,19 +135,54 @@ div.required label:after {
     color: #c4a500;
 }
 
+.role-editor {
+    font-weight: bold;
+    color: #800080;
+}
+
 .role-support {
     font-weight: bold;
     color: #009d00;
 }
 
-.role-member {
+.role-premium {
     font-weight: bold;
     color: #4c4cff;
 }
 
-.role-premium {
+.role-member {
     font-weight: bold;
-    color: #800080;
+}
+
+/*-- Colors used for various data presentation purposes --*/
+
+.blue {
+    font-weight: bold;
+    color: #7373ff; 
+}
+
+.green {
+    font-weight: bold;
+    color: #009d00;
+}
+
+.gold {
+    font-weight: bold;
+    color: #c4a500;   
+}
+
+hr.top {
+    margin-top: 0px;
+    border-width: 1px;
+    border-color: #333;
+    text-align: left;
+}
+
+hr.article-devider {
+    border-width: 1px;
+    border-color: #444;
+    border-style: dashed;
+    text-align: left;
 }
 
 /*-- Password strength --*/

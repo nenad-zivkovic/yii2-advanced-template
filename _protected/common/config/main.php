@@ -1,6 +1,7 @@
 <?php
 return [
-    'name' => 'My application',
+    'name' => 'My Company',
+    //'language' => 'sr',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'assetManager' => [
@@ -37,6 +38,20 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/translations',
+                    'sourceLanguage' => 'en',
+                ],
+                'yii' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/translations',
+                    'sourceLanguage' => 'en'
+                ],
+            ],
         ],
     ], // components
 ];
