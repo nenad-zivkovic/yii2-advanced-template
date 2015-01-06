@@ -72,6 +72,20 @@ class SignupForm extends Model
     }    
 
     /**
+     * Returns the attribute labels.
+     *
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('app', 'Username'),
+            'password' => Yii::t('app', 'Password'),
+            'email' => Yii::t('app', 'Email'),
+        ];
+    }
+
+    /**
      * Signs up the user.
      * If scenario is set to "rna" (registration needs activation), this means
      * that user need to activate his account using email confirmation method.

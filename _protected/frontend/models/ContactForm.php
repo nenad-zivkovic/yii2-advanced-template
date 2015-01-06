@@ -23,7 +23,7 @@ class ContactForm extends Model
     public function rules()
     {
         return [
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'email', 'subject', 'body', 'verifyCode'], 'required'],
             ['email', 'email'],
             ['verifyCode', 'captcha'],
         ];
@@ -37,7 +37,11 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'verifyCode' => 'Verification Code',
+            'name'=> Yii::t('app', 'Name'),
+            'email' => Yii::t('app', 'Email'),
+            'subject' => Yii::t('app', 'Subject'),
+            'body' => Yii::t('app', 'Text'),
+            'verifyCode' => Yii::t('app', 'Verification Code'),
         ];
     }
 
