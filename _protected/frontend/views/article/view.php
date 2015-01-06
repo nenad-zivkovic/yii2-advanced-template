@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php if (Yii::$app->user->can('adminArticle')): ?>
 
-        <?= Html::a(Yii::t('app', 'Back'), ['admin'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a(Yii::t('app', 'Back'), ['admin'], ['class' => 'btn btn-warning']) ?>
 
     <?php endif ?>
 
