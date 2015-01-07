@@ -109,7 +109,7 @@ class RbacController extends Controller
         $auth->addChild($support, $member);    
 
         // add "editor" role and give this role: 
-        // createArticle and updateOwnArticle permissions, plus he can do everything that support role can do.
+        // createArticle, updateOwnArticle and adminArticle permissions, plus he can do everything that support role can do.
         $editor = $auth->createRole('editor');
         $editor->description = 'Editor of this application';
         $auth->add($editor);
@@ -119,7 +119,7 @@ class RbacController extends Controller
         $auth->addChild($editor, $adminArticle);
 
         // add "admin" role and give this role: 
-        // manageUsers, updateArticle, deleteArticle and adminArticle permissions, plus he can do everything that editor role can do.
+        // manageUsers, updateArticle adn deleteArticle permissions, plus he can do everything that editor role can do.
         $admin = $auth->createRole('admin');
         $admin->description = 'Administrator of this application';
         $auth->add($admin);
