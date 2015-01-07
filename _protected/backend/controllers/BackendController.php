@@ -29,10 +29,7 @@ class BackendController extends Controller
                         'controllers' => ['user'],
                         'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            return Yii::$app->user->can('admin');
-                        },
+                        'roles' => ['admin'],
                     ],
                     [
                         // other rules
