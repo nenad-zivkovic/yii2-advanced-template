@@ -12,9 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-reset-password">
 
-    <div class="col-lg-5 well bs-component">
+    <h1><?= Html::encode($this->title) ?></h1>
 
-        <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col-lg-5 well bs-component">
 
         <p><?= Yii::t('app', 'Please choose your new password:') ?></p>
 
