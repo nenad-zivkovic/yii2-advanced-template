@@ -10,8 +10,8 @@ return [
     'Create' => 'Crear',
     'Send'   => 'Enviar',
     'Save'   => 'Guardar',
-    'Menu'   => 'Menu',
-    'Back'   => 'Atras',
+    'Menu'   => 'Menú',
+    'Back'   => 'Atrás',
 
     //-- CMS buttons --//
     'Create User' => 'Nuevo Usuario',
@@ -21,7 +21,7 @@ return [
     'Home'     => 'Inicio',
     'About'    => 'Quiénes somos',
     'Contact'  => 'Contacto',
-    'Login'    => 'Login',
+    'Login'    => 'Iniciar sesión',
     'Logout'   => 'Desconectar',
     'Users'    => 'Usuarios',
     'Articles' => 'Noticias',
@@ -37,9 +37,9 @@ return [
     'Text'    => 'Texto',
     'Verification Code' => 'Verificación',
     'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.' 
-        => 'Por favor, rellena el siguiente formulario de contacto para cualquier cuestión.',
-    'Thank you for contacting us. We will respond to you as soon as possible.' => 'Gracias por contactarnos. Nos pondremos en contacto contigo lo antes posible.',
-    'There was an error sending email.' => 'Ha ocurrido un error de envío.',
+        => 'Si tienes cualquier pregunta, rellena el siguiente formulario para ponerte en contacto con nosotros.',
+    'Thank you for contacting us. We will respond to you as soon as possible.' => 'Gracias por contactarnos. Te responderemos lo antes posible.',
+    'There was an error sending email.' => 'Ha ocurrido un error enviando el correo.',
 
     // password reset
     'If you forgot your password you can' => 'Si has olvidado tu contraseña, puedes ',
@@ -57,20 +57,20 @@ return [
 
     // signup
     'Signup'   => 'Registro',
-    'Please fill out the following fields to signup:' => 'Rellena los soguientes campos para registrarte:',
-    'We will send you an email with account activation link.' => 'Te enviaremos un enlace para activar tu cuenta.',
+    'Please fill out the following fields to signup:' => 'Rellena los siguientes campos para registrarte:',
+    'We will send you an email with account activation link.' => 'Te enviaremos un enlace a tu correo para activar tu cuenta.',
     'We couldn\'t sign you up, please contact us.' => 'El registro no se ha podido completar, por favor contacta con nosotros.',
 
     // login
     'Remember me'  => 'Recordarme',
-    'Please fill out the following fields to login:' => 'Por favor, rellena los siguiente campos para entrar:',
+    'Please fill out the following fields to login:' => 'Por favor, rellena los siguiente campos para iniciar sesión:',
     'You have to activate your account first. Please check your email.' => 'Debes activar tu cuenta, por favor revisa tu correo.',
     'To be able to log in, you need to confirm your registration. Please check your email, we have sent you a message.'
         => 'Para poder entrar en el sistema necesitas confirmar tu registro. Comprueba tu correo, te hemos enviado un mensaje',
 
     // account activation
     'We couldn\'t send you account activation email, please contact us.' => 'No ha sido posible enviarte el correo de activación. Por favor, contacta con nosotros.',
-    'Success! You can now log in.' => '¡Cuenta activada! Ahora puedes entrar.',
+    'Success! You can now log in.' => '¡Cuenta activada! Ahora puedes iniciar sesión con tu usuario y contraseña.',
     'for joining us!' => 'por participar en nuestro sitio.',
     'your account could not be activated, please contact us!' => 'No hemos podido activa tu cuenta. Por favor contacta con nosotros.',
     'Account activation token cannot be blank.' => 'El token de activación de cuenta no puede estar vacío.',
@@ -98,7 +98,7 @@ return [
     'Status'   => 'Estado',
     'Category' => 'Categoria',
     'Author'   => 'Autor',
-    'articles' => 'artículo',
+    'articles' => 'artículos',
     'news'     => 'noticias',
     'The best news available' => 'Las últimas noticias',
     'We haven\'t created any articles yet.' => 'No hay artículos aún.',
@@ -117,11 +117,11 @@ return [
 
     //-- errors --//
     'The above error occurred while the Web server was processing your request.' => 'Ha ocurrido un error mientras el servidor procesaba tu petición.',
-    'Please contact us if you think this is a server error. Thank you.' => 'Por favir, contacta con nosotros si crees que es un error del servidor. Gracias.',
-    'You are not allowed to access this page.' => 'No estas autorizado a ver esta página',
+    'Please contact us if you think this is a server error. Thank you.' => 'Por favor, contacta con nosotros si crees que es un error del servidor. Gracias.',
+    'You are not allowed to access this page.' => 'No estás autorizado a ver esta página',
 
     //-- delete messages --//
     'Are you sure you want to delete this user?' => 'Confirma que deseas borrar el usuario',
-    'Are you sure you want to delete this article?' => 'confirma que deseas borrar el artículo',
+    'Are you sure you want to delete this article?' => 'Confirma que deseas borrar el artículo',
 
 ];
