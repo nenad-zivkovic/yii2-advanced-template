@@ -1,0 +1,2 @@
+Push this folder in our git repo, so we can set 777 permissions on it uppon installation of 
+application template. This will prevent file_put_contents() permission denied errors.
