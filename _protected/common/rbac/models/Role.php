@@ -40,6 +40,18 @@ class Role extends ActiveRecord
     }
 
     /**
+     * Returns the attribute labels.
+     *
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'item_name' => Yii::t('app', 'Role'),
+        ];
+    }
+
+    /**
      * Relation with User model.
      *
      * @return \yii\db\ActiveQuery
