@@ -150,11 +150,11 @@ uploads                  contains various files that can be used by both fronten
 ```
 Version 2.2.0 changes
 -------------------
-1) Adds `uploads` folder to the application root that can be shared by both frontend and backend applications.
-   Also, @uploads alias has been added, so you can use it in your code ( will target your_app_name/uploads folder )
-2) Additional translations are included. Thanks to MeFuMo and hior
-3) Alert widget call is added to backend main.php layout
-4) Minor fixes
+1) Adds `uploads` folder to the application root that can be shared by both frontend and backend applications.  
+   Also, @uploads alias has been added, so you can use it in your code ( will target your_app_name/uploads folder )  
+2) Additional translations are included. Thanks to MeFuMo and hior  
+3) Alert widget call is added to backend main.php layout  
+4) Minor fixes  
 
 Version 2.1.0 changes
 -------------------
