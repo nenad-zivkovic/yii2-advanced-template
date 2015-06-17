@@ -145,6 +145,7 @@ _protected
 assets                   contains application assets generated during runtime
 backend                  contains the entry script and Web resources for backend side of application
 themes                   contains frontend themes
+uploads                  contains various files that can be used by both frontend and backend applications
 
 ```
 
@@ -180,3 +181,5 @@ But this is not all. As The Creator you have option in your settings "Force Stro
 Choosing presets:
 
 By default normal preset is used for signup and user create/update forms. For password reset we are using 'reset' preset if you want to customize which presets is used, see SignupForm model, User model and ResetPasswordForm model. You will see rules declared for using strong passwords. Presets are located in ```vendor/nenad/yii2-password-strength/presets.php```. You can chose some other preset declared in presets.php, or create new ones.
+
+[![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](http://www.yiiframework.com/)

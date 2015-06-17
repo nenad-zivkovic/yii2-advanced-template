@@ -1,7 +1,6 @@
 <?php
 namespace backend\controllers;
 
-use common\models\Setting;
 use common\models\LoginForm;
 use yii\web\Controller;
 use yii\filters\AccessControl;
