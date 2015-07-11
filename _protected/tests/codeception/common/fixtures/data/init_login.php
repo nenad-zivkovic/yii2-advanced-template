@@ -21,7 +21,7 @@ return [
         'auth_key' => 'XTXELOT8VKEojl4hpov-gT7Fj2Rs2MX-',
         // password is : admin123
         'password_hash' => '$2y$13$p42pDgFC67pKhLuP0HVFR.jZdBF1BwiQP0MLDf3GO8jfjo0MjoQyi',
-        'password_reset_token' => '',
+        'password_reset_token' => 'geGUnapFHpJWdztNKS4nj4Eb404Q1il1_1412606164',
         'account_activation_token' => '',
         'status' => 10,
         'created_at' => '1413919102',
