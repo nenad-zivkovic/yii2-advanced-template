@@ -122,12 +122,10 @@ class SiteController extends Controller
 
             return $this->refresh();
         } 
-        else 
-        {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
+        
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
     }
 
 //------------------------------------------------------------------------------------------------//
@@ -205,14 +203,14 @@ class SiteController extends Controller
         {
             if ($model->sendEmail()) 
             {
-                Yii::$app->getSession()->setFlash('success', 
+                Yii::$app->session->setFlash('success', 
                     'Check your email for further instructions.');
 
                 return $this->goHome();
             } 
             else 
             {
-                Yii::$app->getSession()->setFlash('error', 
+                Yii::$app->session->setFlash('error', 
                     'Sorry, we are unable to reset password for email provided.');
             }
         }
@@ -246,7 +244,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) 
             && $model->validate() && $model->resetPassword()) 
         {
-            Yii::$app->getSession()->setFlash('success', 'New password was saved.');
+            Yii::$app->session->setFlash('success', 'New password was saved.');
 
             return $this->goHome();
         }
@@ -381,13 +379,13 @@ class SiteController extends Controller
 
         if ($user->activateAccount()) 
         {
-            Yii::$app->getSession()->setFlash('success', 
+            Yii::$app->session->setFlash('success', 
                 'Success! You can now log in. 
                 Thank you '.Html::encode($user->username).' for joining us!');
         }
         else
         {
-            Yii::$app->getSession()->setFlash('error', 
+            Yii::$app->session->setFlash('error', 
                 ''.Html::encode($user->username).' your account could not be activated, 
                 please contact us!');
         }

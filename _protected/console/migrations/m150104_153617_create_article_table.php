@@ -14,15 +14,15 @@ class m150104_153617_create_article_table extends Migration
         }
 
         $this->createTable('{{%article}}', [
-            'id' => Schema::TYPE_PK,
-            'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'title' => Schema::TYPE_STRING . ' NOT NULL',
-            'summary' => Schema::TYPE_TEXT . ' NOT NULL',
-            'content' => Schema::TYPE_TEXT . ' NOT NULL',
-            'status' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'category' => Schema::TYPE_INTEGER . ' NOT NULL',          
-            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
+            'title' => $this->string()->notNull(),
+            'summary' => $this->text()->notNull(),
+            'content' => $this->text()->notNull(),
+            'status' => $this->integer()->notNull(),
+            'category' => $this->integer()->notNull(),          
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
             'FOREIGN KEY (user_id) REFERENCES {{%user}}(id)
                 ON DELETE CASCADE ON UPDATE CASCADE',
         ], $tableOptions);

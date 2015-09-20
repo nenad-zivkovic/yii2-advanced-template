@@ -17,15 +17,15 @@ use yii\bootstrap\Widget;
  * using setFlash. You can set message as following:
  *
  * ```php
- * \Yii::$app->getSession()->setFlash('error', 'This is the message');
- * \Yii::$app->getSession()->setFlash('success', 'This is the message');
- * \Yii::$app->getSession()->setFlash('info', 'This is the message');
+ * \Yii::$app->session->setFlash('error', 'This is the message');
+ * \Yii::$app->session->setFlash('success', 'This is the message');
+ * \Yii::$app->session->setFlash('info', 'This is the message');
  * ```
  *
  * Multiple messages could be set as follows:
  *
  * ```php
- * \Yii::$app->getSession()->setFlash('error', ['Error 1', 'Error 2']);
+ * \Yii::$app->session->setFlash('error', ['Error 1', 'Error 2']);
  * ```
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
@@ -59,7 +59,7 @@ class Alert extends Widget
     {
         parent::init();
 
-        $session = \Yii::$app->getSession();
+        $session = \Yii::$app->session;
         $flashes = $session->getAllFlashes();
         $appendCss = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
 
