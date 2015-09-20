@@ -12,7 +12,7 @@ use yii\rbac\DbManager;
  * @author Alexander Kochetov <creocoder@gmail.com>
  * @since 2.0
  */
-class m1401022_115912_create_rbac_tables extends \yii\db\Migration
+class m141022_115912_create_rbac_tables extends \yii\db\Migration
 {
     /**
      * @throws yii\base\InvalidConfigException
