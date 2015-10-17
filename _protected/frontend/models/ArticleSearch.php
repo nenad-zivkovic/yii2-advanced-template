@@ -37,7 +37,7 @@ class ArticleSearch extends Article
     /**
      * Creates data provider instance with search query applied
      *
-     * @param array   $params
+     * @param array   $params    The search query params.
      * @param integer $pageSize  The number of results to be displayed per page.
      * @param boolean $published Whether or not articles have to be published.
      *
@@ -75,8 +75,8 @@ class ArticleSearch extends Article
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'summary', $this->summary])
-            ->andFilterWhere(['like', 'content', $this->content]);
+              ->andFilterWhere(['like', 'summary', $this->summary])
+              ->andFilterWhere(['like', 'content', $this->content]);
 
         return $dataProvider;
     }
