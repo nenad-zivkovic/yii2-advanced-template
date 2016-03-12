@@ -30,5 +30,6 @@ phpunit.phar
 /_protected/vendor
 
 # runtime dir
+!.gitignore
 /_protected/frontend/runtime/
 /_protected/backend/runtime/
