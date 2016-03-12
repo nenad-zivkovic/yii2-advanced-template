@@ -19,6 +19,7 @@ return [
                 'baseUrl' => '@web/themes/light',
             ],
         ],
+        // we are going to use bootstrap from out theme
         'assetManager' => [
             'bundles' => [
                 'yii\bootstrap\BootstrapAsset' => [
