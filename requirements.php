@@ -6,12 +6,12 @@
  * php requirements.php
  *
  * In order to run this script from the web, you should copy it to the web root.
- * If you are using Linux you can create a hard link instead, 
- * using the following command: ln requirements.php ../requirements.php
+ * If you are using Linux you can create a hard link instead, using the following command:
+ * ln requirements.php ../requirements.php
  */
 
 // you may need to adjust this path to the correct Yii framework path
-$frameworkPath = dirname(__FILE__) . '/vendor/yiisoft/yii2';
+$frameworkPath = dirname(__FILE__) . '/_protected/vendor/yiisoft/yii2';
 
 if (!is_dir($frameworkPath)) {
     echo '<h1>Error</h1>';
@@ -23,10 +23,30 @@ if (!is_dir($frameworkPath)) {
 require_once($frameworkPath . '/requirements/YiiRequirementChecker.php');
 $requirementsChecker = new YiiRequirementChecker();
 
+$gdMemo = $imagickMemo = 'Either GD PHP extension with FreeType support or ImageMagick PHP extension with PNG support is required for image CAPTCHA.';
+$gdOK = $imagickOK = false;
+
+if (extension_loaded('imagick')) {
+    $imagick = new Imagick();
+    $imagickFormats = $imagick->queryFormats('PNG');
+    if (in_array('PNG', $imagickFormats)) {
+        $imagickOK = true;
+    } else {
+        $imagickMemo = 'Imagick extension should be installed with PNG support in order to be used for image CAPTCHA.';
+    }
+}
+
+if (extension_loaded('gd')) {
+    $gdInfo = gd_info();
+    if (!empty($gdInfo['FreeType Support'])) {
+        $gdOK = true;
+    } else {
+        $gdMemo = 'GD extension should be installed with FreeType support in order to be used for image CAPTCHA.';
+    }
+}
+
 /**
  * Adjust requirements according to your application specifics.
- * 
- * @var array
  */
 $requirements = array(
     // Database :
@@ -65,11 +85,20 @@ $requirements = array(
         'by' => '<a href="http://www.yiiframework.com/doc-2.0/yii-caching-memcache.html">MemCache</a>',
         'memo' => extension_loaded('memcached') ? 'To use memcached set <a href="http://www.yiiframework.com/doc-2.0/yii-caching-memcache.html#$useMemcached-detail">MemCache::useMemcached</a> to <code>true</code>.' : ''
     ),
+    // CAPTCHA:
     array(
-        'name' => 'APC extension',
+        'name' => 'GD PHP extension with FreeType support',
         'mandatory' => false,
-        'condition' => extension_loaded('apc'),
-        'by' => '<a href="http://www.yiiframework.com/doc-2.0/yii-caching-apccache.html">ApcCache</a>',
+        'condition' => $gdOK,
+        'by' => '<a href="http://www.yiiframework.com/doc-2.0/yii-captcha-captcha.html">Captcha</a>',
+        'memo' => $gdMemo,
+    ),
+    array(
+        'name' => 'ImageMagick PHP extension with PNG support',
+        'mandatory' => false,
+        'condition' => $imagickOK,
+        'by' => '<a href="http://www.yiiframework.com/doc-2.0/yii-captcha-captcha.html">Captcha</a>',
+        'memo' => $imagickMemo,
     ),
     // PHP ini :
     'phpExposePhp' => array(
@@ -94,4 +123,15 @@ $requirements = array(
         'memo' => 'PHP mail SMTP server required',
     ),
 );
+
+// OPcache check
+if (!version_compare(phpversion(), '5.5', '>=')) {
+    $requirements[] = array(
+        'name' => 'APC extension',
+        'mandatory' => false,
+        'condition' => extension_loaded('apc'),
+        'by' => '<a href="http://www.yiiframework.com/doc-2.0/yii-caching-apccache.html">ApcCache</a>',
+    );
+}
+
 $requirementsChecker->checkYii()->check($requirements)->render();

@@ -28,3 +28,5 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+
+/_protected/vendor
