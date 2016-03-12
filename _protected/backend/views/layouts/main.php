@@ -22,64 +22,62 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-    <?php $this->beginBody() ?>
-    <div class="wrap">
-        <?php
-            NavBar::begin([
-                'brandLabel' => Yii::t('app', Yii::$app->name),
-                'brandUrl' => Yii::$app->homeUrl,
-                'options' => [
-                    'class' => 'navbar-default navbar-fixed-top',
-                ],
-            ]);
+<?php $this->beginBody() ?>
+<div class="wrap">
+    <?php
+    NavBar::begin([
+        'brandLabel' => Yii::t('app', Yii::$app->name),
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-default navbar-fixed-top',
+        ],
+    ]);
 
-            // display Account and Users to admin+ roles
-            if (Yii::$app->user->can('admin'))
-            {
-                $menuItems[] = ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']];
-                $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']];
-            }
-            
-            // display Login page to guests of the site
-            if (Yii::$app->user->isGuest) 
-            {
-                $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
-            }
-            // display Logout to all logged in users
-            else 
-            {
-                $menuItems[] = [
-                    'label' => Yii::t('app', 'Logout'). ' (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ];
-            }
+    // display Home and Users to admin+ roles
+    if (Yii::$app->user->can('admin')) {
+        $menuItems[] = ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']];
+        $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']];
+    }
+    
+    // display Logout to logged in users
+    if (!Yii::$app->user->isGuest) {
+        $menuItems[] = [
+            'label' => Yii::t('app', 'Logout'). ' (' . Yii::$app->user->identity->username . ')',
+            'url' => ['/site/logout'],
+            'linkOptions' => ['data-method' => 'post']
+        ];
+    }
 
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => $menuItems,
-            ]);
-            
-            NavBar::end();
-        ?>
+    // display Login page to guests of the site
+    if (Yii::$app->user->isGuest) {
+        $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
+    }
 
-        <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-        </div>
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => $menuItems,
+    ]);
+    
+    NavBar::end();
+    ?>
+
+    <div class="container">
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+    <?= Alert::widget() ?>
+    <?= $content ?>
     </div>
+</div>
 
-    <footer class="footer">
-        <div class="container">
-        <p class="pull-left">&copy; <?= Yii::t('app', Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
-        </div>
-    </footer>
+<footer class="footer">
+    <div class="container">
+    <p class="pull-left">&copy; <?= Yii::t('app', Yii::$app->name) ?> <?= date('Y') ?></p>
+    <p class="pull-right"><?= Yii::powered() ?></p>
+    </div>
+</footer>
 
-    <?php $this->endBody() ?>
+<?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>

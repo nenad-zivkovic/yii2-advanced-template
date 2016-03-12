@@ -41,7 +41,7 @@ return [
         ],
         'setExecutable' => [
             '_protected/yii',
-            'tests/codeception/bin/yii',
+            '_protected/tests/codeception/bin/yii',
         ],
         'setCookieValidationKey' => [
             '_protected/backend/config/main-local.php',

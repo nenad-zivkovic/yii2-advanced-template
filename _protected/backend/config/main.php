@@ -13,12 +13,20 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
-        // here you can set theme used for your backend application 
-        // - template comes with: 'default', 'slate', 'spacelab' and 'cerulean'
+        // you can set your theme here - template comes with: 'light' and 'dark'
         'view' => [
             'theme' => [
-                'pathMap' => ['@app/views' => '@webroot/themes/slate/views'],
-                'baseUrl' => '@web/themes/slate',
+                'pathMap' => ['@app/views' => '@webroot/themes/light/views'],
+                'baseUrl' => '@web/themes/light',
+            ],
+        ],
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@themes',
+                    'css' => ['css/bootstrap.min.css']
+                ],
             ],
         ],
         'user' => [
