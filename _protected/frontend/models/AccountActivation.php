@@ -19,23 +19,21 @@ class AccountActivation extends Model
     /**
      * Creates the user object given a token.
      *
-     * @param  string $token  Account activation token.
-     * @param  array  $config Name-value pairs that will be used to initialize the object properties.
+     * @param string $token  Account activation token.
+     * @param array  $config Name-value pairs that will be used to initialize the object properties.
      *                        
      * @throws \yii\base\InvalidParamException  If token is empty or not valid.
      */
     public function __construct($token, $config = [])
     {
-        if (empty($token) || !is_string($token)) 
-        {
-            throw new InvalidParamException('Account activation token cannot be blank.');
+        if (empty($token) || !is_string($token)) {
+            throw new InvalidParamException(Yii::t('app', 'Account activation token cannot be blank.'));
         }
 
         $this->_user = User::findByAccountActivationToken($token);
 
-        if (!$this->_user) 
-        {
-            throw new InvalidParamException('Wrong account activation token. Please try again.');
+        if (!$this->_user) {
+            throw new InvalidParamException(Yii::t('app', 'Wrong account activation token.'));
         }
 
         parent::__construct($config);

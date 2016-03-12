@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use common\models\User;
 use common\models\LoginForm;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -71,35 +72,45 @@ class SiteController extends Controller
 
     /**
      * Logs in the user if his account is activated,
-     * if not, displays standard error message.
+     * if not, displays appropriate message.
      *
      * @return string|\yii\web\Response
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) 
-        {
+        // user is logged in, he doesn't need to login
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         // get setting value for 'Login With Email'
         $lwe = Yii::$app->params['lwe'];
 
-        // if "login with email" is true we instantiate LoginForm in "lwe" scenario
-        $lwe ? $model = new LoginForm(['scenario' => 'lwe']) : $model = new LoginForm() ;
+        // if 'lwe' value is 'true' we instantiate LoginForm in 'lwe' scenario
+        $model = $lwe ? new LoginForm(['scenario' => 'lwe']) : new LoginForm();
 
-        // everything went fine, log in the user
-        if ($model->load(Yii::$app->request->post()) && $model->login()) 
-        {
-            return $this->goBack();
-        } 
-        // errors will be displayed
-        else 
-        {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+        // monitor login status
+        $successfulLogin = true;
+
+        // posting data or login has failed
+        if (!$model->load(Yii::$app->request->post()) || !$model->login()) {
+            $successfulLogin = false;
         }
+
+        // if user's account is not activated, he will have to activate it first
+        if ($model->status === User::STATUS_INACTIVE && $successfulLogin === false) {
+            Yii::$app->session->setFlash('error', Yii::t('app', 
+                'You have to activate your account first. Please check your email.'));
+            return $this->refresh();
+        } 
+
+        // if user is not denied because he is not active, then his credentials are not good
+        if ($successfulLogin === false) {
+            return $this->render('login', ['model' => $model]);
+        }
+
+        // login was successful, let user go wherever he previously wanted
+        return $this->goBack();
     }
 
     /**

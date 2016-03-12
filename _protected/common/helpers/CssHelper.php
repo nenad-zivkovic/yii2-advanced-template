@@ -1,6 +1,7 @@
 <?php
 namespace common\helpers;
 
+use common\models\User;
 use Yii;
 
 /**
@@ -15,16 +16,13 @@ class CssHelper
      * @param  string $status User status.
      * @return string         Css class.
      */
-    public static function statusCss($status)
+    public static function userStatusCss($status)
     {
-        if ($status === 'Active')
-        {
-            return "boolean-true";
-        } 
-        else 
-        {
+        if ($status !== User::STATUS_ACTIVE) {
             return "boolean-false";
-        }      
+        }
+
+        return "boolean-true";     
     }
 
     /**
@@ -38,46 +36,4 @@ class CssHelper
     {
         return "role-".$role."";    
     }
-
-    /**
-     * Returns the appropriate css class based on the value of Article $status.
-     * NOTE: used in article/admin view.
-     *
-     * @param  string $status Article status.
-     * @return string         Css class.
-     */
-    public static function articleStatusCss($status)
-    {
-        if ($status === Yii::t('app', 'Published'))
-        {
-            return "boolean-true";
-        } 
-        else 
-        {
-            return "boolean-false";
-        }      
-    }  
-
-    /**
-     * Returns the appropriate css class based on the value of Article $category.
-     * NOTE: used in article/admin view.
-     *
-     * @param  string $category Article category.
-     * @return string           Css class.
-     */
-    public static function articleCategoryCss($category)
-    {
-        if ($category === Yii::t('app', 'Economy'))
-        {
-            return "blue";
-        }
-        elseif ($category === Yii::t('app', 'Sport')) 
-        {
-            return "green";
-        }
-        else 
-        {
-            return "gold";
-        }      
-    }       
 }

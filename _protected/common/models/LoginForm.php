@@ -13,6 +13,7 @@ class LoginForm extends Model
     public $email;
     public $password;
     public $rememberMe = true;
+    public $status; // holds the information about user status
 
     /**
      * @var \common\models\User
@@ -46,17 +47,17 @@ class LoginForm extends Model
      */
     public function validatePassword($attribute, $params)
     {
-        if (!$this->hasErrors()) 
-        {
-            $user = $this->getUser();
+        if ($this->hasErrors()) {
+            return false;
+        }
 
-            if (!$user || !$user->validatePassword($this->password)) 
-            {
-                // if scenario is 'lwe' we use email, otherwise we use username
-                $field = ($this->scenario === 'lwe') ? 'email' : 'username' ;
+        $user = $this->getUser();
 
-                $this->addError($attribute, 'Incorrect '.$field.' or password.');
-            }
+        if (!$user || !$user->validatePassword($this->password)) {
+            // if scenario is 'lwe' we use email, otherwise we use username
+            $field = ($this->scenario === 'lwe') ? 'email' : 'username' ;
+
+            $this->addError($attribute, 'Incorrect '.$field.' or password.');
         }
     }
 
@@ -82,61 +83,51 @@ class LoginForm extends Model
      */
     public function login()
     {
-        if ($this->validate()) 
-        {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-        } 
-        else 
-        {
+        if (!$this->validate()) {
             return false;
-        }  
+        }
+
+        $user = $this->getUser();
+
+        if (!$user) {
+            return false;
+        }
+
+        // if there is user but his status is inactive, write that in status property so we know for later
+        if ($user->status == User::STATUS_INACTIVE) {
+            $this->status = $user->status;
+            return false;
+        }
+ 
+        return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
 
     /**
-     * Finds user by username or email in 'lwe' scenario.
+     * Helper method responsible for finding user based on the model scenario.
+     * In Login With Email 'lwe' scenario we find user by email, otherwise by username
+     * 
+     * @return object The found User object.
+     */
+    private function findUser()
+    {
+        if (!($this->scenario === 'lwe')) {
+            return User::findByUsername($this->username);
+        }
+
+        return $this->_user = User::findByEmail($this->email);   
+    }
+
+    /**
+     * Method that is returning User object.
      *
-     * @return User|null|static
+     * @return User|null
      */
     public function getUser()
     {
-        if ($this->_user === false) 
-        {
-            // in 'lwe' scenario we find user by email, otherwise by username
-            if ($this->scenario === 'lwe')
-            {
-                $this->_user = User::findByEmail($this->email);
-            } 
-            else 
-            {
-                $this->_user = User::findByUsername($this->username);
-            } 
+        if ($this->_user === false) {
+            $this->_user = $this->findUser();
         }
 
         return $this->_user;
     }
-
-    /**
-     * Checks to see if the given user has NOT activated his account yet.
-     * We first check if user exists in our system,
-     * and then did he activated his account.
-     *
-     * @return bool True if not activated.
-     */
-    public function notActivated()
-    {
-        // if scenario is 'lwe' we will use email as our username, otherwise we use username
-        $username = ($this->scenario === 'lwe') ? $this->email : $this->username;
-
-        if ($user = User::userExists($username, $this->password, $this->scenario))
-        {
-            if ($user->status === User::STATUS_NOT_ACTIVE)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }  
 }

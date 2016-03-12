@@ -1,10 +1,10 @@
 <?php
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
+/* @var $model \app\models\LoginForm */
+
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 
 $this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="col-lg-5 well bs-component">
+    <div class="col-md-5 well bs-component">
 
         <p><?= Yii::t('app', 'Please fill out the following fields to login:') ?></p>
 
@@ -21,12 +21,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php //-- use email or username field depending on model scenario --// ?>
         <?php if ($model->scenario === 'lwe'): ?>
-            <?= $form->field($model, 'email') ?>        
+
+            <?= $form->field($model, 'email')->input('email', 
+                ['placeholder' => Yii::t('app', 'Enter your e-mail'), 'autofocus' => true]) ?>
+
         <?php else: ?>
-            <?= $form->field($model, 'username') ?>
+
+            <?= $form->field($model, 'username')->textInput(
+                ['placeholder' => Yii::t('app', 'Enter your username'), 'autofocus' => true]) ?>
+
         <?php endif ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($model, 'password')->passwordInput(['placeholder' => Yii::t('app', 'Enter your password')]) ?>
+
         <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
         <div style="color:#999;margin:1em 0">

@@ -4,7 +4,8 @@ namespace common\rbac\rules;
 use yii\rbac\Rule;
 
 /**
- * Checks if authorID matches user passed via params
+ * Checks if authorID matches user passed via params.
+ * Not used by default since 2.3.0 version.
  */
 class AuthorRule extends Rule
 {

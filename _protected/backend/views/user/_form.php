@@ -1,41 +1,45 @@
 <?php
 use common\rbac\models\AuthItem;
-use nenad\passwordStrength\PasswordInput;
+use kartik\password\PasswordInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $user common\models\User */
+/* @var $user app\models\User */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $role common\rbac\models\Role; */
 ?>
 <div class="user-form">
 
     <?php $form = ActiveForm::begin(['id' => 'form-user']); ?>
 
-        <?= $form->field($user, 'username') ?>
+        <?= $form->field($user, 'username')->textInput(
+            ['placeholder' => Yii::t('app', 'Create username'), 'autofocus' => true]) ?>
         
-        <?= $form->field($user, 'email') ?>
+        <?= $form->field($user, 'email')->input('email', ['placeholder' => Yii::t('app', 'Enter e-mail')]) ?>
 
         <?php if ($user->scenario === 'create'): ?>
-            <?= $form->field($user, 'password')->widget(PasswordInput::classname(), []) ?>
+
+            <?= $form->field($user, 'password')->widget(PasswordInput::classname(), 
+                ['options' => ['placeholder' => Yii::t('app', 'Create password')]]) ?>
+
         <?php else: ?>
-            <?= $form->field($user, 'password')->widget(PasswordInput::classname(), [])
-                     ->passwordInput(['placeholder' => Yii::t('app', 'New pwd ( if you want to change it )')]) 
-            ?>       
+
+            <?= $form->field($user, 'password')->widget(PasswordInput::classname(),
+                ['options' => ['placeholder' => Yii::t('app', 'Change password ( if you want )')]]) ?> 
+
         <?php endif ?>
 
     <div class="row">
-    <div class="col-lg-6">
+        <div class="col-md-6">
 
         <?= $form->field($user, 'status')->dropDownList($user->statusList) ?>
 
         <?php foreach (AuthItem::getRoles() as $item_name): ?>
             <?php $roles[$item_name->name] = $item_name->name ?>
         <?php endforeach ?>
-        <?= $form->field($role, 'item_name')->dropDownList($roles) ?>
+        <?= $form->field($user, 'item_name')->dropDownList($roles) ?>
 
-    </div>
+        </div>
     </div>
 
     <div class="form-group">     

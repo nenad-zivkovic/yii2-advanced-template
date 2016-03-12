@@ -4,22 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\UserSearch */
+/* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Users');
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = Html::encode($this->title);
 ?>
 <div class="user-index">
 
     <h1>
-
-    <?= Html::encode($this->title) ?>
-
-    <span class="pull-right">
-        <?= Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
-    </span>         
-
+        <?= Html::encode($this->title) ?>
+        <span class="pull-right">
+            <?= Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
+        </span>         
     </h1>
 
     <?= GridView::widget([
@@ -35,10 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'status',
                 'filter' => $searchModel->statusList,
                 'value' => function ($data) {
-                    return $data->statusName;
+                    return $data->getStatusName($data->status);
                 },
                 'contentOptions'=>function($model, $key, $index, $column) {
-                    return ['class'=>CssHelper::statusCss($model->statusName)];
+                    return ['class'=>CssHelper::userStatusCss($model->status)];
                 }
             ],
             // role
@@ -49,7 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->roleName;
                 },
                 'contentOptions'=>function($model, $key, $index, $column) {
-
                     return ['class'=>CssHelper::roleCss($model->roleName)];
                 }
             ],
@@ -59,12 +55,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'template' => '{view} {update} {delete}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
-                        return Html::a('', $url, ['title'=>'View user', 
-                            'class'=>'glyphicon glyphicon-eye-open']);
+                        return Html::a('', $url, ['title'=>'View user', 'class'=>'glyphicon glyphicon-eye-open']);
                     },
                     'update' => function ($url, $model, $key) {
-                        return Html::a('', $url, ['title'=>'Manage user', 
-                            'class'=>'glyphicon glyphicon-user']);
+                        return Html::a('', $url, ['title'=>'Manage user', 'class'=>'glyphicon glyphicon-user']);
                     },
                     'delete' => function ($url, $model, $key) {
                         return Html::a('', $url, 
@@ -76,8 +70,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     }
                 ]
+
             ], // ActionColumn
+
         ], // columns
+
     ]); ?>
 
 </div>

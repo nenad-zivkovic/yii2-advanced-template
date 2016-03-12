@@ -2,7 +2,7 @@
 namespace frontend\models;
 
 use common\models\User;
-use nenad\passwordStrength\StrengthValidator;
+use kartik\password\StrengthValidator;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use Yii;
@@ -18,7 +18,7 @@ class ResetPasswordForm extends Model
      * @var \common\models\User
      */
     private $_user;
-
+    
     /**
      * Creates a form model given a token.
      *
@@ -29,16 +29,14 @@ class ResetPasswordForm extends Model
      */
     public function __construct($token, $config = [])
     {
-        if (empty($token) || !is_string($token)) 
-        {
-            throw new InvalidParamException('Password reset token cannot be blank.');
+        if (empty($token) || !is_string($token)) {
+            throw new InvalidParamException(Yii::t('app', 'Password reset token cannot be blank.'));
         }
 
         $this->_user = User::findByPasswordResetToken($token);
 
-        if (!$this->_user) 
-        {
-            throw new InvalidParamException('Wrong password reset token.');
+        if (!$this->_user) {
+            throw new InvalidParamException(Yii::t('app', 'Wrong password reset token.'));
         }
 
         parent::__construct($config);
@@ -69,10 +67,10 @@ class ResetPasswordForm extends Model
         $fsp = Yii::$app->params['fsp'];
 
         // password strength rule is determined by StrengthValidator 
-        // presets are located in: vendor/nenad/yii2-password-strength/presets.php
-        // NOTE: you should use RESET rule because it doesn't require username and email validation
-        $strong = [['password'], StrengthValidator::className(), 
-                    'preset'=>'reset', 'userAttribute'=>'password'];
+        // presets are located in: vendor/kartik-v/yii2-password/presets.php
+        // NOTE: you should use custom rule because pwd reset doesn't require username and email validation
+        $strong = [['password'], StrengthValidator::className(), 'min' => 8, 'lower' => 2, 'upper' => 2, 
+            'digit' => 2, 'special' => 0, 'hasUser' => false, 'hasEmail' => false];
 
         // use normal yii rule
         $normal = ['password', 'string', 'min' => 6];

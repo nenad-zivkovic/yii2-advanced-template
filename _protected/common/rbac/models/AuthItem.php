@@ -28,25 +28,19 @@ class AuthItem extends ActiveRecord
     }
 
     /**
-     * Return roles.
-     * NOTE: used for updating user role (user/update).
+     * Returns roles.
+     * NOTE: used in user/index and user/update.
      *
      * @return array|\yii\db\ActiveRecord[]
      */
     public static function getRoles()
     {
-        // we make sure that only You can see theCreator role in drop down list
-        if (Yii::$app->user->can('theCreator')) 
-        {
-            return static::find()->select('name')->where(['type' => 1])->all();  
+        // if user is not 'theCreator' ( You ), we do not want to show him users with that role
+        if (!Yii::$app->user->can('theCreator')) {
+            return static::find()->select('name')->where(['type' => 1])->andWhere(['!=', 'name', 'theCreator'])->all();
         }
-        // admin can not see theCreator role in drop down list
-        else
-        {
-            return static::find()->select('name')
-                                 ->where(['type' => 1])
-                                 ->andWhere(['!=', 'name', 'theCreator'])
-                                 ->all();
-        }
+
+        // this is You or some other super admin, so show everything 
+        return static::find()->select('name')->where(['type' => 1])->all(); 
     }        
 }
