@@ -7,7 +7,7 @@ use Yii;
 /**
  * Component where you can define your aliases.
  * 
- * This component is bootstrap-ed in your web.php configuration file.
+ * This component is bootstrap-ed in your common/config/main.php configuration file.
  * It is good to make aliases here so we can use predefined aliases 
  * and other settings made by application configuration.
  *
@@ -18,8 +18,11 @@ class Aliases extends Component
 {
     public function init() 
     {
+        Yii::setAlias('@frontend', Yii::getAlias('@approot').'/_protected/frontend/');
+        Yii::setAlias('@backend', Yii::getAlias('@approot').'/_protected/backend/');
+        Yii::setAlias('@console', Yii::getAlias('@approot').'/_protected/console/');
         Yii::setAlias('@themes', Yii::$app->view->theme->baseUrl);
-        Yii::setAlias('@uploads', Yii::getAlias('@webroot').'/uploads/');
-        Yii::setAlias('@tests', Yii::getAlias('@webroot').'/_protected/tests/');
+        Yii::setAlias('@uploads', Yii::getAlias('@approot').'/uploads/');
+        Yii::setAlias('@tests', Yii::getAlias('@approot').'/_protected/tests/');
     }
 }

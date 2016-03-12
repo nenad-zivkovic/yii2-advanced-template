@@ -1,6 +1,6 @@
 <?php
 return [
-    'name' => 'My Company',
+    'name' => 'ADVANCED',
     //'language' => 'sr',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'bootstrap' => ['common\components\Aliases'],
