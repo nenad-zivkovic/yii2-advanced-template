@@ -1,5 +1,4 @@
 <?php
-
 use yii\db\Schema;
 use yii\db\Migration;
 
@@ -11,17 +10,12 @@ class m141022_115922_create_session_table extends \yii\db\Migration
 
         // here we will set data type for some popular DBMS, if your DBMS is not listed,
         // you will have to update this code
-        if ($this->db->driverName === 'mysql') 
-        {
+        if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
             $dataType = 'LONGBLOB';
-        }
-        elseif ($this->db->driverName === 'pgsql') 
-        {
+        } elseif ($this->db->driverName === 'pgsql') {
             $dataType = 'BYTEA';
-        }
-        else
-        {
+        } else {
             // mssql, oracle, sqlite, cubrid
             $dataType = 'BLOB';
         }

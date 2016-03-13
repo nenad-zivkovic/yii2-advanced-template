@@ -17,8 +17,8 @@ if (!extension_loaded('openssl')) {
     die('The OpenSSL PHP extension is required by Yii2.');
 }
 $params = getParams();
-$root = str_replace('\\', '/', __DIR__);
-$envs = require("$root/environments/index.php");
+$root = str_replace('\\', '/', dirname(__DIR__));
+$envs = require("$root/_protected/environments/index.php");
 $envNames = array_keys($envs);
 echo "Yii Application Initialization Tool v1.0\n\n";
 $envName = null;
@@ -54,7 +54,7 @@ if (empty($params['env'])) {
     }
 }
 echo "\n  Start initialization ...\n\n";
-$files = getFileList("$root/environments/{$env['path']}");
+$files = getFileList("$root/_protected/environments/{$env['path']}");
 if (isset($env['skipFiles'])) {
     $skipFiles = $env['skipFiles'];
     array_walk($skipFiles, function(&$value) use($env, $root) { $value = "$root/$value"; });
@@ -62,7 +62,7 @@ if (isset($env['skipFiles'])) {
 }
 $all = false;
 foreach ($files as $file) {
-    if (!copyFile($root, "environments/{$env['path']}/$file", $file, $all, $params)) {
+    if (!copyFile($root, "_protected/environments/{$env['path']}/$file", $file, $all, $params)) {
         break;
     }
 }
