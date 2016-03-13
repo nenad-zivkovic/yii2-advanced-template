@@ -43,8 +43,8 @@ class StaticPagesCest
     public function testHomePage($I, $scenario)
     {
         $I->wantTo('ensure that home page works');
-        $I->amOnPage(Yii::$app->homeUrl);
-        $I->see('My Company');
+        $I->amOnPage(\Yii::$app->homeUrl);
+        $I->see(\Yii::$app->name);
         $I->seeLink('About');
         $I->click('About');
         $I->see('This is the About page.');
@@ -81,11 +81,11 @@ class StaticPagesCest
 
         $I->expectTo('see validations errors');
         $I->see('Contact', 'h1');
-        $I->see('Name cannot be blank', '.help-block');
-        $I->see('Email cannot be blank', '.help-block');
-        $I->see('Subject cannot be blank', '.help-block');
-        $I->see('Text cannot be blank', '.help-block');
-        $I->see('Verification Code cannot be blank.', '.help-block');
+        $I->see('Name cannot be blank.');
+        $I->see('Email cannot be blank.');
+        $I->see('Subject cannot be blank.');
+        $I->see('Text cannot be blank.');
+        $I->see('Verification Code cannot be blank.');
 
         //-- submit form with not correct email --//
         $I->amGoingTo('submit contact form with not correct email');
@@ -98,11 +98,11 @@ class StaticPagesCest
         ]);
 
         $I->expectTo('see that email adress is wrong');
-        $I->dontSee('Name cannot be blank', '.help-block');
-        $I->see('Email is not a valid email address.', '.help-block');
-        $I->dontSee('Subject cannot be blank', '.help-block');
-        $I->dontSee('Text cannot be blank', '.help-block');
-        $I->dontSee('The verification code is incorrect.', '.help-block');
+        $I->dontSee('Name cannot be blank', '.help-inline');
+        $I->see('Email is not a valid email address.');
+        $I->dontSee('Subject cannot be blank', '.help-inline');
+        $I->dontSee('Body cannot be blank', '.help-inline');
+        $I->dontSee('The verification code is incorrect', '.help-inline');
 
         //-- submit form with correct data --//
         $I->amGoingTo('submit contact form with correct data');
@@ -113,11 +113,6 @@ class StaticPagesCest
             'body'       => 'test content',
             'verifyCode' => 'testme',
         ]);
-
-        if (method_exists($I, 'wait')) 
-        {
-            $I->wait(3); // only for selenium
-        }
         
         $I->see('Thank you for contacting us. We will respond to you as soon as possible.');
     }

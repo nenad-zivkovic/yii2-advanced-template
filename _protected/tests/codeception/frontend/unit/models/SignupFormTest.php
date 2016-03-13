@@ -13,15 +13,6 @@ class SignupFormTest extends DbTestCase
     use Specify;
 
     /**
-     * Clean up the objects against which you tested.
-     */
-    protected function tearDown()
-    {
-        // delete roles
-        Role::deleteAll();  
-    }
-
-    /**
      * Make sure that signup is working if registration with activation is
      * requested by administrator.
      */
@@ -30,7 +21,7 @@ class SignupFormTest extends DbTestCase
         $model = new SignupForm([
             'username' => 'some_username',
             'email' => 'some_email@example.com',
-            'password' => 'asDF@#12asdf',
+            'password' => 'some_password',
             'status' => 1
         ]);
         $model->scenario = 'rna';
@@ -41,13 +32,11 @@ class SignupFormTest extends DbTestCase
 
         expect('username should be correct', $user->username)->equals('some_username');
         expect('email should be correct', $user->email)->equals('some_email@example.com');
-        expect('password should be correct', $user->validatePassword('asDF@#12asdf'))->true();
+        expect('password should be correct', $user->validatePassword('some_password'))->true();
 
-        expect('user has valid account activation token', 
-            $user->account_activation_token)->notNull();
+        expect('user has valid account activation token', $user->account_activation_token)->notNull();
 
-        expect('account activation email should be sent', 
-            $model->sendAccountActivationEmail($user))->true();
+        expect('account activation email should be sent', $model->sendAccountActivationEmail($user))->true();
     }
 
     /**
@@ -58,7 +47,7 @@ class SignupFormTest extends DbTestCase
         $model = new SignupForm([
             'username' => 'some_username',
             'email' => 'some_email@example.com',
-            'password' => 'asDF@#12asdf',
+            'password' => 'some_password',
             'status' => 10
         ]);
 
@@ -68,10 +57,9 @@ class SignupFormTest extends DbTestCase
 
         expect('username should be correct', $user->username)->equals('some_username');
         expect('email should be correct', $user->email)->equals('some_email@example.com');
-        expect('password should be correct', $user->validatePassword('asDF@#12asdf'))->true();
+        expect('password should be correct', $user->validatePassword('some_password'))->true();
 
-        expect('account activation token is not set', 
-            $user->account_activation_token)->null();
+        expect('account activation token is not set', $user->account_activation_token)->null();
     }   
 
     /**
@@ -82,13 +70,12 @@ class SignupFormTest extends DbTestCase
         $model = new SignupForm([
             'username' => 'member',
             'email' => 'member@example.com',
-            'password' => 'asDF@#12asdf',
+            'password' => 'member123',
             'status' => 1
         ]);
 
         expect('username and email are in use, user should not be created', $model->signup())->null();
     }
-
     /**
      * Declares the fixtures that are needed by the current test case.
      *

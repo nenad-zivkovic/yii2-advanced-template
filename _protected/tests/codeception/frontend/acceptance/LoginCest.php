@@ -58,34 +58,35 @@ class LoginCest
         $I->wantTo('ensure that active user can login with email');
         $loginPage = LoginPage::openBy($I);
 
+        $I->see('Login', 'h1');
+
         //-- submit form with no data --//
         $I->amGoingTo('(login with email): submit login form with no data');
         $loginPage->login('', '');
+        if (method_exists($I, 'wait')) {
+            $I->wait(3); // only for selenium
+        }
         $I->expectTo('see validations errors');
-        $I->see('Email cannot be blank.', '.help-block');
-        $I->see('Password cannot be blank.', '.help-block');
+        $I->see('Email cannot be blank.');
+        $I->see('Password cannot be blank.');
 
         //-- submit form with wrong credentials --//
         $I->amGoingTo('(login with email): try to login with wrong credentials');
         $loginPage->login('wrong@example.com', 'wrong');
-        if (method_exists($I, 'wait')) 
-        {
+        if (method_exists($I, 'wait')) {
             $I->wait(3); // only for selenium
         }
         $I->expectTo('see validations errors');
-        $I->see('Incorrect email or password.', '.help-block');
+        $I->see('Incorrect email or password.');
 
         //-- login user with correct credentials --//
         $I->amGoingTo('try to log in correct user');
         $loginPage->login('member@example.com', 'member123');
-        if (method_exists($I, 'wait')) 
-        {
+        if (method_exists($I, 'wait')) {
             $I->wait(3); // only for selenium
         }
         $I->expectTo('see that user is logged in');
         $I->seeLink('Logout (member)');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
     }
 
     /**
@@ -101,31 +102,30 @@ class LoginCest
         //-- submit form with no data --//
         $I->amGoingTo('(login with username): submit login form with no data');
         $loginPage->login('', '');
+        if (method_exists($I, 'wait')) {
+            $I->wait(3); // only for selenium
+        }        
         $I->expectTo('see validations errors');
-        $I->see('Username cannot be blank.', '.help-block');
-        $I->see('Password cannot be blank.', '.help-block');
+        $I->see('Username cannot be blank.');
+        $I->see('Password cannot be blank.');
 
         //-- submit form with wrong credentials --//
         $I->amGoingTo('(login with username): try to login with wrong credentials');
         $loginPage->login('wrong', 'wrong');
-        if (method_exists($I, 'wait')) 
-        {
+        if (method_exists($I, 'wait')) {
             $I->wait(3); // only for selenium
         }
         $I->expectTo('see validations errors');
-        $I->see('Incorrect username or password.', '.help-block');
+        $I->see('Incorrect username or password.');
 
         //-- login user with correct credentials --//
         $I->amGoingTo('try to log in correct user');
         $loginPage->login('member', 'member123');
-        if (method_exists($I, 'wait')) 
-        {
+        if (method_exists($I, 'wait')) {
             $I->wait(3); // only for selenium
         }
         $I->expectTo('see that user is logged in');
         $I->seeLink('Logout (member)');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
     }
 
     /**
@@ -135,7 +135,7 @@ class LoginCest
      * @param \Codeception\AcceptanceTester $I
      * @param \Codeception\Scenario         $scenario
      */
-    public function testLoginNotActiveUser($I, $scenario)
+    public function testLoginInactiveUser($I, $scenario)
     {
         // get setting value for 'Login With Email'
         $lwe = \Yii::$app->params['lwe'];
@@ -149,7 +149,7 @@ class LoginCest
         $I->amGoingTo('try to log in not activated user');
         $loginPage->login($field, 'test123');
         $I->expectTo('see error flash message');
-        $I->see('You have to activate your account first.', '.alert-danger');
+        $I->see('You have to activate your account first.');
         $I->seeLink('Login');
     }
 }
