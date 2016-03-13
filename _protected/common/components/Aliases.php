@@ -21,8 +21,12 @@ class Aliases extends Component
         Yii::setAlias('@frontend', Yii::getAlias('@approot').'/_protected/frontend/');
         Yii::setAlias('@backend', Yii::getAlias('@approot').'/_protected/backend/');
         Yii::setAlias('@console', Yii::getAlias('@approot').'/_protected/console/');
-        Yii::setAlias('@themes', Yii::$app->view->theme->baseUrl);
-        Yii::setAlias('@uploads', Yii::getAlias('@approot').'/uploads/');
         Yii::setAlias('@tests', Yii::getAlias('@approot').'/_protected/tests/');
+        Yii::setAlias('@uploads', Yii::getAlias('@approot').'/uploads/');
+
+        // we dont want to try to create theme alias in console application, since we do not use that there
+        if (Yii::$app->view->theme) {
+            Yii::setAlias('@themes', Yii::$app->view->theme->baseUrl);
+        }
     }
 }
