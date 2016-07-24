@@ -344,6 +344,6 @@ class SiteController extends Controller
         Yii::$app->session->setFlash('success', Yii::t('app', 'Success! You can now log in.').' '.
             Yii::t('app', 'Thank you').' '.Html::encode($user->username).' '.Yii::t('app', 'for joining us!'));
 
-        return $this->redirect('login');
+        return $this->redirect(['login']);
     }
 }
