@@ -114,7 +114,7 @@ return [
     'Sport'   => '运动',
 
     //-- errors --//
-    'The above error occurred while the Web server was processing your request.' => '以上错误发生于服务器处理你的请求的时候',
+    'The above error occurred while the Web server was processing your request.' => '服务器处理您的请求的时候发生了以上错误',
     'Please contact us if you think this is a server error. Thank you.' => '如果您认为这是服务器的问题，请联系我们',
     'You are not allowed to access this page.' => '您没有权限访问这个页面',
 
